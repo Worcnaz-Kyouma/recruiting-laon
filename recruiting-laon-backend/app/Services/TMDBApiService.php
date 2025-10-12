@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Exceptions\AppFailedTMDBApiRequest;
 use Http;
 use Illuminate\Http\Client\Response;
 
@@ -15,7 +16,7 @@ class TMDBApiService {
 
     protected static array $localEntitiesToAPIEntitiesMap = [
         Movie::class => 'movie',
-        TVShow::class => 'tvshow'
+        TVSerie::class => 'TVSerie'
     ];
     
     public function __construct(
@@ -29,13 +30,16 @@ class TMDBApiService {
     }
 
     /**
-     * @return array<T>
+     * @return array {movies: array<T>, TVSeries: array<T>}
      */
-    public function getPopularMedia(): array {
-        $movies = $this->getPopularMedia(Movie::class);
-        $tvShows = $this->getPopularMedia(TVShow::class);
+    public function getPopularMedia(int $page = 1, bool $onlyTopMedia = false): array {
+        $movies = $this->getPopularMediaGeneric(Movie::class, $page, $onlyTopMedia);
+        $TVSeries = $this->getPopularMediaGeneric(TVSerie::class, $page, $onlyTopMedia);
 
-        $medias = array_merge($movies, $tvShows);
+        $medias = [
+            "movies" => $movies,
+            "TVSeries" => $TVSeries
+        ];
 
         return $medias;
     }
@@ -44,12 +48,16 @@ class TMDBApiService {
      * @param class-string<T> $mediaType
      * @return array<T>
      */
-    private function getPopularMediaGeneric(string $mediaType): array {
+    private function getPopularMediaGeneric(string $mediaType, int $page = 1, bool $onlyTopMedia = false): array {
         $apiEntity = self::$localEntitiesToAPIEntitiesMap[$mediaType];
         
         $response = $this->fetchAPIData($apiEntity, "popular", []);
         
         $data = $response->json();
+        if($onlyTopMedia) {
+            $numberOfTopMedias = 5;
+            $data = array_slice($data, 0, $numberOfTopMedias);
+        }
         return $data;
     }
 
@@ -70,7 +78,7 @@ class TMDBApiService {
             array_merge($defaultQuery, $query)
         );
         if (!$response->successful()) 
-            throw new \Exception('Something went wrong!');
+            throw new AppFailedTMDBApiRequest();
 
         return $response;
     }
