@@ -7,7 +7,7 @@ class TVSeason {
     private int $seasonNumber;
     private string $name;
     /**
-     * @var TVEpisode[]
+     * @var array<TVEpisode>
      */
     private array $episodes;
     public function __construct(array $data) {

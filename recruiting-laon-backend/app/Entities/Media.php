@@ -7,17 +7,17 @@ class Media {
     protected string $title;
     protected ?string $titlePortuguese;
     /**
-     * @var Genre[]
+     * @var array<Genre>
      */
     protected array $genres;
     protected string $durationStringfied;
     protected string $overview;
     /**
-     * @var Actor[]
+     * @var array<Actor>
      */
     protected array $actors;
     /**
-     * @var Director[]
+     * @var array<Director>
      */
     protected array $directors;
     protected float $review;

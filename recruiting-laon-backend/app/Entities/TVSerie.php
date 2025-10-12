@@ -4,12 +4,12 @@ namespace App\Entities;
 
 class TVSerie extends Media {
     /**
-     * @var TVSeason[] | null
+     * @var array<TVSeason> | null
      */
     private ?array $seasons;
 
     /**
-     * @param TVSeason[] | null $seasons
+     * @param array<TVSeason> | null $seasons
      */
     public function __construct(Media $media, ?array $seasons = null) {
         parent::__construct(
