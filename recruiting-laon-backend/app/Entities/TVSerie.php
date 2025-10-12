@@ -3,7 +3,10 @@
 namespace App\Entities;
 
 class TVSerie extends Media {
-    private $seasons;
+    /**
+     * @var TVSeason[]
+     */
+    private array $seasons;
     public function __construct(array $data) {
         
     }

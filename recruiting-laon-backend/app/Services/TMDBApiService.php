@@ -2,12 +2,14 @@
 
 namespace App\Services;
 
+use App\Entities\Movie;
+use App\Entities\TVSerie;
 use App\Exceptions\AppFailedTMDBApiRequest;
 use Http;
 use Illuminate\Http\Client\Response;
 
 /**
- * @template T of Media
+ * @template T of \App\Entities\Media
  */
 class TMDBApiService {
     private string $baseUrl;
