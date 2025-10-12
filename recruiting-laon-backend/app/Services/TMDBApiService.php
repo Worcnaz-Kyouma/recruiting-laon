@@ -5,6 +5,8 @@ namespace App\Services;
 use App\Entities\Movie;
 use App\Entities\TVSerie;
 use App\Exceptions\AppFailedTMDBApiRequest;
+use App\Transformers\TMDBApi\MovieTransformer;
+use App\Transformers\TMDBApi\TVSerieTransformer;
 use Http;
 use Illuminate\Http\Client\Response;
 
@@ -16,9 +18,15 @@ class TMDBApiService {
     private int $apiVersion;
     private string $apiKey;
 
-    protected static array $localEntitiesToAPIEntitiesMap = [
-        Movie::class => 'movie',
-        TVSerie::class => 'TVSerie'
+    protected static array $appEntitiesToAPISemanticMap = [
+        Movie::class => [
+            'apiEntity' => 'movie',
+            'transformer' => [MovieTransformer::class, "fromExternal"],
+        ],
+        TVSerie::class => [
+            'apiEntity' => 'tv',
+            'transformer' => [TVSerieTransformer::class, "fromExternal"]
+        ]
     ];
     
     public function __construct(
@@ -51,16 +59,23 @@ class TMDBApiService {
      * @return array<T>
      */
     private function getPopularMediaGeneric(string $mediaType, int $page = 1, bool $onlyTopMedia = false): array {
-        $apiEntity = self::$localEntitiesToAPIEntitiesMap[$mediaType];
+        $apiSemantic = self::$appEntitiesToAPISemanticMap[$mediaType];
         
-        $response = $this->fetchAPIData($apiEntity, "popular", []);
+        $query = [
+            "page" => $page
+        ];
+        $response = $this->fetchAPIData($apiSemantic["apiEntity"], "popular", $query);
         
         $data = $response->json();
         if($onlyTopMedia) {
             $numberOfTopMedias = 5;
             $data = array_slice($data, 0, $numberOfTopMedias);
         }
-        return $data;
+        $medias = collect($data)->map(fn($extMedia) => 
+            $apiSemantic["transformer"]($extMedia)
+        );
+
+        return $medias->toArray();
     }
 
     /**

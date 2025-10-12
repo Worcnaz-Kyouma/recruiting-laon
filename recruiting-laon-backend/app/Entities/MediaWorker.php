@@ -7,7 +7,8 @@ class MediaWorker {
     private string $name;
     
     
-    public function __construct(array $data) {
-        
+    public function __construct(int $tmbdId, string $name) {
+        $this->tmbdId = $tmbdId;
+        $this->name = $name;
     }
 }

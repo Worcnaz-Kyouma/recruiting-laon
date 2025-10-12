@@ -5,6 +5,7 @@ namespace App\Entities;
 class Genre {
     private int $tmbdId;
     private string $name;
-    public function __construct() {
+    public function __construct(int $tmbdId, string $name) {
+        
     }
 }
