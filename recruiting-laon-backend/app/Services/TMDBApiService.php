@@ -5,6 +5,9 @@ namespace App\Services;
 use App\Entities\Media;
 use App\Entities\Movie;
 use App\Entities\TVSerie;
+use App\Enums\MediaListingMethod;
+use App\Enums\MovieListingMethod;
+use App\Enums\TVSerieListingMethod;
 use App\Exceptions\AppError;
 use App\Exceptions\UnexpectedErrors\AppFailedTMDBApiRequest;
 use App\Exceptions\UnexpectedErrors\UnexpectedError;
@@ -23,7 +26,7 @@ class TMDBApiService {
     private int $apiVersion;
     private string $apiKey;
 
-    private static array $appEntitiesToAPISemanticMap = [
+    private static array $appEntitiesToAPIEntitiesContextMap = [
         Movie::class => [
             'apiEntity' => 'movie',
             'transformer' => [MovieTransformer::class, "fromExternal"],
@@ -44,58 +47,66 @@ class TMDBApiService {
         $this->apiKey = $apiKey;
     }
 
-    // TODO: We gonna remove all the specific popular methods, only that remaing to top 5 populars
     /**
      * @return array {movies: PaginatedResultsDTO, TVSeries: PaginatedResultsDTO}
      */
-    public function getPopularMedia(int $page = 1, bool $onlyTopMedia = true): array {
-        $movies = $this->getPopularMediaGeneric(Movie::class, $page, $onlyTopMedia);
-        $TVSeries = $this->getPopularMediaGeneric(TVSerie::class, $page, $onlyTopMedia);
+    public function getTopPopularMedia(): array {
+        $numberOfTopMedias = 5;
+
+        $movies = $this->getMediaByListingMethods(Movie::class, MediaListingMethod::Popular, 1);
+        $topMovies = $movies->results->take($numberOfTopMedias);
+
+        $TVSeries = $this->getMediaByListingMethods(TVSerie::class, MediaListingMethod::Popular, 1);
+        $topTVSeries = $TVSeries->results->take($numberOfTopMedias);
 
         $medias = [
-            "movies" => $movies->toArray(),
-            "TVSeries" => $TVSeries->toArray()
+            "movies" => $topMovies
+                ->map(fn($m) => $m->toArray())
+                ->toArray(),
+            "TVSeries" => $topTVSeries
+                ->map(fn($s) => $s->toArray())
+                ->toArray()
         ];
 
         return $medias;
     }
 
-    // TODO: Complete refactor. Remove this popular specify and create generic ones, with ListingMethod(popular, incoming).
-    // TODO: Search label -> search endpoint
     /**
-     * @param class-string<T> $mediaType
+     * @return PaginatedResultsDTO<Media>
      */
-    private function getPopularMediaGeneric(string $mediaType, int $page = 1, bool $onlyTopMedia = false): PaginatedResultsDTO {
-        $apiSemantic = self::$appEntitiesToAPISemanticMap[$mediaType];
+    public function getMediaByListingMethods(
+        string $mediaType, 
+        MediaListingMethod | MovieListingMethod | TVSerieListingMethod $listingMethod,
+        int $page
+    ): PaginatedResultsDTO {
+        $apiEntitiesContext = self::$appEntitiesToAPIEntitiesContextMap[$mediaType];
         
+        // Trending consult are special, cause trending are a entity in TMDB api
+        $isTrendingConsult = $listingMethod->value === MediaListingMethod::Trending;
+
         $query = [
             "page" => $page
         ];
-        $response = $this->getAPIData($apiSemantic["apiEntity"], "popular", $query);
-        
-        $data = $response->json();
-        $medias = collect($data["results"]);
+        $data = $isTrendingConsult
+            ? $this->getAPIData($listingMethod->value, "{$apiEntitiesContext['apiEntity']}/week", $query)
+            : $this->getAPIData($apiEntitiesContext["apiEntity"], $listingMethod->value, $query);
 
-        if($onlyTopMedia) {
-            $numberOfTopMedias = 5;
-            $medias = $medias->take($numberOfTopMedias);
-        }
-
-        $medias = $medias->map(fn($extMedia) => 
-            $apiSemantic["transformer"]((object) $extMedia)
+        $medias = collect($data["results"])->map(fn($extMedia) => 
+            $apiEntitiesContext["transformer"]((object) $extMedia)
         );
-        
+
         return new PaginatedResultsDTO(
             $data["page"],
             $data["total_pages"],
             $medias
-        ); 
+        );
     }
 
+    // TODO: The return here many times are pages, results. But for details not.... improve it, to returing a better typed result
     /**
      * @param array<string, string> $query
      */
-    private function getAPIData(string $apiEntity, string $endPoint, array $query = []): Response {
+    private function getAPIData(string $apiEntity, string $endPoint, array $query = []): mixed {
         $defaultHeaders = [
             'Authorization' => "Bearer $this->apiKey",
             'Accept'        => 'application/json'
@@ -116,7 +127,7 @@ class TMDBApiService {
                 throw $error;
             }
             
-            return $response;
+            return $response->json();
         } catch(Exception $e) {
             if($e instanceof AppError) throw $e;
 
@@ -124,8 +135,8 @@ class TMDBApiService {
         }
     }
 
-    //TODO: If error 400-499, make client error, 500-599 server error
+    // User errors are not expected here, cause we gonna clear all users input, so if any response with status code > 400, its a unexpected error
     private function buildAppError(Response $response): AppError {
-        return new UnexpectedError("Api Error");
+        throw new AppFailedTMDBApiRequest("TMDB API request failed with status {$response->status()} and body {$response->body()}");
     }
 }
