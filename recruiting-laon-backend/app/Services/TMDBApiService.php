@@ -12,7 +12,7 @@ use App\Enums\TVSerieListingMethod;
 use App\Exceptions\AppError;
 use App\Exceptions\UnexpectedErrors\AppFailedTMDBApiRequest;
 use App\Exceptions\UnexpectedErrors\TMDBInternalError;
-use App\Exceptions\UnexpectedErrors\TMDBNotFoundError;
+use App\Exceptions\ExpectedErrors\TMDBNotFoundError;
 use App\Transformers\TMDBApi\TMDBErrorTransformer;
 use Illuminate\Support\Collection;
 use App\Http\DTO\PaginatedResultsDTO;
@@ -93,6 +93,7 @@ class TMDBApiService {
         $data = $isTrendingConsult
             ? $this->getAPIData($listingMethod->value, "{$apiEntitiesContext['apiEntity']}/week", $query)
             : $this->getAPIData($apiEntitiesContext["apiEntity"], $listingMethod->value, $query);
+        if($data === null) return PaginatedResultsDTO::getEmptyPaginatedResults();
 
         $medias = $this->parseAPIResultsInMedias($apiEntitiesContext, $data["results"]);
 
@@ -115,13 +116,14 @@ class TMDBApiService {
                 "include_adult" => "true"
             ]
         );
+        if($data === null) return PaginatedResultsDTO::getEmptyPaginatedResults();
 
         $medias = $this->parseAPIResultsInMedias($apiEntitiesContext, $data["results"]);
 
         return PaginatedResultsDTO::fromTMDBApiPaginatedResults($data, $medias);
     }
 
-    public function getMediaDetails(int $tmdbId, string $mediaType): Media {
+    public function getMediaDetails(int $tmdbId, string $mediaType): Media | null {
         $apiEntitiesContext = self::$appEntitiesToAPIEntitiesContextMap[$mediaType];
 
         $data = $this->getAPIData(
@@ -129,16 +131,19 @@ class TMDBApiService {
             $tmdbId,
             ["append_to_response" => "translations,credits"]
         );
+        if($data === null) return null;
 
         $media = $apiEntitiesContext["transformer"]((object) $data);
 
-        if($mediaType === TVSerie::class) {
+        // Maybe better put it in a transformer or something like this?
+        if($mediaType === TVSerie::class && isset($data["seasons"])) {
             $seasons = collect($data["seasons"])->map(function($extSeason) use ($tmdbId) {
                 $seasonNumber = $extSeason["season_number"];
                 $seasonData = $this->getAPIData(
                     "tv", 
                     "$tmdbId/season/$seasonNumber"
                 );
+                if($seasonData === null) throw new TMDBInternalError("Failed to fetch season data from TMDB API.");
 
                 return TVSeasonTransformer::tryFromExternal((object) $seasonData);
             })->toArray();
@@ -180,6 +185,8 @@ class TMDBApiService {
                 );
             if (!$response->successful()) {
                 $error = $this->buildAppErrorFromAPIFailure($response);
+                if($error instanceof TMDBNotFoundError) return null;
+
                 throw $error;
             }
             
@@ -191,12 +198,13 @@ class TMDBApiService {
         }
     }
 
-    // TODO: Improve it, cause they gonna it as API too, not only the front-end interface
     private function buildAppErrorFromAPIFailure(Response $response): AppError {
         $statusCode = $response->status();
 
         $failureBody = $response->json();
-        $tmdbError = TMDBErrorTransformer::tryFromExternal((object) $failureBody); // Fix it, is returning Entity type, i want TMDBError type
+        /** @var TMDBError $tmdbError */
+        $tmdbError = TMDBErrorTransformer::tryFromExternal((object) $failureBody);
+        
         $tmdbCode = $tmdbError->getStatusCode();
         $tmdbErrorMessage = $tmdbError->getMessage();
 
@@ -204,7 +212,7 @@ class TMDBApiService {
 
         switch($tmdbCode) {
             case TMDBError::NOT_FOUND:
-                return new TMDBNotFoundError($tmdbErrorMessage); // Improve that error, catch it to return nothing on the result
+                return new TMDBNotFoundError($tmdbErrorMessage);
             default:
                 return new TMDBInternalError($tmdbErrorMessage);
         }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Exceptions\UnexpectedErrors;
+namespace App\Exceptions\ExpectedErrors;
 
 use App\Exceptions\ExpectedErrors\ExpectedError;
 
@@ -10,6 +10,6 @@ class TMDBNotFoundError extends ExpectedError {
     }
 
     public function getHttpResponseErrorMessage(): string {
-        return "TMDB API not found error occurred.";
+        return "TMDB API not found resource.";
     }
 }

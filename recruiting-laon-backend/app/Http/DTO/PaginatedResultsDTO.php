@@ -33,6 +33,14 @@ class PaginatedResultsDTO {
         );
     }
 
+    public static function getEmptyPaginatedResults(): self {
+        return new self(
+            1,
+            1,
+            collect()
+        );
+    }
+
     public function toArray(): array {
         return [
             "page" => $this->page,
