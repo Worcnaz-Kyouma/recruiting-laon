@@ -9,26 +9,19 @@ use stdClass;
 // OBS to Code Reviewer: Genre, Actor and Director could receive its own Transformer, but i choose to keep it simple
 class MovieTransformer extends MediaTransformer {
     public static function fromExternal(stdClass $ext): Movie {
-        $tmdbId = $ext->id;
-        $title = $ext->original_title;
-        $titlePortuguese = self::titlePortugueseFromExternalTranslations($ext);
-        $genres = self::genresFromExternal($ext);
-        $overview = $ext->overview;
-        $actors = self::actorsFromExternalCredits($ext);
-        $directors = self::directorsFromExternalCredits($ext);
-        $review = $ext->vote_average;
-        $reviewCount = $ext->vote_count;
+        $media = parent::fromExternal($ext);
+
         $durationStringfied = isset($ext->runtime)
             ? self::durationStringfiedFromRuntime($ext->runtime)
             : null;
 
-        $movie = new Movie(
-            $tmdbId, $title, $titlePortuguese, $genres,
-            $durationStringfied, $overview, $actors,
-            $directors, $review, $reviewCount
-        );
+        $movie = new Movie($media, $durationStringfied);
 
         return $movie;
+    }
+
+    protected static function titleFromExternal(stdClass $ext): string {
+        return $ext->original_title;
     }
 
     private static function durationStringfiedFromRuntime(int $runtime): string {

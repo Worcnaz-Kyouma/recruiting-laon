@@ -3,7 +3,7 @@
 namespace App\Entities;
 
 class Media extends Entity {
-    protected int $tmbdId;
+    protected int $tmdbId;
     protected string $title;
     protected ?string $titlePortuguese;
     /**
@@ -24,15 +24,14 @@ class Media extends Entity {
     protected int $reviewCount;
 
     public function __construct(
-        int $tmbdId, string $title, ?string $titlePortuguese, ?array $genres,
-        ?string $durationStringfied, string $overview, ?array $actors,
+        int $tmdbId, string $title, ?string $titlePortuguese, 
+        ?array $genres, string $overview, ?array $actors,
         ?array $directors, float $review, int $reviewCount
     ) {
-        $this->tmbdId = $tmbdId;
+        $this->tmdbId = $tmdbId;
         $this->title = $title;
         $this->titlePortuguese = $titlePortuguese;
         $this->genres = $genres;
-        $this->durationStringfied = $durationStringfied;
         $this->overview = $overview;
         $this->actors = $actors;
         $this->directors = $directors;
@@ -42,7 +41,7 @@ class Media extends Entity {
 
     public function toArray(): array {
         return [
-            "tmbdId" => $this->tmbdId,
+            "tmdbId" => $this->tmdbId,
             "title" => $this->title,
             "titlePortuguese" => $this->titlePortuguese,
             "genres" => $this->genres

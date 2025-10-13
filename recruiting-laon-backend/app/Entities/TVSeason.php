@@ -3,7 +3,7 @@
 namespace App\Entities;
 
 class TVSeason {
-    private int $tmbdId;
+    private int $tmdbId;
     private int $seasonNumber;
     private string $name;
     /**

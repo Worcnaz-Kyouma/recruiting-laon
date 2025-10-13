@@ -3,21 +3,20 @@
 namespace App\Entities;
 
 class Movie extends Media {
-    public function __construct(int $tmbdId, string $title, ?string $titlePortuguese, ?array $genres,
-        ?string $durationStringfied, string $overview, ?array $actors,
-        ?array $directors, float $review, int $reviewCount
-    ) {
+    // TODO: There's a way to improve that construct call?
+    public function __construct(Media $media, ?string $durationStringfied = null) {
         parent::__construct(
-            $tmbdId,
-            $title,
-            $titlePortuguese,
-            $genres,
-            $durationStringfied,
-            $overview,
-            $actors,
-            $directors,
-            $review,
-            $reviewCount
+            $media->tmdbId,
+            $media->title,
+            $media->titlePortuguese,
+            $media->genres,
+            $media->overview,
+            $media->actors,
+            $media->directors,
+            $media->review,
+            $media->reviewCount
         );
+
+        $this->durationStringfied = $durationStringfied;
     }
 }

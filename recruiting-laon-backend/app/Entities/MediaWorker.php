@@ -3,18 +3,18 @@
 namespace App\Entities;
 
 class MediaWorker extends Entity {
-    private int $tmbdId;
+    private int $tmdbId;
     private string $name;
     
     
-    public function __construct(int $tmbdId, string $name) {
-        $this->tmbdId = $tmbdId;
+    public function __construct(int $tmdbId, string $name) {
+        $this->tmdbId = $tmdbId;
         $this->name = $name;
     }
 
     public function toArray(): array {
         return [
-            "tmbdId" => $this->tmbdId,
+            "tmdbId" => $this->tmdbId,
             "name" => $this->name
         ];
     }

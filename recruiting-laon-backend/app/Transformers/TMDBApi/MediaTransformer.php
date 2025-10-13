@@ -8,8 +8,29 @@ use App\Entities\Genre;
 use App\Entities\Media;
 use stdClass;
 
-class MediaTransformer {
-    // OBS to Code Reviewer: I didn't made a fromExternal generic here because Movie and TVSeries are not generics in TMDB. For example, a name of a movie media there is "title", a tv show is "name". The number of different fields are low, but i prefered to keep it explicit, accepting redudancy to make the code more prepared if TMDB change something in the future.
+abstract class MediaTransformer {
+    public static function fromExternal(stdClass $ext): Media {
+        $tmdbId = $ext->id;
+        $title = self::titleFromExternal($ext);
+        $titlePortuguese = self::titlePortugueseFromExternalTranslations($ext);
+        $genres = self::genresFromExternal($ext);
+        $overview = $ext->overview;
+        $actors = self::actorsFromExternalCredits($ext);
+        $directors = self::directorsFromExternalCredits($ext);
+        $review = $ext->vote_average;
+        $reviewCount = $ext->vote_count;
+
+        $movie = new Media(
+            $tmdbId, $title, $titlePortuguese,
+            $genres, $overview, $actors,
+            $directors, $review, $reviewCount
+        );
+
+        return $movie;
+    }
+
+    abstract protected static function titleFromExternal(stdClass $ext): string;
+
     protected static function titlePortugueseFromExternalTranslations(stdClass $ext): ?string {
         if(!isset($ext->translations)) return null;
 
