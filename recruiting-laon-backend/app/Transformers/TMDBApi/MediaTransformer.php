@@ -9,10 +9,10 @@ use App\Entities\Media;
 use stdClass;
 
 // OBS to Code Reviewer: Genre, Actor and Director could receive its own Transformer, but i choose to keep it simple
-abstract class MediaTransformer {
+class MediaTransformer {
     public static function fromExternal(stdClass $ext): Media {
         $tmdbId = $ext->id;
-        $title = self::titleFromExternal($ext);
+        $title = $ext->original_title ?? $ext->original_name; // Movie uses "title" and TVSerie uses "name"
         $titlePortuguese = self::titlePortugueseFromExternalTranslations($ext);
         $genres = self::genresFromExternal($ext);
         $overview = $ext->overview;
@@ -65,11 +65,5 @@ abstract class MediaTransformer {
             ->map(fn($actor) => 
                 new Director($actor["id"], $actor["name"])
             )->toArray();
-    }
-
-    // TODO: FIX IT IMMEDIATELY! Is not working as expected....
-    protected static function titleFromExternal(stdClass $ext): string {
-        // Implemented in subclasses, can't be abstract cause PHP doesn't understand the implementation will come from subclasses
-        return "";
     }
 }

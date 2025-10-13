@@ -4,6 +4,8 @@ namespace App\Transformers\TMDBApi;
 
 use App\Entities\Media;
 use App\Entities\Movie;
+use Carbon\CarbonInterface;
+use Carbon\CarbonInterval;
 use stdClass;
 
 class MovieTransformer extends MediaTransformer {
@@ -19,16 +21,18 @@ class MovieTransformer extends MediaTransformer {
         return $movie;
     }
 
-    protected static function titleFromExternal(stdClass $ext): string {
-        return $ext->original_title;
-    }
-
-    // TODO: If one hour, we need to remove the plural
     private static function durationStringfiedFromRuntime(int $runtime): string {
-        $hours = intdiv($runtime, 60);
-        $minutes = $runtime % 60;
+        CarbonInterval::setLocale('pt');
 
-        $durationStringfied = ($hours ? "{$hours} Horas e " : "") . ($minutes ? "{$minutes} Minutos" : "");
-        return trim($durationStringfied);
+        $interval = CarbonInterval::minutes($runtime)->cascade();
+
+        $durationStringfied = $interval->forHumans([
+            'short'  => false,
+            'parts'  => 2,
+            'join'   => ' e ',
+            'syntax' => CarbonInterface::DIFF_ABSOLUTE,
+        ]);
+
+        return $durationStringfied;
     }
 }

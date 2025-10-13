@@ -14,8 +14,4 @@ class TVSerieTransformer extends MediaTransformer {
 
         return $tvSerie;
     }
-
-    protected static function titleFromExternal(stdClass $ext): string {
-        return $ext->original_name;
-    }
 }
