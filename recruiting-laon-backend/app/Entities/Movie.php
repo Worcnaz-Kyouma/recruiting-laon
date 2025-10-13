@@ -3,17 +3,21 @@
 namespace App\Entities;
 
 class Movie extends Media {
-    public function __construct(Media $media) {
+    public function __construct(int $tmbdId, string $title, ?string $titlePortuguese, ?array $genres,
+        ?string $durationStringfied, string $overview, ?array $actors,
+        ?array $directors, float $review, int $reviewCount
+    ) {
         parent::__construct(
-            $media->tmbdId,
-            $media->title,
-            $media->titlePortuguese,
-            $media->genres,
-            $media->overview,
-            $media->actors,
-            $media->directors,
-            $media->review,
-            $media->reviewCount
+            $tmbdId,
+            $title,
+            $titlePortuguese,
+            $genres,
+            $durationStringfied,
+            $overview,
+            $actors,
+            $directors,
+            $review,
+            $reviewCount
         );
     }
 }

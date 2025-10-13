@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App;
+use App\Entities\Media;
 use App\Entities\Movie;
 use App\Entities\TVSerie;
 use App\Exceptions\AppError;
@@ -16,7 +16,7 @@ use Http;
 use Illuminate\Http\Client\Response;
 
 /**
- * @template T of \App\Entities\Media
+ * @template T of Media
  */
 class TMDBApiService {
     private string $baseUrl;
@@ -45,15 +45,15 @@ class TMDBApiService {
     }
 
     /**
-     * @return array {movies: array<T>, TVSeries: array<T>}
+     * @return array {movies: PaginatedResultsDTO, TVSeries: PaginatedResultsDTO}
      */
-    public function getPopularMedia(int $page = 1, bool $getExtraData = true, bool $onlyTopMedia = true): array {
-        $movies = $this->getPopularMediaGeneric(Movie::class, $page, $getExtraData, $onlyTopMedia);
-        $TVSeries = $this->getPopularMediaGeneric(TVSerie::class, $page, $getExtraData, $onlyTopMedia);
+    public function getPopularMedia(int $page = 1, bool $onlyTopMedia = true): array {
+        $movies = $this->getPopularMediaGeneric(Movie::class, $page, $onlyTopMedia);
+        $TVSeries = $this->getPopularMediaGeneric(TVSerie::class, $page, $onlyTopMedia);
 
         $medias = [
-            "movies" => $movies,
-            "TVSeries" => $TVSeries
+            "movies" => $movies->toArray(),
+            "TVSeries" => $TVSeries->toArray()
         ];
 
         return $medias;
@@ -63,20 +63,16 @@ class TMDBApiService {
     /**
      * @param class-string<T> $mediaType
      */
-    private function getPopularMediaGeneric(string $mediaType, int $page = 1, bool $getExtraData = true, bool $onlyTopMedia = false): PaginatedResultsDTO {
+    private function getPopularMediaGeneric(string $mediaType, int $page = 1, bool $onlyTopMedia = false): PaginatedResultsDTO {
         $apiSemantic = self::$appEntitiesToAPISemanticMap[$mediaType];
         
         $query = [
             "page" => $page
         ];
-        if ($getExtraData) {
-            $query["append_to_response"] = "translations,credits";
-        }
         $response = $this->getAPIData($apiSemantic["apiEntity"], "popular", $query);
         
         $data = $response->json();
         $medias = collect($data["results"]);
-        dd($medias);
 
         if($onlyTopMedia) {
             $numberOfTopMedias = 5;
@@ -87,11 +83,10 @@ class TMDBApiService {
             $apiSemantic["transformer"]((object) $extMedia)
         );
         
-        // TODO: Maybe create a DTO to it.
         return new PaginatedResultsDTO(
-            $data["total_page"],
             $data["page"],
-            $medias->toArray()
+            $data["total_pages"],
+            $medias
         ); 
     }
 

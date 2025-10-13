@@ -11,17 +11,21 @@ class TVSerie extends Media {
     /**
      * @param array<TVSeason> | null $seasons
      */
-    public function __construct(Media $media, ?array $seasons = null) {
+    public function __construct(int $tmbdId, string $title, ?string $titlePortuguese, ?array $genres,
+        ?string $durationStringfied, string $overview, ?array $actors,
+        ?array $directors, float $review, int $reviewCount, ?array $seasons = null
+    ) {
         parent::__construct(
-            $media->tmbdId,
-            $media->title,
-            $media->titlePortuguese,
-            $media->genres,
-            $media->overview,
-            $media->actors,
-            $media->directors,
-            $media->review,
-            $media->reviewCount
+            $tmbdId,
+            $title,
+            $titlePortuguese,
+            $genres,
+            $durationStringfied,
+            $overview,
+            $actors,
+            $directors,
+            $review,
+            $reviewCount
         );
 
         $this->seasons = $seasons;

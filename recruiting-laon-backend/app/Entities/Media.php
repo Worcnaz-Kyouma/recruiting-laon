@@ -2,40 +2,62 @@
 
 namespace App\Entities;
 
-class Media {
+class Media extends Entity {
     protected int $tmbdId;
     protected string $title;
     protected ?string $titlePortuguese;
     /**
-     * @var array<Genre>
+     * @var array<Genre> | null
      */
-    protected array $genres;
-    protected string $durationStringfied;
+    protected ?array $genres;
+    protected ?string $durationStringfied;
     protected string $overview;
     /**
-     * @var array<Actor>
+     * @var array<Actor> | null
      */
-    protected array $actors;
+    protected ?array $actors;
     /**
-     * @var array<Director>
+     * @var array<Director> | null
      */
-    protected array $directors;
+    protected ?array $directors;
     protected float $review;
     protected int $reviewCount;
 
     public function __construct(
-        int $tmbdId, string $title, ?string $titlePortuguese,
-        array $genres, string $overview, array $actors,
-        array $directors, float $review, int $reviewCount
-        ) {
+        int $tmbdId, string $title, ?string $titlePortuguese, ?array $genres,
+        ?string $durationStringfied, string $overview, ?array $actors,
+        ?array $directors, float $review, int $reviewCount
+    ) {
         $this->tmbdId = $tmbdId;
         $this->title = $title;
         $this->titlePortuguese = $titlePortuguese;
         $this->genres = $genres;
+        $this->durationStringfied = $durationStringfied;
         $this->overview = $overview;
         $this->actors = $actors;
         $this->directors = $directors;
         $this->review = $review;
         $this->reviewCount = $reviewCount;
+    }
+
+    public function toArray(): array {
+        return [
+            "tmbdId" => $this->tmbdId,
+            "title" => $this->title,
+            "titlePortuguese" => $this->titlePortuguese,
+            "genres" => $this->genres
+                ? array_map(fn($genre) => $genre->toArray(), $this->genres)
+                : null,
+            "durationStringfied" => $this->durationStringfied,
+            "overview" => $this->overview,
+            "actors" => $this->actors
+                ? array_map(fn($actor) => $actor->toArray(), $this->actors)
+                : null,
+            "directors" => $this->directors
+                ? array_map(fn($director) => $director->toArray(), $this->directors)
+                : null,
+            "review" => $this->review,
+            "reviewCount" => $this->reviewCount
+        ];
     }
 }
