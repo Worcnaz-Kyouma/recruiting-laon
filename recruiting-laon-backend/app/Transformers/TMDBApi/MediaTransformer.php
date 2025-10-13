@@ -29,41 +29,44 @@ abstract class MediaTransformer {
         return $movie;
     }
 
-    abstract protected static function titleFromExternal(stdClass $ext): string;
-
     protected static function titlePortugueseFromExternalTranslations(stdClass $ext): ?string {
         if(!isset($ext->translations)) return null;
-
+        
         return optional(collect($ext->translations->translations)
-            ->firstWhere("iso_3166_1", "BR"))
-            ->data->title;
+        ->firstWhere("iso_3166_1", "BR"))
+        ->data->title;
     }
-
+    
     protected static function genresFromExternal(stdClass $ext): ?array {
         if(!isset($ext->genres)) return null;
-
+        
         return collect($ext->genres)->map(fn($genre) => 
-            new Genre($genre->id, $genre->name)
+        new Genre($genre->id, $genre->name)
         )->toArray();
     }
-
+    
     protected static function actorsFromExternalCredits(stdClass $ext): ?array {
         if(!isset($ext->credits)) return null;
-
+        
         return collect($ext->credits->cast)
-            ->filter(fn($mediaWorker) => $mediaWorker->known_for_department === "Acting")
-            ->map(fn($actor) => 
-                new Actor($actor->id, $actor->name)
-            )->toArray();
+        ->filter(fn($mediaWorker) => $mediaWorker->known_for_department === "Acting")
+        ->map(fn($actor) => 
+        new Actor($actor->id, $actor->name)
+        )->toArray();
     }
-
+    
     protected static function directorsFromExternalCredits(stdClass $ext): ?array {
         if(!isset($ext->credits)) return null;
-
+        
         return optional(collect($ext->credits->cast)
-            ->filter(fn($mediaWorker) => $mediaWorker->known_for_department === "Directing")
-            ->map(fn($actor) => 
-                new Director($actor->id, $actor->name)
-            )->toArray());
+        ->filter(fn($mediaWorker) => $mediaWorker->known_for_department === "Directing")
+        ->map(fn($actor) => 
+        new Director($actor->id, $actor->name)
+        )->toArray());
+    }
+
+    protected static function titleFromExternal(stdClass $ext): string {
+        // Implemented in subclasses, can't be abstract cause PHP doesn't understand the implementation will come from subclasses
+        return "";
     }
 }
