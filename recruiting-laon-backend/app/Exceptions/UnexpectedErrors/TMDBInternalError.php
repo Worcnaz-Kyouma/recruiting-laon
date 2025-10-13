@@ -10,6 +10,6 @@ class TMDBInternalError extends UnexpectedError {
     }
 
     public function getHttpResponseErrorMessage(): string {
-        return "TMDB API internal server error occurred.";
+        return "API do TMDB gerou um erro interno.";
     }
 }

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class MediasByTitleRequest extends FormRequest {
+class MediasByTitleRequest extends CustomFormRequest {
     public function authorize(): bool {
         return true;
     }

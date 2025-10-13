@@ -4,12 +4,12 @@ namespace App\Exceptions\ExpectedErrors;
 
 use App\Exceptions\ExpectedErrors\ExpectedError;
 
-class TMDBNotFoundError extends ExpectedError { 
+class TMDBDataNotFoundError extends ExpectedError { 
     public function __construct(string $errorOriginMessage) {
-        parent::__construct($errorOriginMessage);
+        parent::__construct($errorOriginMessage, 404);
     }
 
     public function getHttpResponseErrorMessage(): string {
-        return "TMDB API not found resource.";
+        return "TMDB API não encontrou as informações consultadas.";
     }
 }

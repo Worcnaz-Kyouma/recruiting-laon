@@ -8,6 +8,6 @@ class AppFailedTMDBApiRequest extends UnexpectedError {
     }
 
     public function getHttpResponseErrorMessage(): string {
-        return "Application failed to communicate with TMDB Api.";
+        return "Aplicação falhou ao se comunicar com a API do TMDB.";
     }
 }

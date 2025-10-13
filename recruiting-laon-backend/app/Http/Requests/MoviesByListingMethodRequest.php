@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class MoviesByListingMethodRequest extends FormRequest {
+class MoviesByListingMethodRequest extends CustomFormRequest {
     public function authorize(): bool {
         return true;
     }
@@ -16,7 +16,7 @@ class MoviesByListingMethodRequest extends FormRequest {
      */
     public function rules(): array {
         return [
-            "listing_method" => "required|in:popular,top_rated,trending,upcoming",
+            "listing-method" => "required|in:popular,top_rated,trending,upcoming",
             "page" => "required|integer|min:1"
         ];
     }

@@ -12,7 +12,7 @@ use App\Enums\TVSerieListingMethod;
 use App\Exceptions\AppError;
 use App\Exceptions\UnexpectedErrors\AppFailedTMDBApiRequest;
 use App\Exceptions\UnexpectedErrors\TMDBInternalError;
-use App\Exceptions\ExpectedErrors\TMDBNotFoundError;
+use App\Exceptions\ExpectedErrors\TMDBDataNotFoundError;
 use App\Transformers\TMDBApi\TMDBErrorTransformer;
 use Illuminate\Support\Collection;
 use App\Http\DTO\PaginatedResultsDTO;
@@ -185,7 +185,7 @@ class TMDBApiService {
                 );
             if (!$response->successful()) {
                 $error = $this->buildAppErrorFromAPIFailure($response);
-                if($error instanceof TMDBNotFoundError) return null;
+                if($error instanceof TMDBDataNotFoundError) return null;
 
                 throw $error;
             }
@@ -204,7 +204,7 @@ class TMDBApiService {
         $failureBody = $response->json();
         /** @var TMDBError $tmdbError */
         $tmdbError = TMDBErrorTransformer::tryFromExternal((object) $failureBody);
-        
+
         $tmdbCode = $tmdbError->getStatusCode();
         $tmdbErrorMessage = $tmdbError->getMessage();
 
@@ -212,7 +212,7 @@ class TMDBApiService {
 
         switch($tmdbCode) {
             case TMDBError::NOT_FOUND:
-                return new TMDBNotFoundError($tmdbErrorMessage);
+                return new TMDBDataNotFoundError($tmdbErrorMessage);
             default:
                 return new TMDBInternalError($tmdbErrorMessage);
         }

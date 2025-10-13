@@ -7,10 +7,16 @@ use Illuminate\Http\JsonResponse;
 
 // App Errors involve both the expected errors(user errors most of the cases) and unexpected ones(like database missing or api timeout), all errors app knowns it possible to happen.
 abstract class AppError extends Exception {
-    private string $errorOriginMessage;
+    /**
+     * @var string|array<string>
+     */
+    private string | array $errorOriginMessage;
     protected int $httpResponseStatusCode;
 
-    public function __construct(string $errorOriginMessage, int $httpResponseStatusCode) {
+    /**
+     * @param string|array<string> $errorOriginMessage
+     */
+    public function __construct(string | array $errorOriginMessage, int $httpResponseStatusCode) {
         $this->errorOriginMessage = $errorOriginMessage;
         $this->httpResponseStatusCode = $httpResponseStatusCode;
     }
@@ -26,5 +32,8 @@ abstract class AppError extends Exception {
 
         return $response;
     }
-    abstract protected function getHttpResponseErrorMessage(): string;
+    /**
+     * @return string | array<string>
+     */
+    abstract protected function getHttpResponseErrorMessage(): string | array;
 }

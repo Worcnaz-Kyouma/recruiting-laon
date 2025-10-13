@@ -17,6 +17,6 @@ class TMDBTransformerFailed extends UnexpectedError {
     }
 
     public function getHttpResponseErrorMessage(): string {
-        return "Transformer {$this->tmdbTransformerClassName} failed to parse external API data into internal entity data.";
+        return "Transformer {$this->tmdbTransformerClassName} falhou em converter dados da API externa em dados internos da aplicação.";
     }
 }
