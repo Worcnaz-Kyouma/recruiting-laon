@@ -2,7 +2,7 @@
 
 namespace App\Entities;
 
-class TVSeason {
+class TVSeason extends Entity {
     private int $tmdbId;
     private int $seasonNumber;
     private string $name;
@@ -28,5 +28,15 @@ class TVSeason {
      */
     public function getEpisodes(): array {
         return $this->episodes;
+    }
+
+    public function toArray(): array {
+        return [
+            "tmdbId" => $this->tmdbId,
+            "seasonNumber" => $this->seasonNumber,
+            "name" => $this->name,
+            "posterImgUrl" => $this->posterImgUrl,
+            "episodes" => array_map(fn($episode) => $episode->toArray(), $this->episodes)
+        ];
     }
 }

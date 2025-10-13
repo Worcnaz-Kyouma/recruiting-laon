@@ -5,21 +5,21 @@ namespace App\Entities;
 class Media extends Entity {
     protected int $tmdbId;
     protected string $title;
-    protected ?string $titlePortuguese;
+    protected ?string $titlePortuguese = null;
     /**
      * @var array<Genre> | null
      */
-    protected ?array $genres;
-    protected ?string $durationStringfied;
+    protected ?array $genres = null;
+    protected ?string $durationStringfied = null;
     protected string $overview;
     /**
      * @var array<Actor> | null
      */
-    protected ?array $actors;
+    protected ?array $actors = null;
     /**
      * @var array<Director> | null
      */
-    protected ?array $directors;
+    protected ?array $directors = null;
     protected float $review;
     protected int $reviewCount;
     protected string $posterImgUrl;

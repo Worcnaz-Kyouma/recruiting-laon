@@ -6,7 +6,7 @@ class TVSerie extends Media {
     /**
      * @var array<TVSeason> | null
      */
-    private ?array $seasons;
+    private ?array $seasons = null;
 
     // TODO: There's a way to improve that construct call?
     /**
@@ -49,6 +49,18 @@ class TVSerie extends Media {
             ->map(fn($s) => count($s->getEpisodes()))
             ->sum();
 
-        $this->durationStringfied = "$numberOfSeasons Seasons, $numberOfEpisodes Episodes";
+        $this->durationStringfied = 
+            "$numberOfSeasons Temporada".($numberOfSeasons > 1 ? "s" : "") . ", " . 
+            "$numberOfEpisodes Episódio".($numberOfEpisodes > 1 ? "s" : "");
+    }
+
+    public function toArray(): array {
+        $media = parent::toArray();
+
+        $media["seasons"] = $this->seasons
+            ? array_map(fn($season) => $season->toArray(), $this->seasons)
+            : null;
+
+        return $media;
     }
 }

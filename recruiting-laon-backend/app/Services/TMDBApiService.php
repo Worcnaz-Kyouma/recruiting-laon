@@ -10,7 +10,7 @@ use App\Enums\MovieListingMethod;
 use App\Enums\TVSerieListingMethod;
 use App\Exceptions\AppError;
 use App\Exceptions\UnexpectedErrors\AppFailedTMDBApiRequest;
-use App\Exceptions\UnexpectedErrors\UnexpectedError;
+use Illuminate\Support\Collection;
 use App\Http\DTO\PaginatedResultsDTO;
 use App\Transformers\TMDBApi\MovieTransformer;
 use App\Transformers\TMDBApi\TVSeasonTransformer;
@@ -19,6 +19,7 @@ use Exception;
 use Http;
 use Illuminate\Http\Client\Response;
 
+// TODO: Wrap transformers and data seek inside the api, not secure do direct see it
 /**
  * @template T of Media
  */
@@ -49,7 +50,7 @@ class TMDBApiService {
     }
 
     /**
-     * @return array {movies: PaginatedResultsDTO, TVSeries: PaginatedResultsDTO}
+     * @return array {movies: Collection<Movie>, TVSeries: Collection<TVSerie>}
      */
     public function getTopPopularMedia(): array {
         $numberOfTopMedias = 5;
@@ -61,12 +62,8 @@ class TMDBApiService {
         $topTVSeries = $TVSeries->results->take($numberOfTopMedias);
 
         $medias = [
-            "movies" => $topMovies
-                ->map(fn($m) => $m->toArray())
-                ->toArray(),
+            "movies" => $topMovies,
             "TVSeries" => $topTVSeries
-                ->map(fn($s) => $s->toArray())
-                ->toArray()
         ];
 
         return $medias;
@@ -113,8 +110,9 @@ class TMDBApiService {
         );
 
         $media = $apiEntitiesContext["transformer"]((object) $data);
+
         if($mediaType === TVSerie::class) {
-            $seasons = collect($data["seasons"] ?? [])->map(function($ext) use ($tmdbId) {
+            $seasons = collect($data["seasons"])->map(function($ext) use ($tmdbId) {
                 $seasonNumber = $ext["season_number"];
                 $seasonData = $this->getAPIData(
                     "tv", 

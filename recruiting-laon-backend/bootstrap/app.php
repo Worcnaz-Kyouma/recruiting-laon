@@ -20,7 +20,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $exceptions->render(function (Exception $e, Request $request) {
             $error = $e instanceof AppError
                 ? $e
-                : new UnexpectedError($e->getMessage()); // Default Error
+                : new UnexpectedError($e->getMessage().$e->getTraceAsString()); // Default Error
 
             return $error->getHttpResponse();
         });

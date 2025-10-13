@@ -14,4 +14,17 @@ class TVSerieTransformer extends MediaTransformer {
 
         return $tvSerie;
     }
+
+    protected static function titleFromExternal(stdClass $ext): string {
+        return $ext->original_name;
+    }
+    
+    protected static function titlePortugueseFromExternalTranslations(stdClass $ext): ?string {
+        if(!isset($ext->translations)) return null;
+
+        return data_get(
+            collect($ext->translations["translations"])->firstWhere("iso_3166_1", "BR"),
+            'data.name'
+        );
+    }
 }

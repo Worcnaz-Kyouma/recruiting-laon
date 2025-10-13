@@ -2,7 +2,7 @@
 
 namespace App\Entities;
 
-class TVEpisode {
+class TVEpisode extends Entity {
     private int $tmdbId;
     private int $episodeNumber;
     private string $name;
@@ -18,5 +18,15 @@ class TVEpisode {
 
     public function getRuntime(): int {
         return $this->runtime;
+    }
+
+    public function toArray(): array {
+        return [
+            "tmdbId" => $this->tmdbId,
+            "episodeNumber" => $this->episodeNumber,
+            "name" => $this->name,
+            "stillImageUrl" => $this->stillImageUrl,
+            "runtime" => $this->runtime
+        ];
     }
 }

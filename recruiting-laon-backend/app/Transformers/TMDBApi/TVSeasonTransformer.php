@@ -15,7 +15,7 @@ class TVSeasonTransformer {
         $tmdbImageBaseUrl = config('tmdb.image_base_url');
         $posterImgUrl = "$tmdbImageBaseUrl/$ext->poster_path";
         $episodes = collect($ext->episodes)
-            ->map(fn($ext) => TVEpisodeTransformer::fromExternal($ext))
+            ->map(fn($ext) => TVEpisodeTransformer::fromExternal((object) $ext))
             ->toArray();
 
         $tvSeason = new TVSeason(
