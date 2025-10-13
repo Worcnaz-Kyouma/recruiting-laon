@@ -19,11 +19,13 @@ abstract class MediaTransformer {
         $directors = self::directorsFromExternalCredits($ext);
         $review = $ext->vote_average;
         $reviewCount = $ext->vote_count;
+        $tmdbImageBaseUrl = config('tmdb.image_base_url');
+        $posterImgUrl = "$tmdbImageBaseUrl/$ext->poster_path";
 
         $movie = new Media(
             $tmdbId, $title, $titlePortuguese,
             $genres, $overview, $actors,
-            $directors, $review, $reviewCount
+            $directors, $review, $reviewCount, $posterImgUrl
         );
 
         return $movie;

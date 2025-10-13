@@ -22,11 +22,12 @@ class Media extends Entity {
     protected ?array $directors;
     protected float $review;
     protected int $reviewCount;
+    protected string $posterImgUrl;
 
     public function __construct(
         int $tmdbId, string $title, ?string $titlePortuguese, 
         ?array $genres, string $overview, ?array $actors,
-        ?array $directors, float $review, int $reviewCount
+        ?array $directors, float $review, int $reviewCount, string $posterImgUrl
     ) {
         $this->tmdbId = $tmdbId;
         $this->title = $title;
@@ -37,6 +38,7 @@ class Media extends Entity {
         $this->directors = $directors;
         $this->review = $review;
         $this->reviewCount = $reviewCount;
+        $this->posterImgUrl = $posterImgUrl;
     }
 
     public function toArray(): array {
@@ -56,7 +58,8 @@ class Media extends Entity {
                 ? array_map(fn($director) => $director->toArray(), $this->directors)
                 : null,
             "review" => $this->review,
-            "reviewCount" => $this->reviewCount
+            "reviewCount" => $this->reviewCount,
+            "posterImgUrl" => $this->posterImgUrl
         ];
     }
 }

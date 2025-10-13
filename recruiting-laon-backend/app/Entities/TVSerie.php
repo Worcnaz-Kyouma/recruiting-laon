@@ -22,7 +22,8 @@ class TVSerie extends Media {
             $media->actors,
             $media->directors,
             $media->review,
-            $media->reviewCount
+            $media->reviewCount,
+            $media->posterImgUrl
         );
 
         $this->durationStringfied = $durationStringfied;

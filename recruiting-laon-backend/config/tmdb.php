@@ -12,6 +12,7 @@ return [
     */
 
     'base_url' => env('TMDB_BASE_URL'),
+    'image_base_url' => env('TMDB_IMAGE_BASE_URL'),
     'api_version' => env('TMDB_API_VERSION'),
     'api_key' => env('TMDB_API_KEY'),
 
