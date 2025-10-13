@@ -23,7 +23,7 @@ use Exception;
 use Http;
 use Illuminate\Http\Client\Response;
 
-// TODO: Wrap transformers and data seek inside the api, not secure do direct see it
+// TODO: Reduce this class?
 /**
  * @template T of Media
  */
@@ -53,6 +53,7 @@ class TMDBApiService {
         $this->apiKey = $apiKey;
     }
 
+    // TODO: Should wrap it on a DTO?
     /**
      * @return array {movies: Collection<Movie>, TVSeries: Collection<TVSerie>}
      */
@@ -135,7 +136,7 @@ class TMDBApiService {
 
         $media = $apiEntitiesContext["transformer"]((object) $data);
 
-        // Maybe better put it in a transformer or something like this?
+        // TODO: Maybe better put it in a transformer or something like this?
         if($mediaType === TVSerie::class && isset($data["seasons"])) {
             $seasons = collect($data["seasons"])->map(function($extSeason) use ($tmdbId) {
                 $seasonNumber = $extSeason["season_number"];
