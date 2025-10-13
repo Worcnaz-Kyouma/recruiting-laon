@@ -44,6 +44,7 @@ class TMDBApiService {
         $this->apiKey = $apiKey;
     }
 
+    // TODO: We gonna remove all the specific popular methods, only that remaing to top 5 populars
     /**
      * @return array {movies: PaginatedResultsDTO, TVSeries: PaginatedResultsDTO}
      */
@@ -59,7 +60,8 @@ class TMDBApiService {
         return $medias;
     }
 
-    // TODO: Maybe dont create a function only for popular, make it generic, and inside of it fetch popular, current playing and etc endpoints
+    // TODO: Complete refactor. Remove this popular specify and create generic ones, with ListingMethod(popular, incoming).
+    // TODO: Search label -> search endpoint
     /**
      * @param class-string<T> $mediaType
      */
@@ -122,7 +124,7 @@ class TMDBApiService {
         }
     }
 
-    //TODO
+    //TODO: If error 400-499, make client error, 500-599 server error
     private function buildAppError(Response $response): AppError {
         return new UnexpectedError("Api Error");
     }
