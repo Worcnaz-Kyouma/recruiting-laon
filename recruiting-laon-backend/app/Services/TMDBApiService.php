@@ -20,6 +20,7 @@ use Http;
 use Illuminate\Http\Client\Response;
 
 // TODO: Wrap transformers and data seek inside the api, not secure do direct see it
+// TODO: I see some mal formatted results from the api, get ready to it
 /**
  * @template T of Media
  */
@@ -55,10 +56,10 @@ class TMDBApiService {
     public function getTopPopularMedia(): array {
         $numberOfTopMedias = 5;
 
-        $movies = $this->getMediaByListingMethod(Movie::class, MediaListingMethod::Popular, 1);
+        $movies = $this->getMediasByListingMethod(Movie::class, MediaListingMethod::Popular, 1);
         $topMovies = $movies->results->take($numberOfTopMedias);
 
-        $TVSeries = $this->getMediaByListingMethod(TVSerie::class, MediaListingMethod::Popular, 1);
+        $TVSeries = $this->getMediasByListingMethod(TVSerie::class, MediaListingMethod::Popular, 1);
         $topTVSeries = $TVSeries->results->take($numberOfTopMedias);
 
         $medias = [
@@ -72,7 +73,7 @@ class TMDBApiService {
     /**
      * @return PaginatedResultsDTO<Media>
      */
-    public function getMediaByListingMethod(
+    public function getMediasByListingMethod(
         string $mediaType, 
         MediaListingMethod | MovieListingMethod | TVSerieListingMethod $listingMethod,
         int $page
@@ -89,15 +90,30 @@ class TMDBApiService {
             ? $this->getAPIData($listingMethod->value, "{$apiEntitiesContext['apiEntity']}/week", $query)
             : $this->getAPIData($apiEntitiesContext["apiEntity"], $listingMethod->value, $query);
 
-        $medias = collect($data["results"])->map(fn($extMedia) => 
-            $apiEntitiesContext["transformer"]((object) $extMedia)
+        $medias = $this->parseAPIResultsInMedias($apiEntitiesContext, $data["results"]);
+
+        return PaginatedResultsDTO::fromTMDBApiPaginatedResults($data, $medias);
+    }
+
+    /**
+     * @return PaginatedResultsDTO<Media>
+     */
+    public function getMediasByTitle(string $mediaType, string $title, int $page): PaginatedResultsDTO {
+        $apiEntitiesContext = self::$appEntitiesToAPIEntitiesContextMap[$mediaType];
+
+        $data = $this->getAPIData(
+            "search", 
+            $apiEntitiesContext["apiEntity"], 
+            [
+                "query" => $title,
+                "page" => $page,
+                "include_adult" => "true"
+            ]
         );
 
-        return new PaginatedResultsDTO(
-            $data["page"],
-            $data["total_pages"],
-            $medias
-        );
+        $medias = $this->parseAPIResultsInMedias($apiEntitiesContext, $data["results"]);
+
+        return PaginatedResultsDTO::fromTMDBApiPaginatedResults($data, $medias);
     }
 
     public function getMediaDetails(int $tmdbId, string $mediaType): Media {
@@ -112,8 +128,8 @@ class TMDBApiService {
         $media = $apiEntitiesContext["transformer"]((object) $data);
 
         if($mediaType === TVSerie::class) {
-            $seasons = collect($data["seasons"])->map(function($ext) use ($tmdbId) {
-                $seasonNumber = $ext["season_number"];
+            $seasons = collect($data["seasons"])->map(function($extSeason) use ($tmdbId) {
+                $seasonNumber = $extSeason["season_number"];
                 $seasonData = $this->getAPIData(
                     "tv", 
                     "$tmdbId/season/$seasonNumber"
@@ -126,6 +142,16 @@ class TMDBApiService {
         }
 
         return $media;
+    }
+
+    /**
+     * @param array{apiEntity: string, transformer: callable} $apiEntitiesContext
+     * @return Collection<Media>
+     */
+    private function parseAPIResultsInMedias(array $apiEntitiesContext, array $results): Collection {
+        return collect($results)->map(fn($extMedia) => 
+            $apiEntitiesContext["transformer"]((object) $extMedia)
+        );
     }
 
     /**

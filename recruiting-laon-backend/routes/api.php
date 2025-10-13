@@ -14,10 +14,12 @@ Route::prefix("media")->group(function () {
 // TODO: Make users not send and bad params a user error, expected
 Route::prefix("movie")->group(function () {
     Route::get("/by-listing-method", [MovieController::class, "getMoviesByListingMethod"]);
-    Route::get("/details/{id}", [MovieController::class, "getMovieDetails"]);
+    Route::get("/by-title", [MovieController::class, "getMoviesByTitle"]);
+    Route::get("/{id}", [MovieController::class, "getMovieDetails"]);
 });
 
 Route::prefix("tv-serie")->group(function () {
     Route::get("/by-listing-method", [TVSerieController::class, "getTVSeriesByListingMethod"]);
-    Route::get("/details/{id}", [TVSerieController::class, "getTVSerieDetails"]);
+    Route::get("/by-title", [TVSerieController::class, "getTVSeriesByTitle"]);
+    Route::get("/{id}", [TVSerieController::class, "getTVSerieDetails"]);
 });

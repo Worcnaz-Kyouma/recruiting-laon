@@ -6,6 +6,7 @@ use App\Entities\Movie;
 use App\Enums\MediaListingMethod;
 use App\Enums\MovieListingMethod;
 use App\Http\Requests\MediaDetailsRequest;
+use App\Http\Requests\MediasByTitleRequest;
 use App\Http\Requests\MoviesByListingMethodRequest;
 use App\Services\TMDBApiService;
 
@@ -19,23 +20,34 @@ class MovieController extends Controller {
 
     public function getMoviesByListingMethod(MoviesByListingMethodRequest $request) {
         $data = $request->validated();
-
         $listingMethod = MovieListingMethod::tryFrom($data["listing_method"])
             ?? MediaListingMethod::tryFrom($data["listing_method"]);
+        $page = $data["page"];
 
-        $movies = $this->tmdb->getMediaByListingMethod(
+        $movies = $this->tmdb->getMediasByListingMethod(
             Movie::class,
             $listingMethod,
-            $data["page"]
+            $page
         )->toArray();
 
         return response()->json($movies);
     }
 
+    public function getMoviesByTitle(MediasByTitleRequest $request) {
+        $data = $request->validated();
+        $title = strip_tags(trim($data["title"]));
+        $page = $data["page"];
+        
+        $movie = $this->tmdb->getMediasByTitle(Movie::class, $title, $page)->toArray();
+
+        return response()->json($movie);
+    }
+
     public function getMovieDetails(MediaDetailsRequest $request) {
         $data = $request->validated();
+        $id = $data["id"];
 
-        $movie = $this->tmdb->getMediaDetails($data["id"], Movie::class)->toArray();
+        $movie = $this->tmdb->getMediaDetails($id, Movie::class)->toArray();
 
         return response()->json($movie);
     }

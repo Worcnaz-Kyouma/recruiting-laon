@@ -25,6 +25,14 @@ class PaginatedResultsDTO {
         $this->results = $results;
     }
 
+    public static function fromTMDBApiPaginatedResults(array $data, Collection $results): self {
+        return new self(
+            $data["page"],
+            $data["total_pages"],
+            $results
+        );
+    }
+
     public function toArray(): array {
         return [
             "page" => $this->page,

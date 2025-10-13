@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class MediaDetailsRequest extends FormRequest {
+class MediasByTitleRequest extends FormRequest {
     public function authorize(): bool {
         return true;
     }
@@ -16,13 +16,8 @@ class MediaDetailsRequest extends FormRequest {
      */
     public function rules(): array {
         return [
-            "id" => "required|integer|min:1",
+            "title" => "required|string|max:255",
+            "page" => "required|integer|min:1"
         ];
-    }
-
-    protected function prepareForValidation() {
-        $this->merge([
-            'id' => $this->route('id'),
-        ]);
     }
 }
