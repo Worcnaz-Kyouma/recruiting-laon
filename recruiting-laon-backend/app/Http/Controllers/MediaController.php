@@ -14,7 +14,7 @@ class MediaController extends Controller {
         $this->tmdb = $tmdb;
     }
 
-    public function getTopPopularMedias(Request $request) {
+    public function getTopPopularMedias() {
         $medias = $this->tmdb->getTopPopularMedia();
 
         return response()->json($medias);

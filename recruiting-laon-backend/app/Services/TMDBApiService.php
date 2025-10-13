@@ -13,6 +13,7 @@ use App\Exceptions\UnexpectedErrors\AppFailedTMDBApiRequest;
 use App\Exceptions\UnexpectedErrors\UnexpectedError;
 use App\Http\DTO\PaginatedResultsDTO;
 use App\Transformers\TMDBApi\MovieTransformer;
+use App\Transformers\TMDBApi\TVSeasonTransformer;
 use App\Transformers\TMDBApi\TVSerieTransformer;
 use Exception;
 use Http;
@@ -53,10 +54,10 @@ class TMDBApiService {
     public function getTopPopularMedia(): array {
         $numberOfTopMedias = 5;
 
-        $movies = $this->getMediaByListingMethods(Movie::class, MediaListingMethod::Popular, 1);
+        $movies = $this->getMediaByListingMethod(Movie::class, MediaListingMethod::Popular, 1);
         $topMovies = $movies->results->take($numberOfTopMedias);
 
-        $TVSeries = $this->getMediaByListingMethods(TVSerie::class, MediaListingMethod::Popular, 1);
+        $TVSeries = $this->getMediaByListingMethod(TVSerie::class, MediaListingMethod::Popular, 1);
         $topTVSeries = $TVSeries->results->take($numberOfTopMedias);
 
         $medias = [
@@ -74,7 +75,7 @@ class TMDBApiService {
     /**
      * @return PaginatedResultsDTO<Media>
      */
-    public function getMediaByListingMethods(
+    public function getMediaByListingMethod(
         string $mediaType, 
         MediaListingMethod | MovieListingMethod | TVSerieListingMethod $listingMethod,
         int $page
@@ -102,7 +103,33 @@ class TMDBApiService {
         );
     }
 
-    // TODO: The return here many times are pages, results. But for details not.... improve it, to returing a better typed result
+    public function getMediaDetails(int $tmdbId, string $mediaType): Media {
+        $apiEntitiesContext = self::$appEntitiesToAPIEntitiesContextMap[$mediaType];
+
+        $data = $this->getAPIData(
+            $apiEntitiesContext["apiEntity"], 
+            $tmdbId,
+            ["append_to_response" => "translations,credits"]
+        );
+
+        $media = $apiEntitiesContext["transformer"]((object) $data);
+        if($mediaType === TVSerie::class) {
+            $seasons = collect($data["seasons"] ?? [])->map(function($ext) use ($tmdbId) {
+                $seasonNumber = $ext["season_number"];
+                $seasonData = $this->getAPIData(
+                    "tv", 
+                    "$tmdbId/season/$seasonNumber"
+                );
+
+                return TVSeasonTransformer::fromExternal((object) $seasonData);
+            })->toArray();
+
+            $media->setSeasons($seasons);
+        }
+
+        return $media;
+    }
+
     /**
      * @param array<string, string> $query
      */
@@ -135,7 +162,7 @@ class TMDBApiService {
         }
     }
 
-    // User errors are not expected here, cause we gonna clear all users input, so if any response with status code > 400, its a unexpected error
+    // TODO: Improve it, cause they gonna it as API too, not only the front-end interface
     private function buildAppError(Response $response): AppError {
         throw new AppFailedTMDBApiRequest("TMDB API request failed with status {$response->status()} and body {$response->body()}");
     }

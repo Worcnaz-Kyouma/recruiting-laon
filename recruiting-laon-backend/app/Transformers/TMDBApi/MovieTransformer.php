@@ -6,7 +6,6 @@ use App\Entities\Media;
 use App\Entities\Movie;
 use stdClass;
 
-// OBS to Code Reviewer: Genre, Actor and Director could receive its own Transformer, but i choose to keep it simple
 class MovieTransformer extends MediaTransformer {
     public static function fromExternal(stdClass $ext): Movie {
         $media = parent::fromExternal($ext);
@@ -24,6 +23,7 @@ class MovieTransformer extends MediaTransformer {
         return $ext->original_title;
     }
 
+    // TODO: If one hour, we need to remove the plural
     private static function durationStringfiedFromRuntime(int $runtime): string {
         $hours = intdiv($runtime, 60);
         $minutes = $runtime % 60;
