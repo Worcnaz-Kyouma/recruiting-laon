@@ -25,10 +25,10 @@ class PaginatedResultsDTO {
         $this->results = $results;
     }
 
-    public static function fromTMDBApiPaginatedResults(array $data, Collection $results): self {
+    public static function fromTMDBApiPaginatedResults(array $apiData, Collection $results): self {
         return new self(
-            $data["page"],
-            $data["total_pages"],
+            $apiData["page"],
+            $apiData["total_pages"],
             $results
         );
     }

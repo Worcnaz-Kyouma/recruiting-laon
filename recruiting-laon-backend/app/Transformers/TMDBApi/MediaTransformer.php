@@ -9,19 +9,21 @@ use App\Entities\Media;
 use stdClass;
 
 // OBS to Code Reviewer: Genre, Actor and Director could receive its own Transformer, but i choose to keep it simple
-class MediaTransformer {
-    public static function fromExternal(stdClass $ext): Media {
+class MediaTransformer extends TMDBTransformer {
+    protected static function fromExternal(stdClass $ext): Media {
         $tmdbId = $ext->id;
         $title = static::titleFromExternal($ext);
         $titlePortuguese = static::titlePortugueseFromExternalTranslations($ext);
         $genres = static::genresFromExternal($ext);
-        $overview = $ext->overview;
+        $overview = $ext->overview ?: null;
         $actors = static::actorsFromExternalCredits($ext);
         $directors = static::directorsFromExternalCredits($ext);
         $review = $ext->vote_average;
         $reviewCount = $ext->vote_count;
         $tmdbImageBaseUrl = config('tmdb.image_base_url');
-        $posterImgUrl = "$tmdbImageBaseUrl/$ext->poster_path";
+        $posterImgUrl = $ext->poster_path
+            ? "$tmdbImageBaseUrl/$ext->poster_path"
+            : null;
 
         $movie = new Media(
             $tmdbId, $title, $titlePortuguese,

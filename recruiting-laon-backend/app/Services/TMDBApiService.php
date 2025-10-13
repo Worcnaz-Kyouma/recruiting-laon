@@ -4,12 +4,16 @@ namespace App\Services;
 
 use App\Entities\Media;
 use App\Entities\Movie;
+use App\Entities\TMDBError;
 use App\Entities\TVSerie;
 use App\Enums\MediaListingMethod;
 use App\Enums\MovieListingMethod;
 use App\Enums\TVSerieListingMethod;
 use App\Exceptions\AppError;
 use App\Exceptions\UnexpectedErrors\AppFailedTMDBApiRequest;
+use App\Exceptions\UnexpectedErrors\TMDBInternalError;
+use App\Exceptions\UnexpectedErrors\TMDBNotFoundError;
+use App\Transformers\TMDBApi\TMDBErrorTransformer;
 use Illuminate\Support\Collection;
 use App\Http\DTO\PaginatedResultsDTO;
 use App\Transformers\TMDBApi\MovieTransformer;
@@ -20,7 +24,6 @@ use Http;
 use Illuminate\Http\Client\Response;
 
 // TODO: Wrap transformers and data seek inside the api, not secure do direct see it
-// TODO: I see some mal formatted results from the api, get ready to it
 /**
  * @template T of Media
  */
@@ -32,11 +35,11 @@ class TMDBApiService {
     private static array $appEntitiesToAPIEntitiesContextMap = [
         Movie::class => [
             'apiEntity' => 'movie',
-            'transformer' => [MovieTransformer::class, "fromExternal"],
+            'transformer' => [MovieTransformer::class, "tryFromExternal"],
         ],
         TVSerie::class => [
             'apiEntity' => 'tv',
-            'transformer' => [TVSerieTransformer::class, "fromExternal"]
+            'transformer' => [TVSerieTransformer::class, "tryFromExternal"]
         ]
     ];
     
@@ -71,6 +74,7 @@ class TMDBApiService {
     }
 
     /**
+     * @param class-string<T> $mediaType
      * @return PaginatedResultsDTO<Media>
      */
     public function getMediasByListingMethod(
@@ -96,6 +100,7 @@ class TMDBApiService {
     }
 
     /**
+     * @param class-string<T> $mediaType
      * @return PaginatedResultsDTO<Media>
      */
     public function getMediasByTitle(string $mediaType, string $title, int $page): PaginatedResultsDTO {
@@ -135,7 +140,7 @@ class TMDBApiService {
                     "$tmdbId/season/$seasonNumber"
                 );
 
-                return TVSeasonTransformer::fromExternal((object) $seasonData);
+                return TVSeasonTransformer::tryFromExternal((object) $seasonData);
             })->toArray();
 
             $media->setSeasons($seasons);
@@ -174,7 +179,7 @@ class TMDBApiService {
                     array_merge($defaultQuery, $query)
                 );
             if (!$response->successful()) {
-                $error = $this->buildAppError($response);
+                $error = $this->buildAppErrorFromAPIFailure($response);
                 throw $error;
             }
             
@@ -187,7 +192,21 @@ class TMDBApiService {
     }
 
     // TODO: Improve it, cause they gonna it as API too, not only the front-end interface
-    private function buildAppError(Response $response): AppError {
-        throw new AppFailedTMDBApiRequest("TMDB API request failed with status {$response->status()} and body {$response->body()}");
+    private function buildAppErrorFromAPIFailure(Response $response): AppError {
+        $statusCode = $response->status();
+
+        $failureBody = $response->json();
+        $tmdbError = TMDBErrorTransformer::tryFromExternal((object) $failureBody); // Fix it, is returning Entity type, i want TMDBError type
+        $tmdbCode = $tmdbError->getStatusCode();
+        $tmdbErrorMessage = $tmdbError->getMessage();
+
+        if($statusCode >= 500) return new TMDBInternalError($tmdbErrorMessage);
+
+        switch($tmdbCode) {
+            case TMDBError::NOT_FOUND:
+                return new TMDBNotFoundError($tmdbErrorMessage); // Improve that error, catch it to return nothing on the result
+            default:
+                return new TMDBInternalError($tmdbErrorMessage);
+        }
     }
 }

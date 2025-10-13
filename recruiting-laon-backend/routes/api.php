@@ -3,7 +3,6 @@
 use App\Http\Controllers\MediaController;
 use App\Http\Controllers\MovieController;
 use App\Http\Controllers\TVSerieController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 // Sanctum!!
@@ -12,6 +11,7 @@ Route::prefix("media")->group(function () {
 });
 
 // TODO: Make users not send and bad params a user error, expected
+// TODO: Filter movies without poster and overview
 Route::prefix("movie")->group(function () {
     Route::get("/by-listing-method", [MovieController::class, "getMoviesByListingMethod"]);
     Route::get("/by-title", [MovieController::class, "getMoviesByTitle"]);

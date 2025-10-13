@@ -9,7 +9,7 @@ use Carbon\CarbonInterval;
 use stdClass;
 
 class MovieTransformer extends MediaTransformer {
-    public static function fromExternal(stdClass $ext): Movie {
+    protected static function fromExternal(stdClass $ext): Movie {
         $media = parent::fromExternal($ext);
 
         $durationStringfied = isset($ext->runtime)

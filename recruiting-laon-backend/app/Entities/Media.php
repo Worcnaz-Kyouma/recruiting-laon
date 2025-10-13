@@ -11,7 +11,7 @@ class Media extends Entity {
      */
     protected ?array $genres = null;
     protected ?string $durationStringfied = null;
-    protected string $overview;
+    protected ?string $overview;
     /**
      * @var array<Actor> | null
      */
@@ -22,12 +22,12 @@ class Media extends Entity {
     protected ?array $directors = null;
     protected float $review;
     protected int $reviewCount;
-    protected string $posterImgUrl;
+    protected ?string $posterImgUrl;
 
     public function __construct(
         int $tmdbId, string $title, ?string $titlePortuguese, 
-        ?array $genres, string $overview, ?array $actors,
-        ?array $directors, float $review, int $reviewCount, string $posterImgUrl
+        ?array $genres, ?string $overview, ?array $actors,
+        ?array $directors, float $review, int $reviewCount, ?string $posterImgUrl
     ) {
         $this->tmdbId = $tmdbId;
         $this->title = $title;

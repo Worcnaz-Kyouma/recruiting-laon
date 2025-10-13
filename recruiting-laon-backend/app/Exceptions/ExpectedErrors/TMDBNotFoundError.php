@@ -2,12 +2,14 @@
 
 namespace App\Exceptions\UnexpectedErrors;
 
-class AppFailedTMDBApiRequest extends UnexpectedError { 
+use App\Exceptions\ExpectedErrors\ExpectedError;
+
+class TMDBNotFoundError extends ExpectedError { 
     public function __construct(string $errorOriginMessage) {
         parent::__construct($errorOriginMessage);
     }
 
     public function getHttpResponseErrorMessage(): string {
-        return "Application failed to communicate with TMDB Api.";
+        return "TMDB API not found error occurred.";
     }
 }
