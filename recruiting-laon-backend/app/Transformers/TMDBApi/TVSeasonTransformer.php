@@ -10,8 +10,11 @@ class TVSeasonTransformer extends TMDBTransformer {
         $seasonNumber = $ext['season_number'];
         $name = $ext['name'];
         $tmdbImageBaseUrl = config('tmdb.image_base_url');
-        $posterImgUrl = "$tmdbImageBaseUrl/{$ext['poster_path']}";
-        $episodes = collect($ext['episodes'])
+        $posterImgUrl = $ext['poster_path'] 
+            ? "$tmdbImageBaseUrl/{$ext['poster_path']}"
+            : null;
+
+        $episodes = collect($ext['episodes'] ?? [])
             ->map(fn($ext) => TVEpisodeTransformer::tryFromExternal($ext))
             ->toArray();
 

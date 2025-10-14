@@ -8,6 +8,7 @@ use App\Entities\Genre;
 use App\Entities\Media;
 
 // OBS to Code Reviewer: Genre, Actor and Director could receive its own Transformer, but i choose to keep it simple
+// TODO: get portuguese overview from translations, and wrap all brazilian fields into an whole object
 class MediaTransformer extends TMDBTransformer {
     protected static function fromExternal(array $ext): Media {
         $tmdbId = $ext['id'];

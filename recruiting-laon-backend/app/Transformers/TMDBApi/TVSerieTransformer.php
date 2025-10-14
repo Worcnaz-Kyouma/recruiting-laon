@@ -8,7 +8,11 @@ class TVSerieTransformer extends MediaTransformer {
     protected static function fromExternal(array $ext): TVSerie {
         $media = parent::fromExternal($ext);
 
-        $tvSerie = new TVSerie($media);
+        $summarizedSeasons = collect($ext["seasons"] ?? [])
+            ->map(fn($ext) => TVSeasonTransformer::tryFromExternal($ext))
+            ->toArray();
+
+        $tvSerie = new TVSerie($media, $summarizedSeasons);
 
         return $tvSerie;
     }

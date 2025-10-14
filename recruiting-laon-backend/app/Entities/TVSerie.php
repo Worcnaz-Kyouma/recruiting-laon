@@ -10,9 +10,9 @@ class TVSerie extends Media {
 
     // TODO: There's a way to improve that construct call?
     /**
-     * @param array<TVSeason> | null $seasons
+     * @param array<TVSeason> | null $summarizedSeasons
      */
-    public function __construct(Media $media) {
+    public function __construct(Media $media, array $summarizedSeasons = []) {
         parent::__construct(
             $media->tmdbId,
             $media->title,
@@ -25,6 +25,8 @@ class TVSerie extends Media {
             $media->reviewCount,
             $media->posterImgUrl
         );
+
+        $this->seasons = $summarizedSeasons;
     }
 
     /**
@@ -33,6 +35,13 @@ class TVSerie extends Media {
     public function setSeasons(array $seasons): void {
         $this->seasons = $seasons;
         $this->buildDurationStringfied($seasons);
+    }
+
+    /**
+     * @return array<TVSeason> $seasons
+     */
+    public function getSeasons(): array {
+        return $this->seasons ?? [];
     }
 
     /**

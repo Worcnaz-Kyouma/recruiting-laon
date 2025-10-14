@@ -16,6 +16,7 @@ use App\Exceptions\ExpectedErrors\TMDBDataNotFoundError;
 use App\Transformers\TMDBApi\TMDBErrorTransformer;
 use Illuminate\Support\Collection;
 use App\Http\DTO\PaginatedResultsDTO;
+use App\Http\DTO\TopPopularMediaDTO;
 use App\Transformers\TMDBApi\MovieTransformer;
 use App\Transformers\TMDBApi\TVSeasonTransformer;
 use App\Transformers\TMDBApi\TVSerieTransformer;
@@ -55,9 +56,9 @@ class TMDBApiService {
 
     // TODO: IMPORTANT Wrap it on a DTO
     /**
-     * @return array {movies: Collection<Movie>, TVSeries: Collection<TVSerie>}
+     * @return TopPopularMediaDTO
      */
-    public function getTopPopularMedia(): array {
+    public function getTopPopularMedia(): TopPopularMediaDTO {
         $numberOfTopMedias = 5;
 
         $movies = $this->getMediasByListingMethod(Movie::class, MediaListingMethod::Popular, 1);
@@ -66,10 +67,7 @@ class TMDBApiService {
         $TVSeries = $this->getMediasByListingMethod(TVSerie::class, MediaListingMethod::Popular, 1);
         $topTVSeries = $TVSeries->results->take($numberOfTopMedias);
 
-        $medias = [
-            "movies" => $topMovies,
-            "TVSeries" => $topTVSeries
-        ];
+        $medias = new TopPopularMediaDTO($topMovies, $topTVSeries);
 
         return $medias;
     }
@@ -124,25 +122,24 @@ class TMDBApiService {
         return PaginatedResultsDTO::fromTMDBApiPaginatedResults($data, $medias);
     }
 
-    public function getMediaDetails(int $tmdbId, string $mediaType): Media | null {
+    public function getMediaDetails(int $mediaTMDBId, string $mediaType): Media | null {
         $apiEntitiesContext = self::$appEntitiesToAPIEntitiesContextMap[$mediaType];
 
         $data = $this->getAPIData(
             $apiEntitiesContext["apiEntity"], 
-            $tmdbId,
+            $mediaTMDBId,
             ["append_to_response" => "translations,credits"]
         );
         if($data === null) return null;
 
         $media = $apiEntitiesContext["transformer"]($data);
 
-        // TODO: IMPORTANT Refactor it, use a transformer in the fetched minimal season, then populate its full data later
-        if($mediaType === TVSerie::class && isset($data["seasons"])) {
-            $seasons = collect($data["seasons"])->map(function($extSeason) use ($tmdbId) {
-                $seasonNumber = $extSeason["season_number"];
+        if($mediaType === TVSerie::class) {
+            $seasons = collect($media->getSeasons())->map(function($season) use ($mediaTMDBId) {
+                $seasonNumber = $season->getSeasonNumber();
                 $seasonData = $this->getAPIData(
                     "tv", 
-                    "$tmdbId/season/$seasonNumber"
+                    "$mediaTMDBId/season/$seasonNumber"
                 );
                 if($seasonData === null) throw new TMDBInternalError("Failed to fetch season data from TMDB API.");
 
