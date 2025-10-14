@@ -53,7 +53,7 @@ class TMDBApiService {
         $this->apiKey = $apiKey;
     }
 
-    // TODO: Should wrap it on a DTO?
+    // TODO: IMPORTANT Wrap it on a DTO
     /**
      * @return array {movies: Collection<Movie>, TVSeries: Collection<TVSerie>}
      */
@@ -136,7 +136,7 @@ class TMDBApiService {
 
         $media = $apiEntitiesContext["transformer"]((object) $data);
 
-        // TODO: Refactor it, use a transformer in the fetched minimal season, then populate its full data later
+        // TODO: IMPORTANT Refactor it, use a transformer in the fetched minimal season, then populate its full data later
         if($mediaType === TVSerie::class && isset($data["seasons"])) {
             $seasons = collect($data["seasons"])->map(function($extSeason) use ($tmdbId) {
                 $seasonNumber = $extSeason["season_number"];

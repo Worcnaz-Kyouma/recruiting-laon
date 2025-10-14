@@ -10,7 +10,6 @@ use App\Http\Requests\MediasByTitleRequest;
 use App\Http\Requests\MoviesByListingMethodRequest;
 use App\Services\TMDBApiService;
 
-// TODO: If no results found in the requests, return error
 class MovieController extends Controller {
     private TMDBApiService $tmdb;
 

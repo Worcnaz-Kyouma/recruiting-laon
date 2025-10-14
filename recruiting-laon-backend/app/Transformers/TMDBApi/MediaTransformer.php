@@ -8,6 +8,7 @@ use App\Entities\Genre;
 use App\Entities\Media;
 use stdClass;
 
+// TODO: IMPORTANT Refactor array and stdClass usage, stick with one.
 // OBS to Code Reviewer: Genre, Actor and Director could receive its own Transformer, but i choose to keep it simple
 class MediaTransformer extends TMDBTransformer {
     protected static function fromExternal(stdClass $ext): Media {

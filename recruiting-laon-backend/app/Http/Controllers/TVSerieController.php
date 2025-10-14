@@ -10,9 +10,6 @@ use App\Http\Requests\MediasByTitleRequest;
 use App\Http\Requests\TVSeriesByListingMethodRequest;
 use App\Services\TMDBApiService;
 
-// TODO: If no results found in the requests, return error
-
-// TODO: English or Portuguese app? Chose and dont change it
 class TVSerieController extends Controller {
     private TMDBApiService $tmdb;
 
