@@ -4,11 +4,10 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class MediasByTitleRequest extends CustomFormRequest {
+class LogoutRequest extends CustomFormRequest {
     public function rules(): array {
         return [
-            "title" => "required|string|max:255",
-            "page" => "required|integer|min:1"
+            'user_id' => 'required|exists:users,id',
         ];
     }
 }

@@ -4,11 +4,11 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class MediasByTitleRequest extends CustomFormRequest {
+class LoginRequest extends CustomFormRequest {
     public function rules(): array {
         return [
-            "title" => "required|string|max:255",
-            "page" => "required|integer|min:1"
+            'email' => 'required|string|email',
+            'password' => 'required|string|min:8',
         ];
     }
 }

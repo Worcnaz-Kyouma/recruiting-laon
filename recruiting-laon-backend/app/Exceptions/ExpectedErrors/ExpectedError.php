@@ -5,11 +5,18 @@ namespace App\Exceptions\ExpectedErrors;
 use App\Exceptions\AppError;
 
 // Expected errors are usually user fault, or something that is expected to not work based in the used flow, all these types of errors will extend that class
-abstract class ExpectedError extends AppError {
+class ExpectedError extends AppError {
+    private ?string $errorMessage = null;
+
     /**
      * @param string|array<string> $errorOriginMessage
      */
-    public function __construct(string | array $errorOriginMessage, int $httpResponseStatusCode = 400) {
+    public function __construct(string | array $errorOriginMessage, int $httpResponseStatusCode = 400, ?string $errorMessage = null) {
         parent::__construct($errorOriginMessage, $httpResponseStatusCode);
+        $this->errorMessage = $errorMessage;
+    }
+
+    public function getHttpResponseErrorMessage(): string | array {
+        return $this->errorMessage;
     }
 }

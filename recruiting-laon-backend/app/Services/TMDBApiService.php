@@ -136,7 +136,7 @@ class TMDBApiService {
 
         $media = $apiEntitiesContext["transformer"]((object) $data);
 
-        // TODO: Maybe better put it in a transformer or something like this?
+        // TODO: Refactor it, use a transformer in the fetched minimal season, then populate its full data later
         if($mediaType === TVSerie::class && isset($data["seasons"])) {
             $seasons = collect($data["seasons"])->map(function($extSeason) use ($tmdbId) {
                 $seasonNumber = $extSeason["season_number"];

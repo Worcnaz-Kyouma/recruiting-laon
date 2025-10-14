@@ -22,8 +22,8 @@ class TVSerieController extends Controller {
 
     public function getTVSeriesByListingMethod(TVSeriesByListingMethodRequest $request) {
         $data = $request->validated();
-        $listingMethod = TVSerieListingMethod::tryFrom($data["listing_method"])
-            ?? MediaListingMethod::tryFrom($data["listing_method"]);
+        $listingMethod = TVSerieListingMethod::tryFrom($data["listing-method"])
+            ?? MediaListingMethod::tryFrom($data["listing-method"]);
         $page = $data["page"];
 
         $tvSeries = $this->tmdb->getMediasByListingMethod(
