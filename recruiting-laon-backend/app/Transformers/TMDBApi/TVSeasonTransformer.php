@@ -11,7 +11,7 @@ class TVSeasonTransformer extends TMDBTransformer {
         $name = $ext['name'];
         $tmdbImageBaseUrl = config('tmdb.image_base_url');
         $posterImgUrl = $ext['poster_path'] 
-            ? "$tmdbImageBaseUrl/{$ext['poster_path']}"
+            ? "$tmdbImageBaseUrl{$ext['poster_path']}"
             : null;
 
         $episodes = collect($ext['episodes'] ?? [])

@@ -1,4 +1,3 @@
-"use client";
 import Media from "@/types/Media";
 import Image from "next/image";
 import React from "react";
@@ -20,5 +19,8 @@ export default function MediaCard({ media }: Readonly<{ media: Media | null }>) 
         src={media.posterImgUrl || ""}
         alt={media.title}
         onClick={handleMediaClick}
+        width={128}
+        height={192}
+        className="w-48 h-72 object-cover rounded cursor-pointer hover:opacity-80 transition"
     />;
 }

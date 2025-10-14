@@ -10,7 +10,7 @@ class TVEpisodeTransformer extends TMDBTransformer {
         $episodeNumber = $ext['episode_number'];
         $name = $ext['name'];
         $tmdbImageBaseUrl = config('tmdb.image_base_url');
-        $stillImageUrl = "$tmdbImageBaseUrl/{$ext['still_path']}";
+        $stillImageUrl = "$tmdbImageBaseUrl{$ext['still_path']}";
         $runtime = $ext['runtime'];
 
         $tvEpisode = new TVEpisode(

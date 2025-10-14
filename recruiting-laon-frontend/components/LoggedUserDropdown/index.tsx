@@ -1,5 +1,3 @@
-"use client";
-import { useUserStore } from "@/providers/user-store-provider";
 import { User } from "@/types/User";
 import Image from "next/image";
 import React from "react";

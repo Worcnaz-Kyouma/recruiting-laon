@@ -13,7 +13,7 @@ export default function TopPopularMedias({ mediaType, medias }: Readonly<{ media
         : "SÉRIES";
 
     return <div className="flex flex-col gap-4">
-        <div className="flex items-center justify-between">
+        <div className="flex items-end justify-between">
             <h2 className="text-sm font-semibold text-gray-500">{mediaTypeStringfied}</h2>
             <div className="w-8 h-8 rounded-full border border-gray-500 flex items-center justify-center cursor-pointer hover:bg-gray-200 transition">
                 <ArrowRight size={16} weight="bold" className="text-white" />

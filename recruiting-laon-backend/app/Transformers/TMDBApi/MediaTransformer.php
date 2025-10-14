@@ -22,7 +22,7 @@ class MediaTransformer extends TMDBTransformer {
         $reviewCount = $ext['vote_count'];
         $tmdbImageBaseUrl = config('tmdb.image_base_url');
         $posterImgUrl = $ext['poster_path']
-            ? "$tmdbImageBaseUrl/{$ext['poster_path']}"
+            ? "$tmdbImageBaseUrl{$ext['poster_path']}"
             : null;
 
         $movie = new Media(
