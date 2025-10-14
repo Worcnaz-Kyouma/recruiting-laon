@@ -11,7 +11,7 @@ class MediaWorker extends Entity {
         $this->name = $name;
     }
 
-    public function toArray(): array {
+    public function jsonSerialize(): array {
         return [
             "tmdbId" => $this->tmdbId,
             "name" => $this->name

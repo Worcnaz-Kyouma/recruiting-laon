@@ -30,13 +30,13 @@ class TVSeason extends Entity {
         return $this->episodes;
     }
 
-    public function toArray(): array {
+    public function jsonSerialize(): array {
         return [
             "tmdbId" => $this->tmdbId,
             "seasonNumber" => $this->seasonNumber,
             "name" => $this->name,
             "posterImgUrl" => $this->posterImgUrl,
-            "episodes" => array_map(fn($episode) => $episode->toArray(), $this->episodes)
+            "episodes" => array_map(fn($episode) => $episode->jsonSerialize(), $this->episodes)
         ];
     }
 }

@@ -41,21 +41,21 @@ class Media extends Entity {
         $this->posterImgUrl = $posterImgUrl;
     }
 
-    public function toArray(): array {
+    public function jsonSerialize(): mixed {
         return [
             "tmdbId" => $this->tmdbId,
             "title" => $this->title,
             "titlePortuguese" => $this->titlePortuguese,
             "genres" => $this->genres
-                ? array_map(fn($genre) => $genre->toArray(), $this->genres)
+                ? array_map(fn($genre) => $genre->jsonSerialize(), $this->genres)
                 : null,
             "durationStringfied" => $this->durationStringfied,
             "overview" => $this->overview,
             "actors" => $this->actors
-                ? array_map(fn($actor) => $actor->toArray(), $this->actors)
+                ? array_map(fn($actor) => $actor->jsonSerialize(), $this->actors)
                 : null,
             "directors" => $this->directors
-                ? array_map(fn($director) => $director->toArray(), $this->directors)
+                ? array_map(fn($director) => $director->jsonSerialize(), $this->directors)
                 : null,
             "review" => $this->review,
             "reviewCount" => $this->reviewCount,

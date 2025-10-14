@@ -2,6 +2,6 @@
 
 namespace App\Entities;
 
-abstract class Entity {
-    abstract public function toArray(): array;
-}
+use JsonSerializable;
+
+abstract class Entity implements JsonSerializable {}

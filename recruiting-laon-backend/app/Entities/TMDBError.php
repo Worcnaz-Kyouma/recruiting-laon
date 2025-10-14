@@ -14,7 +14,7 @@ class TMDBError extends Entity {
         $this->statusMessage = $statusMessage;
     }
 
-    public function toArray(): array {
+    public function jsonSerialize(): array {
         return [
             "statusCode" => $this->statusCode,
             "statusMessage" => $this->statusMessage

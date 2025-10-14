@@ -20,7 +20,7 @@ class TVEpisode extends Entity {
         return $this->runtime;
     }
 
-    public function toArray(): array {
+    public function jsonSerialize(): array {
         return [
             "tmdbId" => $this->tmdbId,
             "episodeNumber" => $this->episodeNumber,

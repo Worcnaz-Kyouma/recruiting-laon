@@ -19,6 +19,6 @@ class ValidatorError extends ExpectedError {
         $fieldsWithError = collect($this->validator->errors()->keys());
         $failedValidationRules = collect($this->validator->failed());
 
-        return $fieldsWithError->map(fn($field) => "O campo '$field' esta mal formatado ou faltando")->toArray();
+        return $fieldsWithError->map(fn($field) => "O campo '$field' esta mal formatado ou faltando")->jsonSerialize();
     }
 }

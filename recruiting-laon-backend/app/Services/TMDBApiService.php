@@ -134,7 +134,7 @@ class TMDBApiService {
         );
         if($data === null) return null;
 
-        $media = $apiEntitiesContext["transformer"]((object) $data);
+        $media = $apiEntitiesContext["transformer"]($data);
 
         // TODO: IMPORTANT Refactor it, use a transformer in the fetched minimal season, then populate its full data later
         if($mediaType === TVSerie::class && isset($data["seasons"])) {
@@ -146,7 +146,7 @@ class TMDBApiService {
                 );
                 if($seasonData === null) throw new TMDBInternalError("Failed to fetch season data from TMDB API.");
 
-                return TVSeasonTransformer::tryFromExternal((object) $seasonData);
+                return TVSeasonTransformer::tryFromExternal($seasonData);
             })->toArray();
 
             $media->setSeasons($seasons);
@@ -161,7 +161,7 @@ class TMDBApiService {
      */
     private function parseAPIResultsInMedias(array $apiEntitiesContext, array $results): Collection {
         return collect($results)->map(fn($extMedia) => 
-            $apiEntitiesContext["transformer"]((object) $extMedia)
+            $apiEntitiesContext["transformer"]($extMedia)
         );
     }
 
@@ -204,7 +204,7 @@ class TMDBApiService {
 
         $failureBody = $response->json();
         /** @var TMDBError $tmdbError */
-        $tmdbError = TMDBErrorTransformer::tryFromExternal((object) $failureBody);
+        $tmdbError = TMDBErrorTransformer::tryFromExternal($failureBody);
 
         $tmdbCode = $tmdbError->getStatusCode();
         $tmdbErrorMessage = $tmdbError->getMessage();

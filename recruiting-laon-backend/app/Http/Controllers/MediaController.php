@@ -17,15 +17,6 @@ class MediaController extends Controller {
     public function getTopPopularMedias() {
         $medias = $this->tmdb->getTopPopularMedia();
 
-        $mediasArrayParsed = [
-            "movies" => $medias["movies"]
-                ->map(fn($m) => $m->toArray())
-                ->toArray(),
-            "TVSeries" => $medias["TVSeries"]
-                ->map(fn($s) => $s->toArray())
-                ->toArray()
-        ];
-
-        return response()->json($mediasArrayParsed);
+        return response()->json($medias);
     }
 }

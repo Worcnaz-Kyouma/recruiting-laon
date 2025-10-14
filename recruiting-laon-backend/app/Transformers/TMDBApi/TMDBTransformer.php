@@ -5,12 +5,11 @@ namespace App\Transformers\TMDBApi;
 use App\Entities\Entity;
 use App\Exceptions\UnexpectedErrors\TMDBTransformerFailed;
 use Exception;
-use stdClass;
 
 abstract class TMDBTransformer {
-    abstract protected static function fromExternal(stdClass $ext): Entity;
+    abstract protected static function fromExternal(array $ext): Entity;
 
-    public static function tryFromExternal(stdClass $ext): Entity {
+    public static function tryFromExternal(array $ext): Entity {
         try {
             return static::fromExternal($ext);
         } catch (Exception $th) {

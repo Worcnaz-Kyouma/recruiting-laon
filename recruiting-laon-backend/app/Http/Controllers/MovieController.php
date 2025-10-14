@@ -27,7 +27,7 @@ class MovieController extends Controller {
             Movie::class,
             $listingMethod,
             $page
-        )->toArray();
+        );
 
         return response()->json($movies);
     }
@@ -37,7 +37,7 @@ class MovieController extends Controller {
         $title = strip_tags(trim($data["title"]));
         $page = $data["page"];
         
-        $movie = $this->tmdb->getMediasByTitle(Movie::class, $title, $page)->toArray();
+        $movie = $this->tmdb->getMediasByTitle(Movie::class, $title, $page);
 
         return response()->json($movie);
     }
@@ -46,7 +46,7 @@ class MovieController extends Controller {
         $data = $request->validated();
         $id = $data["id"];
 
-        $movie = $this->tmdb->getMediaDetails($id, Movie::class)->toArray();
+        $movie = $this->tmdb->getMediaDetails($id, Movie::class);
 
         return response()->json($movie);
     }

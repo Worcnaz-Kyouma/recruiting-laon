@@ -54,11 +54,11 @@ class TVSerie extends Media {
             "$numberOfEpisodes Episódio".($numberOfEpisodes > 1 ? "s" : "");
     }
 
-    public function toArray(): array {
-        $media = parent::toArray();
+    public function jsonSerialize(): mixed {
+        $media = parent::jsonSerialize();
 
         $media["seasons"] = $this->seasons
-            ? array_map(fn($season) => $season->toArray(), $this->seasons)
+            ? array_map(fn($season) => $season->jsonSerialize(), $this->seasons)
             : null;
 
         return $media;

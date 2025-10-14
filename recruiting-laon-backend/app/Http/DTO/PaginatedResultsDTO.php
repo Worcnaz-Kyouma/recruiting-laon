@@ -40,14 +40,4 @@ class PaginatedResultsDTO {
             collect()
         );
     }
-
-    public function toArray(): array {
-        return [
-            "page" => $this->page,
-            "numberOfPages" => $this->numberOfPages,
-            "results" => $this->results
-                ->map(fn(Entity $entity) => $entity->toArray())
-                ->toArray()
-        ];
-    }
 }

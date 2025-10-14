@@ -27,7 +27,7 @@ class TVSerieController extends Controller {
             TVSerie::class,
             $listingMethod,
             $page
-        )->toArray();
+        );
 
         return response()->json($tvSeries);
     }
@@ -37,7 +37,7 @@ class TVSerieController extends Controller {
         $title = strip_tags(trim($data["title"]));
         $page = $data["page"];
 
-        $tvSerie = $this->tmdb->getMediasByTitle(TVSerie::class, $title, $page)->toArray();
+        $tvSerie = $this->tmdb->getMediasByTitle(TVSerie::class, $title, $page);
 
         return response()->json($tvSerie);
     }
@@ -46,7 +46,7 @@ class TVSerieController extends Controller {
         $data = $request->validated();
         $id = $data["id"];
 
-        $tvSerie = $this->tmdb->getMediaDetails($id, TVSerie::class)->toArray();
+        $tvSerie = $this->tmdb->getMediaDetails($id, TVSerie::class);
 
         return response()->json($tvSerie);
     }
