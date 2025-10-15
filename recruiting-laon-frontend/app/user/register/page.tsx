@@ -20,7 +20,7 @@ export default function RegisterPage() {
             <h1 className="font-semibold text-2xl leading-[30px] tracking-normal text-white">Cadastre-se!</h1>
             <p className="font-normal text-base leading-[24px] tracking-normal text-gray-500">Acompanhe so as melhores com o Catalogo Laon!</p>
         </div>
-        <div className="flex flex-col gap-6 mb-4 w-full">
+        <div className="flex flex-col gap-6 mb-3 w-full">
             <CustomInput name="username" placeholder="Nome Completo" />
             <CustomInput name="email" placeholder="Email"/>
             <div className="flex gap-2">
