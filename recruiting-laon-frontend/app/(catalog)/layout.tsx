@@ -9,7 +9,7 @@ export default function CatalogLayout({
     return (<div className="min-h-screen flex flex-col text-white">
         <CatalogHeader />
         <main className="relative w-full flex-grow">
-            <div className="absolute top-0 left-0 w-full h-44 bg-gray-200 -z-10"></div>
+            <div className="absolute top-0 left-0 w-full h-50 bg-gray-200 -z-10"></div>
             <div className="overflow-y-auto">{children}</div>
         </main>
         <CatalogFooter />

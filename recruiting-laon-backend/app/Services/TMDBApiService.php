@@ -59,7 +59,7 @@ class TMDBApiService {
      * @return TopPopularMediaDTO
      */
     public function getTopPopularMedia(): TopPopularMediaDTO {
-        $numberOfTopMedias = 5;
+        $numberOfTopMedias = 6;
 
         $movies = $this->getMediasByListingMethod(Movie::class, MediaListingMethod::Popular, 1);
         $topMovies = $movies->results->take($numberOfTopMedias);

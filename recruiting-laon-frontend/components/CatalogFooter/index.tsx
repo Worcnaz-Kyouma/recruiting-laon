@@ -7,7 +7,7 @@ import { useUserStore } from "@/providers/user-store-provider";
 export default function CatalogFooter() {
     const { user } = useUserStore(state => state);
 
-    return <footer className="flex items-center justify-between p-4 px-12 border-t border-gray-300 bg-gray-200">
+    return <footer className="flex items-center justify-between p-4 px-[90px] border-t border-gray-300 bg-gray-200">
         <div className="text-white">
             <span className="text-lg">Powered by TMDB API</span> {/* Change to logo */}
         </div>

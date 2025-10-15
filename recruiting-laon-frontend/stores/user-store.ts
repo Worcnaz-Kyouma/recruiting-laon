@@ -16,12 +16,12 @@ export const defaultInitState: UserState = {
 }
 
 export const initUserStore = (): UserState => {
-    return { user: {
-        id: 1,
-        name: "John Doe",
-        email: "john.doe@example.com"
-    } };
-    // return defaultInitState;
+    // return { user: {
+    //     id: 1,
+    //     name: "John Doe",
+    //     email: "john.doe@example.com"
+    // } };
+    return defaultInitState;
 }
 export const createUserStore = (
     initState: UserState = defaultInitState
