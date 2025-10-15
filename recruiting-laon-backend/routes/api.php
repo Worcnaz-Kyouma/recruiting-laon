@@ -13,7 +13,7 @@ Route::get('/', function () {
 
 Route::prefix("user")->group(function () {
     Route::post("", [\App\Http\Controllers\UserController::class, "createUser"]);
-    Route::post("/login", [\App\Http\Controllers\UserController::class, "login"])->middleware("auth:sanctum");
+    Route::post("/login", [\App\Http\Controllers\UserController::class, "login"]);
     Route::post("/logout", [\App\Http\Controllers\UserController::class, "logout"])->middleware("auth:sanctum");
 });
 

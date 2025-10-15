@@ -1,16 +1,38 @@
 "use client"
 import CustomInput from "@/components/CustomInput";
+import AppError from "@/errors/AppError";
+import { useUserStore } from "@/providers/user-store-provider";
+import { User } from "@/types/User";
+import AppAPIClient from "@/utils/AppAPIClient";
+import { invokeToastsUsingError } from "@/utils/utils";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
-    const handleLogin = function(event: React.FormEvent<HTMLFormElement>) {
+    const router = useRouter();
+    const { setUser } = useUserStore(state => state);
+    
+
+    const handleLogin = async function(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
-        
+                
         const formData = new FormData(event.currentTarget);
         const data = {
             email: formData.get("email"),
             password: formData.get("password")
         };
-        console.log(data);
+        
+        try {
+            const registerResponse = await AppAPIClient.fetchAPI("user", "login", "POST", data);
+            const apiToken = registerResponse.token;
+            const user = registerResponse.user as User;
+            
+            localStorage.setItem("api_token", apiToken);
+            setUser(user);
+
+            router.push("/");
+        } catch(err) {
+            invokeToastsUsingError(err as AppError);
+        }
     }
 
     return <form onSubmit={handleLogin} className="min-w-[500px] max-w-[600px] rounded-[8px] bg-gray-200 p-16 px-[90px]">

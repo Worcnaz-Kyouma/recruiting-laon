@@ -1,9 +1,4 @@
-export default class Genre {
+export default interface Genre {
     tmdbId: number;
     name: string;
-
-    constructor(tmdbId: number, name: string) {
-        this.tmdbId = tmdbId;
-        this.name = name;
-    }
 }

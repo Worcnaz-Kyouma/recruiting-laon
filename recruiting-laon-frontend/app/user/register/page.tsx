@@ -1,18 +1,39 @@
 "use client"
 import CustomInput from "@/components/CustomInput";
+import AppError from "@/errors/AppError";
+import { useUserStore } from "@/providers/user-store-provider";
+import { User } from "@/types/User";
+import AppAPIClient from "@/utils/AppAPIClient";
+import { invokeToastsUsingError } from "@/utils/utils";
+import { useRouter } from "next/navigation";
 
 export default function RegisterPage() {
-    const handleRegister = function(event: React.FormEvent<HTMLFormElement>) {
+    const router = useRouter();
+    const { setUser } = useUserStore(state => state);
+
+    const handleRegister = async function(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
         
         const formData = new FormData(event.currentTarget);
         const data = {
-            username: formData.get("username"),
+            name: formData.get("username"),
             email: formData.get("email"),
             password: formData.get("password"),
             password_confirmation: formData.get("password_confirmation"),
         };
-        console.log(data);
+        
+        try {
+            const registerResponse = await AppAPIClient.fetchAPI("user", "", "POST", data);
+            const apiToken = registerResponse.token;
+            const user = registerResponse.user as User;
+            
+            localStorage.setItem("api_token", apiToken);
+            setUser(user);
+
+            router.push("/");
+        } catch(err) {
+            invokeToastsUsingError(err as AppError);
+        }
     }
 
     return <form onSubmit={handleRegister} className="min-w-[560px] max-w-[600px] rounded-[8px] bg-gray-200 p-16 px-[90px]">

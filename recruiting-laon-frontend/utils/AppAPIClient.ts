@@ -1,3 +1,4 @@
+import AppError from "@/errors/AppError";
 import axios, { AxiosHeaders, Method } from "axios";
 
 type APIResource = "user" | "media" | "movie" | "tv-serie";
@@ -29,9 +30,7 @@ export default class AppAPIClient {
             });
             return response.data;
         } catch (error: any) {
-            console.log(error);
-            // Optionally, you can process error here or just rethrow
-            throw error.response?.data || error.message || error;
+            throw new AppError(error.response?.data?.error || error.message || error);
         }
-        }
+    }
 }
