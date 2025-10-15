@@ -69,7 +69,7 @@ class MediaTransformer extends TMDBTransformer {
     protected static function directorsFromExternalCredits(array $ext): ?array {
         if(!isset($ext['credits'])) return null;
 
-        return collect($ext['credits']["cast"])
+        return collect($ext['credits']["crew"])
             ->filter(fn($mediaWorker) => $mediaWorker["known_for_department"] === "Directing")
             ->map(fn($actor) => 
                 new Director($actor["id"], $actor["name"])
