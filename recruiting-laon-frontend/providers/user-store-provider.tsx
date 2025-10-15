@@ -1,44 +1,52 @@
-// src/providers/counter-store-provider.tsx
-'use client'
+// // src/providers/counter-store-provider.tsx
+// 'use client'
 
-import { type ReactNode, createContext, useRef, useContext } from 'react'
-import { useStore } from 'zustand'
+// import { type ReactNode, createContext, useRef, useContext } from 'react'
+// import { useStore } from 'zustand'
 
-import { type UserStore, createUserStore, initUserStore } from '@/stores/user-store'
+// import { type UserStore, createUserStore, initUserStore } from '@/stores/user-store'
 
-export type UserStoreApi = ReturnType<typeof createUserStore>
+// export type UserStoreApi = ReturnType<typeof createUserStore>
 
-export const UserStoreContext = createContext<UserStoreApi | undefined>(
-    undefined,
-)
+// export const UserStoreContext = createContext<UserStoreApi | undefined>(
+//     undefined,
+// )
 
-export interface UserStoreProviderProps {
-    children: ReactNode
-}
+// export interface UserStoreProviderProps {
+//     children: ReactNode
+// }
 
-export const UserStoreProvider = ({
-    children,
-}: UserStoreProviderProps) => {
-    const storeRef = useRef<UserStoreApi | null>(null)
-    if (storeRef.current === null) {
-        storeRef.current = createUserStore(initUserStore())
-    }
+// export const UserStoreProvider = ({
+//     children,
+// }: UserStoreProviderProps) => {
+//     const storeRef = useRef<UserStoreApi | null>(null)
+//     if (storeRef.current === null) {
+//         storeRef.current = createUserStore(initUserStore())
+//     }
 
-    return (
-        <UserStoreContext.Provider value={storeRef.current}>
-            {children}
-        </UserStoreContext.Provider>
-    )
-}
+//     return (
+//         <UserStoreContext.Provider value={storeRef.current}>
+//             {children}
+//         </UserStoreContext.Provider>
+//     )
+// }
 
-export const useUserStore = <T,>(
-    selector: (store: UserStore) => T,
-): T => {
-    const userStoreContext = useContext(UserStoreContext)
+// export const useUserStore = <T,>(
+//     selector: (store: UserStore) => T,
+// ): T => {
+//     const userStoreContext = useContext(UserStoreContext)
 
-    if (!userStoreContext) {
-        throw new Error(`useUserStore must be used within UserStoreProvider`)
-    }
+//     if (!userStoreContext) {
+//         throw new Error(`useUserStore must be used within UserStoreProvider`)
+//     }
+//     const store = useStore(userStoreContext, selector) as UserStore;
+//     if(store.user === null && typeof window !== 'undefined') {
+//         const localStoredUserStringified = localStorage.getItem("user");
+//         if(localStoredUserStringified) {
+//             const localStoredUser = JSON.parse(localStoredUserStringified);
+//             store.user = localStoredUser;
+//         }
+//     }
 
-    return useStore(userStoreContext, selector)
-}
+//     return store as T;
+// }

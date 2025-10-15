@@ -1,15 +1,15 @@
 "use client"
 import CustomInput from "@/components/CustomInput";
 import AppError from "@/errors/AppError";
-import { useUserStore } from "@/providers/user-store-provider";
 import { User } from "@/types/User";
 import AppAPIClient from "@/utils/AppAPIClient";
 import { invokeToastsUsingError } from "@/utils/utils";
 import { useRouter } from "next/navigation";
 
+// Old Zuzstand
+// const { setUser } = useUserStore(state => state);
 export default function RegisterPage() {
     const router = useRouter();
-    const { setUser } = useUserStore(state => state);
 
     const handleRegister = async function(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -28,7 +28,7 @@ export default function RegisterPage() {
             const user = registerResponse.user as User;
             
             localStorage.setItem("api_token", apiToken);
-            setUser(user);
+            localStorage.setItem("user", JSON.stringify(user));
 
             router.push("/");
         } catch(err) {

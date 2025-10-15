@@ -1,7 +1,6 @@
 "use client"
 import CustomInput from "@/components/CustomInput";
 import AppError from "@/errors/AppError";
-import { useUserStore } from "@/providers/user-store-provider";
 import { User } from "@/types/User";
 import AppAPIClient from "@/utils/AppAPIClient";
 import { invokeToastsUsingError } from "@/utils/utils";
@@ -10,7 +9,6 @@ import { useRouter } from "next/navigation";
 // TODO: What if forgot email? or even password? Think about it
 export default function LoginPage() {
     const router = useRouter();
-    const { setUser } = useUserStore(state => state);
     
 
     const handleLogin = async function(event: React.FormEvent<HTMLFormElement>) {
@@ -28,7 +26,7 @@ export default function LoginPage() {
             const user = registerResponse.user as User;
             
             localStorage.setItem("api_token", apiToken);
-            setUser(user);
+            localStorage.setItem("user", JSON.stringify(user));
 
             router.push("/");
         } catch(err) {

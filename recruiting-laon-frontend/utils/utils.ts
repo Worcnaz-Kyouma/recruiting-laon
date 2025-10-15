@@ -1,4 +1,5 @@
 import AppError from "@/errors/AppError";
+import { User } from "@/types/User";
 import { toast } from "react-toastify"
 
 export const errorToastStyle = {
@@ -27,4 +28,14 @@ export const successToastStyle = {
 export function invokeToastsUsingError(error: AppError) {
     if(typeof error.msg === "string") toast.error(error.msg, errorToastStyle);
     else error.msg.forEach(msg => toast.error(msg, errorToastStyle))
+}
+
+// TODO: Maybe JWT?
+// OBS to Code Reviewer: Here i could decrypt a JWT to get my user. To mantain simplicity, i choose not too.
+export function extractUserFromLocalStorage(): User | null {
+    const localStoredUserStringified = localStorage.getItem("user");
+    if(!localStoredUserStringified) return null;
+
+    const localStoredUser = JSON.parse(localStoredUserStringified) as User;
+    return localStoredUser;
 }

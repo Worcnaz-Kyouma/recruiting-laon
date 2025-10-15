@@ -1,8 +1,11 @@
+"use client"
 import { MediaType } from "@/enums/MediaType";
 import Media from "@/types/Media";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
+
+const MediaCardSkeletonLoader = () => <div className="w-full max-w-md aspect-[780/1170] cursor-pointer hover:opacity-80 transition bg-gray-300 animate-pulse" />;
 
 // TODO: Handle no poster media
 export default function MediaCard({ media }: Readonly<{ media: Media | undefined }>) {
@@ -19,10 +22,9 @@ export default function MediaCard({ media }: Readonly<{ media: Media | undefined
         openMediaDetails();
     }
 
-    // TODO: Render the loading div while url image didnt resolved the image yet
     // Loading
     if(!media) 
-        return <div className="w-full max-w-md aspect-[780/1170] cursor-pointer hover:opacity-80 transition bg-gray-300 animate-pulse" />; // Skeleton loader
+        return <MediaCardSkeletonLoader />;
 
     return <div className="relative w-full max-w-md aspect-[780/1170] cursor-pointer hover:opacity-80 transition">
         <Image
@@ -30,7 +32,7 @@ export default function MediaCard({ media }: Readonly<{ media: Media | undefined
             alt={media.title}
             onClick={handleMediaClick}
             fill
-            className="object-contain rounded"
+            className={`object-contain rounded`}
         />
     </div>
 }

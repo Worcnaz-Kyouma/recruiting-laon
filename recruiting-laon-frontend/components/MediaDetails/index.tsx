@@ -12,7 +12,7 @@ interface Detail {
 const PrimaryDetail = ({ description, value }: Readonly<Detail>) => 
     <p className="font-normal text-base leading-6 tracking-normal text-gray-500"><b>{description}:</b> {value}</p>
 
-const GenreDetail = (genre: Readonly<Genre>) => 
+const GenreDetail = ({ genre }: Readonly<{ genre: Genre }>) => 
     <span className="flex items-center justify-center p-1 px-5 font-normal leading-[24px] tracking-normal border border-gray-300 rounded-[32px]">{genre.name}</span>
 
 const SecondaryDetail = ({ description, value }: Readonly<Detail>) =>
@@ -50,7 +50,7 @@ export default function MediaDetails({ media }: Readonly<{ media: Media | undefi
                 }
                 <PrimaryDetail description="Ano" value={"2000"/*media.release_date*/} />
                 <PrimaryDetail description="Duração" value={media.durationStringfied!} />
-                <div className="flex gap-2">{media.genres?.map(GenreDetail)}</div>
+                <div className="flex gap-2">{media.genres?.map(genre => <GenreDetail key={genre.tmdbId} genre={genre} />)}</div>
             </div>
             <div className="flex flex-col gap-3">
                 <SecondaryDetail description="Sinopse" value={media.overview!} />

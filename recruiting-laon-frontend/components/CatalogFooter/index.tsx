@@ -1,11 +1,13 @@
 'use client';
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ExternalRedirectsNav from "../ExternalRedirectsNav";
-import { useUserStore } from "@/providers/user-store-provider";
+import { extractUserFromLocalStorage } from "@/utils/utils";
+import { User } from "@/types/User";
+import useUser from "@/hooks/useUser";
 
 export default function CatalogFooter() {
-    const { user } = useUserStore(state => state);
+    const user = useUser();
 
     return <footer className="flex items-center justify-between p-4 px-[90px] border-t border-gray-300 bg-gray-200">
         <div className="text-white">
