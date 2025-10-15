@@ -4,6 +4,7 @@ import { ArrowLeft } from "phosphor-react";
 import React from "react";
 
 // TODO: Wrap arrow buttons and spaced strings into components somehow
+// TODO: Logout
 export default function UserHeader() {
     const router = useRouter();
 
