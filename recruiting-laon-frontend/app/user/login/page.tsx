@@ -1,3 +1,29 @@
+"use client"
+import CustomInput from "@/components/CustomInput";
+
 export default function LoginPage() {
-    return (<></>);
+    const handleLogin = function(event: React.FormEvent<HTMLFormElement>) {
+        event.preventDefault();
+        
+        const formData = new FormData(event.currentTarget);
+        const data = {
+            email: formData.get("email"),
+            password: formData.get("password")
+        };
+        console.log(data);
+    }
+
+    return <form onSubmit={handleLogin} className="min-w-[500px] max-w-[600px] rounded-[8px] bg-gray-200 p-16 px-[90px]">
+        <div className="flex flex-col gap-2 mb-8">
+            <h1 className="font-semibold text-2xl leading-[30px] tracking-normal text-white">Entrar</h1>
+            <p className="font-normal text-base leading-[24px] tracking-normal text-gray-500">Bem vindo(a) de volta!</p>
+        </div>
+        <div className="flex flex-col gap-6 mb-8 w-full">
+            <CustomInput name="email" placeholder="Email"/>
+            <CustomInput name="password" placeholder="Senha" type="password"/>
+        </div>
+        <button className="cursor-pointer w-full p-4 bg-white rounded-[4px] font-semibold text-black text-base leading-[24px] tracking-normal">
+            Entrar
+        </button>
+    </form>;
 }
