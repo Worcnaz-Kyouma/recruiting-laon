@@ -1,11 +1,13 @@
 "use client";
 import TopPopularMedias from "@/components/TopPopularMedias";
 import { MediaType } from "@/enums/MediaType";
+import AppError from "@/errors/AppError";
 import Media from "@/types/Media";
 import Movie from "@/types/Movie";
 import TVSerie from "@/types/TVSerie";
 import AppAPIClient from "@/utils/AppAPIClient";
-import { Suspense, useEffect, useState } from "react";
+import { invokeToastsUsingError } from "@/utils/utils";
+import { useEffect, useState } from "react";
 
 type MediaTopPopularDTO = {
     movies: Movie[],
@@ -16,8 +18,12 @@ export default function HomePage() {
     const [ medias, setMedias ] = useState<MediaTopPopularDTO | null>(null);
 
     const populateMedias = async () => {
-        const apiResponse = await AppAPIClient.fetchAPI("media", "top-popular", "GET");
-        setMedias(apiResponse);
+        try {
+            const apiResponse = await AppAPIClient.fetchAPI("media", "top-popular", "GET");
+            setMedias(apiResponse);
+        } catch(err) {
+            invokeToastsUsingError(err as AppError);
+        }
     }
 
     useEffect(() => {
