@@ -1,19 +1,32 @@
+"use client";
 import TopPopularMedias from "@/components/TopPopularMedias";
 import { MediaType } from "@/enums/MediaType";
-import { Suspense } from "react";
+import Media from "@/types/Media";
+import Movie from "@/types/Movie";
+import TVSerie from "@/types/TVSerie";
+import AppAPIClient from "@/utils/AppAPIClient";
+import { Suspense, useEffect, useState } from "react";
 
-export default async function HomePage() {
-    const medias = await fetch("http://localhost:8000/api/media/top-popular");
-    const mediasJson = await medias.json();
+type MediaTopPopularDTO = {
+    movies: Movie[],
+    tvSeries: TVSerie[]
+}
+
+export default function HomePage() {
+    const [ medias, setMedias ] = useState<MediaTopPopularDTO | null>(null);
+
+    const populateMedias = async () => {
+        const apiResponse = await AppAPIClient.fetchAPI("media", "top-popular", "GET");
+        setMedias(apiResponse);
+    }
+
+    useEffect(() => {
+        populateMedias();
+    }, [])
     
     return <div className="flex flex-col gap-[40px] p-8 px-[90px] pb-16">
         <h1 className="text-2xl font-semibold text-white">Populares</h1>
-        <Suspense fallback={<>
-            <TopPopularMedias mediaType={MediaType.Movie} medias={null} />
-            <TopPopularMedias mediaType={MediaType.TVSerie} medias={null} />
-        </>}>
-            <TopPopularMedias mediaType={MediaType.Movie} medias={mediasJson.movies} />
-            <TopPopularMedias mediaType={MediaType.TVSerie} medias={mediasJson.tvSeries} />
-        </Suspense>
+        <TopPopularMedias mediaType={MediaType.Movie} medias={medias?.movies || null} />
+        <TopPopularMedias mediaType={MediaType.TVSerie} medias={medias?.tvSeries || null} />
     </div>;
 }

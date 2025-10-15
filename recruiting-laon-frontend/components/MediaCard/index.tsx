@@ -13,7 +13,7 @@ export default function MediaCard({ media }: Readonly<{ media: Media | null }>) 
 
     // Loading
     if(!media) 
-        return <div className="w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg h-auto object-cover rounded cursor-pointer hover:opacity-80 transition bg-gray-300 animate-pulse" />; // Skeleton loader
+        return <div className="w-full max-w-md aspect-[780/1170] cursor-pointer hover:opacity-80 transition bg-gray-300 animate-pulse" />; // Skeleton loader
 
     return <div className="relative w-full max-w-md aspect-[780/1170] cursor-pointer hover:opacity-80 transition">
         <Image

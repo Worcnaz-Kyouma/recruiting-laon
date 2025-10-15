@@ -10,7 +10,6 @@ export default function UserHeader() {
     const pathname = usePathname();
     const isLogin = pathname.includes("/login");
     
-    // TODO: Redirect to home take too much time, fix it
     const handleHomePageRedirect = () => router.push("/");
     const handleRegisterOrLoginRedirect = () => isLogin 
         ? router.push("/user/register")
