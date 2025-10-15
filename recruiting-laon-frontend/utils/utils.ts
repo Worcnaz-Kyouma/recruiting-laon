@@ -23,6 +23,7 @@ export const successToastStyle = {
   },
 }
 
+// TODO: Improve it to receive generic Error
 export function invokeToastsUsingError(error: AppError) {
     if(typeof error.msg === "string") toast.error(error.msg, errorToastStyle);
     else error.msg.forEach(msg => toast.error(msg, errorToastStyle))

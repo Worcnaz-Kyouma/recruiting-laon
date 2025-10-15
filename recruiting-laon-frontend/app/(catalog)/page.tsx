@@ -16,7 +16,7 @@ type MediaTopPopularDTO = {
 
 // TODO: IMPORTANT dont forget Media details!!
 export default function HomePage() {
-    const [ medias, setMedias ] = useState<MediaTopPopularDTO | null>(null);
+    const [ medias, setMedias ] = useState<MediaTopPopularDTO | undefined>(undefined);
 
     const populateMedias = async () => {
         try {
@@ -29,11 +29,13 @@ export default function HomePage() {
 
     useEffect(() => {
         populateMedias();
-    }, [])
+    }, []);
     
-    return <div className="flex flex-col gap-[40px] p-8 px-[90px] pb-16">
-        <h1 className="text-2xl font-semibold text-white">Populares</h1>
-        <TopPopularMedias mediaType={MediaType.Movie} medias={medias?.movies || null} />
-        <TopPopularMedias mediaType={MediaType.TVSerie} medias={medias?.tvSeries || null} />
+    return <div className="flex-grow overflow-y-auto">
+        <div className="flex flex-col gap-[40px] p-8 px-[90px] pb-16">
+            <h1 className="text-2xl font-semibold text-white">Populares</h1>
+            <TopPopularMedias medias={medias?.movies} />
+            <TopPopularMedias medias={medias?.tvSeries} />
+        </div>
     </div>;
 }

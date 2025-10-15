@@ -3,14 +3,14 @@ import Media from "@/types/Media";
 import { ArrowRight } from "phosphor-react";
 import React from "react";
 import MediaCard from "../MediaCard";
-import { MediaType } from "@/enums/MediaType";
 
-export default function TopPopularMedias({ mediaType, medias }: Readonly<{ mediaType: MediaType, medias: Media[] | null }>) {
+export default function TopPopularMedias({ medias }: Readonly<{ medias: Media[] | undefined }>) {
     const numberOfLoadingMediasToShow = 6;
 
-    const mediaTypeStringfied = mediaType === MediaType.Movie
-        ? "FILMES"
-        : "SÉRIES";
+    const isTVSerieMedia = medias && "seasons" in medias[0];
+    const mediaTypeStringfied = isTVSerieMedia
+        ? "SÉRIES"
+        : "FILMES";
 
     return <div className="flex flex-col gap-3">
         <div className="flex items-center justify-between">
@@ -19,8 +19,8 @@ export default function TopPopularMedias({ mediaType, medias }: Readonly<{ media
                 <ArrowRight size={16} weight="bold" className="text-white" />
             </div>
         </div>
-        <div className="flex gap-6">{(medias ?? new Array(numberOfLoadingMediasToShow).fill(null))
-            .map((media, idx) => <MediaCard key={media?.tmbdId || idx} media={media} />)
+        <div className="flex gap-6">{(medias ?? new Array(numberOfLoadingMediasToShow).fill(undefined))
+            .map((media, idx) => <MediaCard key={media?.tmdbId || idx} media={media} />)
         }</div>
     </div>;
 }

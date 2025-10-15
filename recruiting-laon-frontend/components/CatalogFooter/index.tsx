@@ -11,7 +11,7 @@ export default function CatalogFooter() {
         <div className="text-white">
             <span className="text-lg">Powered by TMDB API</span> {/* Change to logo */}
         </div>
-        <div className="flex items-center space-x-8 text-gray-500 text-base">
+        <div className="flex items-center space-x-8 text-gray-500 text-sm">
             <a href="">Início</a>
             {!user && <a href="">Entrar ou Cadastrar</a>}
             <a href="">Termos e Condições</a>

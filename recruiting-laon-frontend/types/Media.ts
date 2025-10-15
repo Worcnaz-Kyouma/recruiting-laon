@@ -3,7 +3,7 @@ import Director from "./Director";
 import Genre from "./Genre";
 
 export default interface Media {
-    tmbdId: number;
+    tmdbId: number;
     title: string;
     titlePortuguese: string | null;
     genres: Genre[] | null;

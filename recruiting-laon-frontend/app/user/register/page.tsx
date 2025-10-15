@@ -36,7 +36,7 @@ export default function RegisterPage() {
         }
     }
 
-    return <form onSubmit={handleRegister} className="min-w-[560px] max-w-[600px] rounded-[8px] bg-gray-200 p-16 px-[90px]">
+    return <form onSubmit={handleRegister} className="min-w-[560px] max-w-[600px] rounded-[8px] m-8 bg-gray-200 p-16 px-[90px]">
         <div className="flex flex-col gap-2 mb-8">
             <h1 className="font-semibold text-2xl leading-[30px] tracking-normal text-white">Cadastre-se!</h1>
             <p className="font-normal text-base leading-[24px] tracking-normal text-gray-500">Acompanhe so as melhores com o Catalogo Laon!</p>
@@ -50,7 +50,7 @@ export default function RegisterPage() {
             </div>
         </div>
         <p className="font-normal text-xs leading-[18px] tracking-normal mb-6 text-gray-500">Ao clicar em <b>cadastrar</b>, você está aceitando os Termos e Condições e a Política de Privacidade da Laon.</p>
-        <button className="cursor-pointer w-full p-4 bg-white rounded-[4px] font-semibold text-black text-base leading-[24px] tracking-normal">
+        <button className="btn-primary">
             Cadastrar
         </button>
     </form>;
