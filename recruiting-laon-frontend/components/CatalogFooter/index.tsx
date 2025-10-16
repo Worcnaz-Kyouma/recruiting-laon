@@ -1,10 +1,9 @@
 'use client';
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import ExternalRedirectsNav from "../ExternalRedirectsNav";
-import { extractUserFromLocalStorage } from "@/utils/utils";
-import { User } from "@/types/User";
 import useUser from "@/hooks/useUser";
+import Link from "next/link";
 
 export default function CatalogFooter() {
     const user = useUser();
@@ -14,8 +13,8 @@ export default function CatalogFooter() {
             <span className="text-lg">Powered by TMDB API</span> {/* Change to logo */}
         </div>
         <div className="flex items-center space-x-8 text-gray-500 text-sm">
-            <a href="">Início</a>
-            {!user && <a href="">Entrar ou Cadastrar</a>}
+            <Link href="/">Início</Link>
+            {!user && <Link href="/user/register">Entrar ou Cadastrar</Link>}
             <a href="">Termos e Condições</a>
             <a href="">Política de Privacidade</a>
             <a href="">Ajuda</a>

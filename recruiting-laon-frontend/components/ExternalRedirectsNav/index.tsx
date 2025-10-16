@@ -9,7 +9,9 @@ export default function ExternalRedirectsNav() {
 
     return <nav className="flex space-x-4">
         {externalLinks.map(link => (
-            <a key={link.name} href={link.url} target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-300 transition">
+            <a key={link.name} href={link.url} target="_blank" rel="noopener noreferrer" 
+                className="w-12 h-12 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-300 transition"
+            >
                 <Image src={link.img} alt={link.name} width={20} height={20} className="object-contain" />
             </a>
         ))}
