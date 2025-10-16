@@ -1,7 +1,7 @@
 "use client"
 import { usePathname, useRouter } from "next/navigation";
-import { ArrowLeft } from "phosphor-react";
 import React from "react";
+import ArrowButton from "../ArrowButton";
 
 // TODO: Wrap arrow buttons and spaced strings into components somehow
 // TODO: Logout
@@ -18,12 +18,7 @@ export default function UserHeader() {
 
     return <header className="flex items-center justify-between p-6 px-[90px] border-b border-gray-300">
         <div className="min-w-[150px] text-left">
-            <button className="cursor-pointer flex items-center gap-4" onClick={handleHomePageRedirect}>
-                <div className="w-8 h-8 rounded-full border border-gray-500 flex items-center justify-center cursor-pointer hover:bg-gray-200 transition">
-                    <ArrowLeft size={16} weight="bold" className="text-white" />
-                </div>
-                <span className="cursor-pointer text-base font-medium tracking-widest">VOLTAR</span>
-            </button>
+            <ArrowButton orientation="left" onClick={handleHomePageRedirect} label="VOLTAR" />
         </div>
         <span>Catalog</span> {/* Change to logo */}
         <div className="min-w-[150px] text-right">

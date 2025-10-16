@@ -1,8 +1,6 @@
 "use client";
 import TopPopularMedias from "@/components/TopPopularMedias";
-import { MediaType } from "@/enums/MediaType";
 import AppError from "@/errors/AppError";
-import Media from "@/types/Media";
 import Movie from "@/types/Movie";
 import TVSerie from "@/types/TVSerie";
 import AppAPIClient from "@/utils/AppAPIClient";
@@ -22,7 +20,7 @@ export default function HomePage() {
             const apiResponse = await AppAPIClient.fetchAPI("media", "top-popular", "GET");
             setMedias(apiResponse);
         } catch(err) {
-            invokeToastsUsingError(err as AppError);
+            invokeToastsUsingError(err);
         }
     }
 

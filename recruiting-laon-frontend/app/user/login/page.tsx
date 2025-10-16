@@ -30,7 +30,7 @@ export default function LoginPage() {
 
             router.push("/");
         } catch(err) {
-            invokeToastsUsingError(err as AppError);
+            invokeToastsUsingError(err);
         }
     }
 

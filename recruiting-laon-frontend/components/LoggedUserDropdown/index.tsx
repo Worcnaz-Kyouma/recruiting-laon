@@ -18,10 +18,10 @@ export default function LoggedUserDropdown({ user }: Readonly<{ user: User }>) {
             
             await AppAPIClient.fetchAPI("user", `logout/${user.id}`, "POST");
         } catch (err) {
-            const appError = err as AppError;
-            if(appError.status === 401) return;
+            if(err instanceof AppError && err.status === 401)
+                return;
 
-            invokeToastsUsingError(err as AppError);
+            invokeToastsUsingError(err);
         }
     }
 

@@ -25,7 +25,7 @@ export default function MediaListingMethodSelector({ mediaType, listingMethod, s
             setListingMethods(apiResponse);
             setListingMethod(apiResponse[0].value);
         } catch(err) {
-            invokeToastsUsingError(err as AppError);
+            invokeToastsUsingError(err);
         }
     }
     useEffect(() => {

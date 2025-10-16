@@ -23,7 +23,7 @@ export default function TVSerieDetailsPage({ params }: Readonly<TVSerieDetailsPr
             setTVSerie(apiResponse);
         } catch(err) {
             // TODO: Improve invokeToastsUsingError to receive generic Error
-            invokeToastsUsingError(err as AppError);
+            invokeToastsUsingError(err);
         }
     }
 

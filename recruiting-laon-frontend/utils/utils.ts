@@ -24,14 +24,16 @@ export const successToastStyle = {
   },
 }
 
-// TODO: Improve it to receive generic Error
-export function invokeToastsUsingError(error: AppError) {
+export function invokeToastsUsingError(error: Error) {
+    if(!(error instanceof AppError)) {
+        console.error(error.message);
+        return;
+    }
+
     if(typeof error.msg === "string") toast.error(error.msg, errorToastStyle);
     else error.msg.forEach(msg => toast.error(msg, errorToastStyle))
 }
 
-// TODO: Maybe JWT?
-// OBS to Code Reviewer: Here i could decrypt a JWT to get my user. To mantain simplicity, i choose not too.
 export function extractUserFromLocalStorage(): User | null {
     const localStoredUserStringified = localStorage.getItem("user");
     if(!localStoredUserStringified) return null;

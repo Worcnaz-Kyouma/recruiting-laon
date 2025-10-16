@@ -51,7 +51,7 @@ export default function MediaSearcher({ mediaType }: Readonly<{ mediaType: Media
             setMedias(apiResponse.results);
             setNumberOfPages(apiResponse.numberOfPages);
         } catch(err) {
-            invokeToastsUsingError(err as AppError);
+            invokeToastsUsingError(err);
         }
 
         setIsLoading(false);
@@ -72,7 +72,7 @@ export default function MediaSearcher({ mediaType }: Readonly<{ mediaType: Media
             setMedias(apiResponse.results);
             setNumberOfPages(apiResponse.numberOfPages);
         } catch(err) {
-            invokeToastsUsingError(err as AppError);
+            invokeToastsUsingError(err);
         }
 
         setIsLoading(false);

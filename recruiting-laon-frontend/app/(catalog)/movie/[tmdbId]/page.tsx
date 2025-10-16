@@ -22,7 +22,7 @@ export default function MovieDetailsPage({ params }: Readonly<MovieDetailsProps>
             setMovie(apiResponse);
         } catch(err) {
             // TODO: Improve invokeToastsUsingError to receive generic Error
-            invokeToastsUsingError(err as AppError);
+            invokeToastsUsingError(err);
         }
     }
 

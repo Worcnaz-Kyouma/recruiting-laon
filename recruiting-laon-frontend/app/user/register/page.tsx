@@ -32,7 +32,7 @@ export default function RegisterPage() {
 
             router.push("/");
         } catch(err) {
-            invokeToastsUsingError(err as AppError);
+            invokeToastsUsingError(err);
         }
     }
 
