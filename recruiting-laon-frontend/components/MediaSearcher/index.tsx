@@ -88,9 +88,11 @@ export default function MediaSearcher({ mediaType }: Readonly<{ mediaType: Media
     return <div className="flex-grow p-8 px-[90px] pb-16 flex flex-col gap-[40px]">
         <h1 className="text-2xl font-semibold text-white">{mediaTypeMainTitle}</h1>
         <div className="flex flex-col gap-10">
-            <div className="flex items-center justify-between gap-4">
+            <div className="flex items-stretch justify-between gap-4">
                 <MediaListingMethodSelector mediaType={mediaType} listingMethod={listingMethod} setListingMethod={setListingMethod} />
-                <span>ou</span>
+                <div className="flex items-center justify-center">
+                    <span>ou</span>
+                </div>
                 <CustomInput placeholder={`Título`} value={searchTitle} setValue={setSearchTitle} className="flex-grow" />
                 <button className="btn-primary w-fit h-full flex items-center gap-3 px-6 py-2" onClick={searchMediasByTitle}>
                     <MagnifyingGlass size={32} className="mr-1"/>
@@ -108,7 +110,7 @@ export default function MediaSearcher({ mediaType }: Readonly<{ mediaType: Media
                 }
                 {isLoading &&
                     <div className={`absolute top-0 left-0 w-full h-full rounded-md flex items-center justify-center ${numberOfPages ? "bg-gray-300/40" : ""}`}>
-                        <CustomLoader width={200} height={200}/>
+                        <CustomLoader color="#2B7FFF" width={164} height={164}/>
                     </div>
                 }
             </div>

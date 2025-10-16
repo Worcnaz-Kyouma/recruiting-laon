@@ -1,19 +1,12 @@
 "use client"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+
 import { MediaType } from "@/enums/MediaType";
 import AppError from "@/errors/AppError";
 import ListingMethod from "@/types/ListingMethod";
 import AppAPIClient from "@/utils/AppAPIClient";
 import { invokeToastsUsingError } from "@/utils/utils";
-import { ChevronDown } from "lucide-react";
-import { CaretDown } from "phosphor-react";
 import { useEffect, useState } from "react";
+import { CaretDown } from "phosphor-react";
 
 interface MediaListingMethodSelectorProps {
     mediaType: MediaType;
@@ -21,7 +14,6 @@ interface MediaListingMethodSelectorProps {
     setListingMethod: (value: string) => void;
 }
 
-// TODO: FIX SELECT OPTIONS BREAK SCREEN
 export default function MediaListingMethodSelector({ mediaType, listingMethod, setListingMethod }: Readonly<MediaListingMethodSelectorProps>) {
     const [ listingMethods, setListingMethods ] = useState<ListingMethod[]>([]);
 
@@ -39,18 +31,30 @@ export default function MediaListingMethodSelector({ mediaType, listingMethod, s
         populateListingMethods();
     }, []);
 
+    const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        setListingMethod(e.target.value);
+    };
+
     if(listingMethods.length < 1) return <></>
 
-    return (
-        <Select value={listingMethod} onValueChange={setListingMethod}>
-            <SelectTrigger className="min-w-40 !h-full text-md px-4 py-2 flex items-center justify-between text-white border border-gray-300 rounded-xl ![&_svg]:text-white">
-                <SelectValue placeholder="Teste" />
-            </SelectTrigger>
-            <SelectContent className="bg-gray-200 text-white border border-gray-400">
-                {listingMethods.map(lMethod => 
-                    <SelectItem key={lMethod.value} value={lMethod.value}>{lMethod.description}</SelectItem>)
-                }
-            </SelectContent>
-        </Select>
-    );
+    return <div className="relative inline-block min-w-40">
+        <select
+            value={listingMethod}
+            onChange={handleChange}
+            className="
+                appearance-none w-full h-full text-white border border-gray-300 rounded-md 
+                px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500
+            "
+        >
+            {listingMethods.map((method) => (
+            <option key={method.value} value={method.value} className="bg-gray-800 text-white">
+                {method.description}
+            </option>
+            ))}
+        </select>
+
+        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+            <CaretDown weight="bold" size={20}/>
+        </div>
+    </div>
 }
