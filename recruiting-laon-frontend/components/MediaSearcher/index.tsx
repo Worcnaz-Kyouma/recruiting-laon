@@ -106,9 +106,9 @@ export default function MediaSearcher({ mediaType }: Readonly<{ mediaType: Media
                         <CustomPagination page={page} setPage={setPage} numberOfPages={numberOfPages} afterChange={onPageChange} isLoading={isLoading} />
                     </div>
                 }
-                {isLoading &&
+                {isLoading && medias.length > 0 &&
                     <div className={`absolute top-0 left-0 w-full h-full rounded-md flex items-center justify-center ${numberOfPages ? "bg-gray-300/40" : ""}`}>
-                        <CustomLoader color="#2B7FFF" width={164} height={164}/>
+                        <CustomLoader color="#2B7FFF" width={120} height={120}/>
                     </div>
                 }
             </div>

@@ -1,6 +1,7 @@
 "use client"
 import { MediaType } from "@/enums/MediaType";
 import useUser from "@/hooks/useUser";
+import { useAppStore } from "@/providers/user-store-provider";
 import Media from "@/types/Media";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -13,6 +14,7 @@ const MediaCardSkeletonLoader = () => <div className="w-full max-w-md aspect-[78
 export default function MediaCard({ media }: Readonly<{ media: Media | undefined }>) {
     const router = useRouter();
     const user = useUser();
+    const { setIsUnauthorizedNavBlockModalOpen } = useAppStore(state => state);
     const isTVSerieMedia = media && "seasons" in media;
 
     const mediaType = isTVSerieMedia
@@ -20,7 +22,12 @@ export default function MediaCard({ media }: Readonly<{ media: Media | undefined
         : MediaType.Movie;
 
     const openMediaDetails = () => {
-        if(user) router.push(`/${mediaType}/${media!.tmdbId}`) 
+        if(!user) {
+            setIsUnauthorizedNavBlockModalOpen(true);
+            return;
+        } 
+            
+        router.push(`/${mediaType}/${media!.tmdbId}`) 
     }
     
     const handleMediaClick = (e: React.MouseEvent<HTMLDivElement>) => {

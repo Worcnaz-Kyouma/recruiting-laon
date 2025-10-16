@@ -1,52 +1,43 @@
-// // src/providers/counter-store-provider.tsx
-// 'use client'
+'use client'
 
-// import { type ReactNode, createContext, useRef, useContext } from 'react'
-// import { useStore } from 'zustand'
+import { type ReactNode, createContext, useRef, useContext } from 'react'
+import { useStore } from 'zustand'
 
-// import { type UserStore, createUserStore, initUserStore } from '@/stores/user-store'
+import { type AppStore, createAppStore, initAppStore } from '@/stores/app-store'
 
-// export type UserStoreApi = ReturnType<typeof createUserStore>
+export type AppStoreApi = ReturnType<typeof createAppStore>
 
-// export const UserStoreContext = createContext<UserStoreApi | undefined>(
-//     undefined,
-// )
+export const AppStoreContext = createContext<AppStoreApi | undefined>(
+    undefined,
+)
 
-// export interface UserStoreProviderProps {
-//     children: ReactNode
-// }
+export interface AppStoreProviderProps {
+    children: ReactNode
+}
 
-// export const UserStoreProvider = ({
-//     children,
-// }: UserStoreProviderProps) => {
-//     const storeRef = useRef<UserStoreApi | null>(null)
-//     if (storeRef.current === null) {
-//         storeRef.current = createUserStore(initUserStore())
-//     }
+export const AppStoreProvider = ({
+    children,
+}: AppStoreProviderProps) => {
+    const storeRef = useRef<AppStoreApi | null>(null)
+    if (storeRef.current === null) {
+        storeRef.current = createAppStore(initAppStore())
+    }
 
-//     return (
-//         <UserStoreContext.Provider value={storeRef.current}>
-//             {children}
-//         </UserStoreContext.Provider>
-//     )
-// }
+    return (
+        <AppStoreContext.Provider value={storeRef.current}>
+            {children}
+        </AppStoreContext.Provider>
+    )
+}
 
-// export const useUserStore = <T,>(
-//     selector: (store: UserStore) => T,
-// ): T => {
-//     const userStoreContext = useContext(UserStoreContext)
+export const useAppStore = <T,>(
+    selector: (store: AppStore) => T,
+): T => {
+    const userStoreContext = useContext(AppStoreContext)
 
-//     if (!userStoreContext) {
-//         throw new Error(`useUserStore must be used within UserStoreProvider`)
-//     }
-//     const store = useStore(userStoreContext, selector) as UserStore;
-//     if(store.user === null && typeof window !== 'undefined') {
-//         const localStoredUserStringified = localStorage.getItem("user");
-//         if(localStoredUserStringified) {
-//             const localStoredUser = JSON.parse(localStoredUserStringified);
-//             store.user = localStoredUser;
-//         }
-//     }
+    if (!userStoreContext) {
+        throw new Error(`useAppStore must be used within AppStoreProvider`)
+    }
 
-//     return store as T;
-// }
+    return useStore(userStoreContext, selector);
+}

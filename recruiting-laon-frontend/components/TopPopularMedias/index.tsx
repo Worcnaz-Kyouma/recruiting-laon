@@ -6,10 +6,12 @@ import { useRouter } from "next/navigation";
 import { MediaType } from "@/enums/MediaType";
 import ArrowButton from "../ArrowButton";
 import useUser from "@/hooks/useUser";
+import { useAppStore } from "@/providers/user-store-provider";
 
 export default function TopPopularMedias({ medias }: Readonly<{ medias: Media[] | undefined }>) {
     const router = useRouter();
     const user = useUser();
+    const { setIsUnauthorizedNavBlockModalOpen } = useAppStore(state => state);   
     const numberOfLoadingMediasToShow = 6;
 
     const mediaType = medias && "seasons" in medias[0]
@@ -21,7 +23,10 @@ export default function TopPopularMedias({ medias }: Readonly<{ medias: Media[] 
         : "FILMES";
 
     const handleOpenMediaSearcher = () => {
-        if(!user) return;
+        if(!user) {
+            setIsUnauthorizedNavBlockModalOpen(true);
+            return;
+        }
 
         router.push(`/${mediaType}`);
     }
