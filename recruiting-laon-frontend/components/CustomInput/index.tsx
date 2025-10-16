@@ -5,18 +5,26 @@ import { useState, InputHTMLAttributes, HTMLInputTypeAttribute } from "react";
 
 interface CustomInputProps extends InputHTMLAttributes<HTMLInputElement> {
     placeholder: string;
+    value?: string;
+    setValue?: React.Dispatch<React.SetStateAction<string>>;
     type?: HTMLInputTypeAttribute;
 }
 
-export default function CustomInput({ placeholder, type = "text", ...props }: CustomInputProps) {
+export default function CustomInput({ value, setValue, placeholder, type = "text", ...props }: CustomInputProps) {
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
     const togglePassword = () => setIsPasswordVisible(!isPasswordVisible);
+
+    const onChange = setValue
+        ? (event: React.ChangeEvent<HTMLInputElement>) => setValue(event.target.value)
+        : undefined;
 
     return (
         <div className="relative flex-grow">
             <input
                 name={props.name}
+                value={value}
+                onChange={onChange}
                 type={type === "password" && isPasswordVisible ? "text" : type}
                 placeholder={placeholder}
                 className={`

@@ -21,7 +21,7 @@ interface MediaListingMethodSelectorProps {
     setListingMethod: (value: string) => void;
 }
 
-// TODO: Change lib
+// TODO: FIX SELECT OPTIONS BREAK SCREEN
 export default function MediaListingMethodSelector({ mediaType, listingMethod, setListingMethod }: Readonly<MediaListingMethodSelectorProps>) {
     const [ listingMethods, setListingMethods ] = useState<ListingMethod[]>([]);
 

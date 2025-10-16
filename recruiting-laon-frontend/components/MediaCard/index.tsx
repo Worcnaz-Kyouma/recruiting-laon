@@ -9,6 +9,7 @@ import React, { useState } from "react";
 const MediaCardSkeletonLoader = () => <div className="w-full max-w-md aspect-[780/1170] cursor-pointer hover:opacity-80 transition bg-gray-300 animate-pulse" />;
 
 // TODO: Handle no poster media
+// TODO: Wait until image is loaded
 export default function MediaCard({ media }: Readonly<{ media: Media | undefined }>) {
     const router = useRouter();
     const user = useUser();

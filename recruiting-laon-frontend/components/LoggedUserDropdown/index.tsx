@@ -13,12 +13,14 @@ export default function LoggedUserDropdown({ user }: Readonly<{ user: User }>) {
 
     const handleLogout = async () => {
         try {
-            await AppAPIClient.fetchAPI("user", `logout/${user.id}`, "POST");
-
             localStorage.removeItem("user");
-    
             window.location.reload();
+            
+            await AppAPIClient.fetchAPI("user", `logout/${user.id}`, "POST");
         } catch (err) {
+            const appError = err as AppError;
+            if(appError.status === 401) return;
+
             invokeToastsUsingError(err as AppError);
         }
     }

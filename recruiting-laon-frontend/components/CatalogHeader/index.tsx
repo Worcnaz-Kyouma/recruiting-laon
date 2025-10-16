@@ -8,6 +8,7 @@ import { extractUserFromLocalStorage } from "@/utils/utils";
 import { User } from "@/types/User";
 import useUser from "@/hooks/useUser";
 
+// TODO: Return should go back to movies, tv-series or home-page. Store previus page.
 export default function CatalogHeader() {
     const router = useRouter();
     const user = useUser();
