@@ -31,8 +31,8 @@ export default function TopPopularMedias({ medias }: Readonly<{ medias: Media[] 
             <h2 className="text-sm font-semibold text-gray-500">{mediaTypeStringfied}</h2>
             <ArrowButton orientation="right" onClick={handleOpenMediaSearcher} />
         </div>
-        <div className="flex gap-6">{(medias ?? new Array(numberOfLoadingMediasToShow).fill(undefined))
-            .map((media, idx) => <MediaCard key={media?.tmdbId || idx} media={media} />)
-        }</div>
+        <div className="flex gap-6">{(medias ?? new Array(numberOfLoadingMediasToShow).fill(undefined)).map((media, idx) => 
+            <MediaCard key={media?.tmdbId || idx} media={media} />
+        )}</div>
     </div>;
 }

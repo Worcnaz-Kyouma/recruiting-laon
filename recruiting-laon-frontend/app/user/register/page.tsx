@@ -1,13 +1,11 @@
 "use client"
 import CustomInput from "@/components/CustomInput";
-import AppError from "@/errors/AppError";
+import UserContentTitle from "@/components/UserContentTitle";
 import { User } from "@/types/User";
 import AppAPIClient from "@/utils/AppAPIClient";
 import { invokeToastsUsingError } from "@/utils/utils";
 import { useRouter } from "next/navigation";
 
-// Old Zuzstand
-// const { setUser } = useUserStore(state => state);
 export default function RegisterPage() {
     const router = useRouter();
 
@@ -37,10 +35,7 @@ export default function RegisterPage() {
     }
 
     return <form onSubmit={handleRegister} className="min-w-[560px] max-w-[600px] rounded-[8px] m-12 bg-gray-200 p-16 px-[90px]">
-        <div className="flex flex-col gap-2 mb-8">
-            <h1 className="font-semibold text-2xl leading-[30px] tracking-normal text-white">Cadastre-se!</h1>
-            <p className="font-normal text-base leading-[24px] tracking-normal text-gray-500">Acompanhe so as melhores com o Catalogo Laon!</p>
-        </div>
+        <UserContentTitle title="Cadastre-se!" styleText="Acompanhe so as melhores com o Catalogo Laon!" />
         <div className="flex flex-col gap-6 mb-3 w-full">
             <CustomInput name="username" placeholder="Nome Completo" />
             <CustomInput name="email" placeholder="Email"/>

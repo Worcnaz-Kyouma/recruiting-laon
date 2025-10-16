@@ -1,6 +1,6 @@
 "use client"
 import CustomInput from "@/components/CustomInput";
-import AppError from "@/errors/AppError";
+import UserContentTitle from "@/components/UserContentTitle";
 import { User } from "@/types/User";
 import AppAPIClient from "@/utils/AppAPIClient";
 import { invokeToastsUsingError } from "@/utils/utils";
@@ -35,10 +35,7 @@ export default function LoginPage() {
     }
 
     return <form onSubmit={handleLogin} className="min-w-[500px] max-w-[600px] rounded-[8px] m-12 bg-gray-200 p-16 px-[90px]">
-        <div className="flex flex-col gap-2 mb-8">
-            <h1 className="font-semibold text-2xl leading-[30px] tracking-normal text-white">Entrar</h1>
-            <p className="font-normal text-base leading-[24px] tracking-normal text-gray-500">Bem vindo(a) de volta!</p>
-        </div>
+        <UserContentTitle title="Entrar" styleText="Bem vindo(a) de volta!" />
         <div className="flex flex-col gap-6 mb-8 w-full">
             <CustomInput name="email" placeholder="Email"/>
             <CustomInput name="password" placeholder="Senha" type="password"/>
