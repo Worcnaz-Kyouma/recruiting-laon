@@ -3,6 +3,7 @@
 use App\Http\Controllers\MediaController;
 use App\Http\Controllers\MovieController;
 use App\Http\Controllers\TVSerieController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 // TODO: IMPORTANT validate all the "use" imports and removed unused ones 
@@ -12,15 +13,20 @@ Route::get('/', function () {
 });
 
 Route::prefix("user")->group(function () {
-    Route::post("", [\App\Http\Controllers\UserController::class, "createUser"]);
-    Route::post("/login", [\App\Http\Controllers\UserController::class, "login"]);
-    Route::post("/logout/{id}", [\App\Http\Controllers\UserController::class, "logout"])->middleware("auth:sanctum");
+    Route::post("", [UserController::class, "createUser"]);
+    Route::post("/login", [UserController::class, "login"]);
+    Route::post("/logout/{id}", [UserController::class, "logout"])->middleware("auth:sanctum");
 });
 
 // TODO: Filter movies without poster and overview
 Route::prefix("media")->group(function () {
-   Route::get("/top-popular", [MediaController::class, "getTopPopularMedias"]); 
-   Route::get("/listing-method/{media_type}", [MediaController::class, "getListingMethods"]); 
+    Route::get("/top-popular", [MediaController::class, "getTopPopularMedias"]); 
+    Route::get("/listing-method/{media_type}", [MediaController::class, "getListingMethods"]); 
+
+    Route::prefix("list")->middleware("auth:sanctum")->group(function () {
+        Route::get("/{user_id}", [MediaController::class, "getMediaListsByUser"]);
+        Route::post("", [MediaController::class, "createMediaList"]);
+    });
 });
 
 Route::prefix("movie")->middleware("auth:sanctum")->group(function () {
