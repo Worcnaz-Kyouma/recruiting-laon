@@ -24,6 +24,7 @@ const SecondaryDetail = ({ description, value }: Readonly<Detail>) =>
         }</p>
     </div>
 
+// TODO: Adjust degrade styling box in the background to the Primary details header
 export default function MediaDetails({ media }: Readonly<{ media: Media | undefined }>) {
     if(!media)
         return <div className="flex-grow flex items-center justify-center">

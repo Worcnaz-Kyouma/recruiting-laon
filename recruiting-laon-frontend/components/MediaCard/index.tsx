@@ -1,5 +1,6 @@
 "use client"
 import { MediaType } from "@/enums/MediaType";
+import useUser from "@/hooks/useUser";
 import Media from "@/types/Media";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -10,12 +11,16 @@ const MediaCardSkeletonLoader = () => <div className="w-full max-w-md aspect-[78
 // TODO: Handle no poster media
 export default function MediaCard({ media }: Readonly<{ media: Media | undefined }>) {
     const router = useRouter();
+    const user = useUser();
     const isTVSerieMedia = media && "seasons" in media;
+
     const mediaType = isTVSerieMedia
         ? MediaType.TVSerie
         : MediaType.Movie;
 
-    const openMediaDetails = () => router.push(`/${mediaType}/${media!.tmdbId}`);
+    const openMediaDetails = () => {
+        if(user) router.push(`/${mediaType}/${media!.tmdbId}`) 
+    }
     
     const handleMediaClick = (e: React.MouseEvent<HTMLDivElement>) => {
         e.preventDefault();

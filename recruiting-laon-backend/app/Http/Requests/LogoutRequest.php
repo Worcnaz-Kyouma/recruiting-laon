@@ -7,7 +7,13 @@ use Illuminate\Foundation\Http\FormRequest;
 class LogoutRequest extends CustomFormRequest {
     public function rules(): array {
         return [
-            'user_id' => 'required|exists:users,id',
+            'id' => 'required|exists:users,id',
         ];
+    }
+
+    protected function prepareForValidation() {
+        $this->merge([
+            'id' => $this->route('id'),
+        ]);
     }
 }

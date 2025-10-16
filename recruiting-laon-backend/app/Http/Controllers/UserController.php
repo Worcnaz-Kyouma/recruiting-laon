@@ -59,9 +59,12 @@ class UserController extends Controller {
 
     public function logout(LogoutRequest $request) {
         $data = $request->validated();
-        $user = User::find($data['user_id']);
+        $user = User::find($data['id']);
 
         $user->tokens()->delete();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
         return response()->json([], 204);
     }
