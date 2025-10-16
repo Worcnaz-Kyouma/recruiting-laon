@@ -8,11 +8,9 @@ import MediaCard from "../MediaCard";
 import CustomInput from "../CustomInput";
 import AppAPIClient from "@/utils/AppAPIClient";
 import { invokeToastsUsingError } from "@/utils/utils";
-import AppError from "@/errors/AppError";
 import CustomLoader from "../CustomLoader";
 import CustomPagination from "../CustomPagination";
 
-// TODO: Change some components
 export default function MediaSearcher({ mediaType }: Readonly<{ mediaType: MediaType }>) {
     const [ isLoading, setIsLoading ] = useState<boolean>(false);
     const [ isSearchingByTitle, setIsSearchingByTitle ] = useState<boolean>(false);
