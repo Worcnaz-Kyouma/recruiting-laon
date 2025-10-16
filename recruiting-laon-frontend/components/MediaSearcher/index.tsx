@@ -10,8 +10,6 @@ import AppAPIClient from "@/utils/AppAPIClient";
 import { invokeToastsUsingError } from "@/utils/utils";
 import AppError from "@/errors/AppError";
 import CustomLoader from "../CustomLoader";
-import Pagination from "@mui/material/Pagination";
-import PaginationItem from "@mui/material/PaginationItem";
 import CustomPagination from "../CustomPagination";
 
 // TODO: Change some components
