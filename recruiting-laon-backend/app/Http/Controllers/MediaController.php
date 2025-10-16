@@ -48,6 +48,8 @@ class MediaController extends Controller {
         return response()->json($listingMethods);
     }
 
+    // TODO: Pagination.
+    // TODO: Fetch API to medias data, WITHOUT EXTRA DATA!!!.
     public function getMediaListsByUser(GetMediaListsByUserRequest $request) {
         $data = $request->validated();
         $userId = $data["user_id"];
