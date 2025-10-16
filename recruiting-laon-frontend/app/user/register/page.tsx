@@ -23,11 +23,11 @@ export default function RegisterPage() {
         };
         
         try {
+            await AppAPIClient.initializeCSRFProtection();
+
             const registerResponse = await AppAPIClient.fetchAPI("user", "", "POST", data);
-            const apiToken = registerResponse.token;
             const user = registerResponse.user as User;
             
-            localStorage.setItem("api_token", apiToken);
             localStorage.setItem("user", JSON.stringify(user));
 
             router.push("/");

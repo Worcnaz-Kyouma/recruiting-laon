@@ -7,6 +7,8 @@ use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Request;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Session\Middleware\StartSession;
+use Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -15,13 +17,21 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        $middleware->statefulApi();
+
+        // TODO: Validate it, kinda trick, but works
+        $middleware->api(append: [
+            StartSession::class,
+            EnsureFrontendRequestsAreStateful::class
+        ]);
+
         $middleware->redirectGuestsTo('/unauthorized-user'); // TODO: Try to remove it
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->render(function (Exception $e, Request $request) {
             if($e instanceof AuthenticationException) {
                 return response()->json(
-                    ['message' => 'Usuário não autorizado. Você deve estar logado com um usuário para usar esta rota. Procure as rotas createUser/login.']
+                    ['error' => 'Usuário não autorizado. Você deve estar logado com um usuário para utilizar este recurso.']
                     , 401
                 );
             }

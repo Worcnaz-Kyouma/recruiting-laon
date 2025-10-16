@@ -10,6 +10,7 @@ use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\LogoutRequest;
 use App\Models\User;
+use Auth;
 use Hash;
 
 // TODO: Make big try catch wrappers, then identify error in catch
@@ -39,11 +40,16 @@ class UserController extends Controller {
         $user = User::where('email', $email)->first();
         if(!$user) throw new ExpectedError("", 401, "Usuario nao encontrado");
 
-        if(!Hash::check($password, $user->password)) {
+        $isLoginSuccessful = Auth::attempt([
+            'email'=> $email,
+            'password'=> $password
+        ]);
+        if(!$isLoginSuccessful)
             throw new ExpectedError("", 401, "Senha invalida");
-        }
 
-        $user->tokens()->delete();
+        $request->session()->regenerate();
+        
+        // $user->tokens()->delete();
         $token = $user->createToken(self::TOKEN_IDENTIFIER)->plainTextToken;
 
         $authorizedUserDTO = new AuthorizedUserDTO($user, $token);

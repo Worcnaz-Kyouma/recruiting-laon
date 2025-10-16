@@ -4,9 +4,9 @@ namespace App\Entities;
 
 class TVSeason extends Entity {
     private int $tmdbId;
-    private int $seasonNumber;
-    private string $name;
-    private ?string $posterImgUrl;
+    private ?int $seasonNumber = null;
+    private ?string $name = null;
+    private ?string $posterImgUrl = null;
     /**
      * @var array<TVEpisode>
      */
@@ -15,7 +15,7 @@ class TVSeason extends Entity {
     /**
      * @param array<TVEpisode> $episodes
      */
-    public function __construct(int $tmdbId, int $seasonNumber, string $name, ?string $posterImgUrl, array $episodes) {
+    public function __construct(int $tmdbId, ?int $seasonNumber, ?string $name, ?string $posterImgUrl, array $episodes) {
         $this->tmdbId = $tmdbId;
         $this->seasonNumber = $seasonNumber;
         $this->name = $name;

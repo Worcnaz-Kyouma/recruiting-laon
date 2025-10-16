@@ -131,9 +131,9 @@ class TMDBApiService {
             ["append_to_response" => "translations,credits"]
         );
         if($data === null) return null;
-
+        
         $media = $apiEntitiesContext["transformer"]($data);
-
+        
         if($mediaType === TVSerie::class) {
             $seasons = collect($media->getSeasons())->map(function($season) use ($mediaTMDBId) {
                 $seasonNumber = $season->getSeasonNumber();
@@ -142,10 +142,10 @@ class TMDBApiService {
                     "$mediaTMDBId/season/$seasonNumber"
                 );
                 if($seasonData === null) throw new TMDBInternalError("Failed to fetch season data from TMDB API.");
-
+                
                 return TVSeasonTransformer::tryFromExternal($seasonData);
             })->toArray();
-
+            
             $media->setSeasons($seasons);
         }
 

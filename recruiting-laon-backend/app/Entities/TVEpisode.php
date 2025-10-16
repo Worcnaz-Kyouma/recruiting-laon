@@ -4,16 +4,16 @@ namespace App\Entities;
 
 class TVEpisode extends Entity {
     private int $tmdbId;
-    private int $episodeNumber;
-    private string $name;
-    private string $stillImageUrl; // Can be null?
+    private ?int $episodeNumber = null;
+    private ?string $name = null;
+    private ?string $stillImageUrl = null; // Can be null?
     private int $runtime;
-    public function __construct(int $tmdbId, int $episodeNumber, string $name, string $stillImageUrl, int $runtime) {
+    public function __construct(int $tmdbId, ?int $episodeNumber, ?string $name, ?string $stillImageUrl, ?int $runtime) {
         $this->tmdbId = $tmdbId;
         $this->episodeNumber = $episodeNumber;
         $this->name = $name;
         $this->stillImageUrl = $stillImageUrl;
-        $this->runtime = $runtime;
+        $this->runtime = $runtime || 0;
     }
 
     public function getRuntime(): int {
