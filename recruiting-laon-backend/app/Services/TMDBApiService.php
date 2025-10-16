@@ -84,7 +84,7 @@ class TMDBApiService {
         $apiEntitiesContext = self::$appEntitiesToAPIEntitiesContextMap[$mediaType];
         
         // Trending consult are special, cause trending are a entity in TMDB api
-        $isTrendingConsult = $listingMethod->value === MediaListingMethod::Trending;
+        $isTrendingConsult = $listingMethod->value === MediaListingMethod::Trending->value;
 
         $query = [
             "page" => $page
