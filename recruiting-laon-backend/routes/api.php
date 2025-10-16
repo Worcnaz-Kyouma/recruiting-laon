@@ -20,6 +20,7 @@ Route::prefix("user")->group(function () {
 // TODO: Filter movies without poster and overview
 Route::prefix("media")->group(function () {
    Route::get("/top-popular", [MediaController::class, "getTopPopularMedias"]); 
+   Route::get("/listing-method/{media_type}", [MediaController::class, "getListingMethods"]); 
 });
 
 Route::prefix("movie")->middleware("auth:sanctum")->group(function () {

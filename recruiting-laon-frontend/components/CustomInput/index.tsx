@@ -14,7 +14,7 @@ export default function CustomInput({ placeholder, type = "text", ...props }: Cu
     const togglePassword = () => setIsPasswordVisible(!isPasswordVisible);
 
     return (
-        <div className="relative">
+        <div className="relative flex-grow">
             <input
                 name={props.name}
                 type={type === "password" && isPasswordVisible ? "text" : type}

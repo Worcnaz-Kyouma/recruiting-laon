@@ -19,8 +19,8 @@ class MovieController extends Controller {
 
     public function getMoviesByListingMethod(MoviesByListingMethodRequest $request) {
         $data = $request->validated();
-        $listingMethod = MovieListingMethod::tryFrom($data["listing-method"])
-            ?? MediaListingMethod::tryFrom($data["listing-method"]);
+        $listingMethod = MovieListingMethod::tryFrom($data["listing_method"])
+            ?? MediaListingMethod::tryFrom($data["listing_method"]);
         $page = $data["page"];
 
         $movies = $this->tmdb->getMediasByListingMethod(
