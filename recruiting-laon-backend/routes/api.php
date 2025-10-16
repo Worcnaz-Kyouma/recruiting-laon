@@ -6,7 +6,7 @@ use App\Http\Controllers\TVSerieController;
 use Illuminate\Support\Facades\Route;
 
 // TODO: IMPORTANT validate all the "use" imports and removed unused ones 
-
+// TODO: Make cache!
 Route::get('/', function () {
     return response()->json(['message' => 'Bem vindo a Laon-Catalog! Você deve estar logado com um usuário para usar a maioria dos recursos. Procure as rotas createUser/login.']);
 });

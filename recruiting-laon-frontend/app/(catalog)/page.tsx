@@ -14,7 +14,6 @@ type MediaTopPopularDTO = {
     tvSeries: TVSerie[]
 }
 
-// TODO: IMPORTANT dont forget Media details!!
 export default function HomePage() {
     const [ medias, setMedias ] = useState<MediaTopPopularDTO | undefined>(undefined);
 
