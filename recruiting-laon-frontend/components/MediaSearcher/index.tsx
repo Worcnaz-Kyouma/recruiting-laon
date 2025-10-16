@@ -7,6 +7,7 @@ import { MagnifyingGlass } from "phosphor-react";
 import MediaCard from "../MediaCard";
 import CustomInput from "../CustomInput";
 
+// TODO: Change some components
 export default function MediaSearcher({ mediaType }: Readonly<{ mediaType: MediaType }>) {
     const [ medias, setMedias ] = useState<Media[]>([]);
     const [ listingMethod, setListingMethod ] = useState<string | undefined>(undefined);
