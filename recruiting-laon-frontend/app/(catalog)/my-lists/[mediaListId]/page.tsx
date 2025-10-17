@@ -5,10 +5,12 @@ import CustomPagination from "@/components/CustomPagination";
 import MediaCardsGrid from "@/components/MediaCardsGrid";
 import MediasContainer from "@/components/MediasContainer";
 import useUser from "@/hooks/useUser";
+import { useAppStore } from "@/providers/user-store-provider";
 import Media from "@/types/Media";
 import MediaList from "@/types/MediaList"
 import AppAPIClient from "@/utils/AppAPIClient";
 import { invokeToastsUsingError } from "@/utils/utils";
+import { useRouter } from "next/navigation";
 import { use, useEffect, useState } from "react"
 
 interface APIMedia {
@@ -28,6 +30,7 @@ interface ListDetailsPageProps {
 export default function ListDetailsPage({ params }: Readonly<ListDetailsPageProps>) {
     const { mediaListId } = use(params);
     const user = useUser();
+    const router = useRouter();
     const [ isLoading, setIsLoading ] = useState<boolean>(true);
 
     const [ mediaList, setMediaList ] = useState<MediaList | undefined>(undefined);
@@ -45,11 +48,16 @@ export default function ListDetailsPage({ params }: Readonly<ListDetailsPageProp
             });
 
             setMediaList(apiResponse.mediaList);
-            setMedias(apiResponse.medias.data.map((media: APIMedia) => ({
+
+            const fetchedMedias = apiResponse.medias.data.map((media: APIMedia) => ({
                 id: media.id,
                 ...media.tmdb_media
-            } as Media)));
+            } as Media));
+            if(fetchedMedias.length < 1) return router.push("/my-lists");
+            
+            setMedias(fetchedMedias);
             setNumberOfPages(apiResponse.medias.last_page);
+
         } catch(err) {
             invokeToastsUsingError(err);
         }

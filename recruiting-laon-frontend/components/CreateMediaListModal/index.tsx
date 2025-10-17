@@ -11,7 +11,6 @@ import { toast } from "react-toastify";
 
 export default function CreateMediaListModal() {
     const { setIsCreateMediaListModalOpen, selectedMedias, clearSelectedMedias } = useAppStore(store => store);
-    const router = useRouter();
     const user = useUser();
     const [ name, setName ] = useState<string>("");
 

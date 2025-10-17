@@ -2,6 +2,7 @@
 import Media from "@/types/Media";
 import { createStore } from "zustand";
 
+// TODO: Improve Modals data structure
 export type AppState = {
     isUnauthorizedNavBlockModalOpen: boolean;
     isCreateMediaListModalOpen: boolean;
