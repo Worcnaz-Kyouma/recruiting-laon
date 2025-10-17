@@ -31,11 +31,18 @@ export default function CatalogHeader() {
             : <ArrowButton orientation="left" onClick={handleHomePageRedirect} label="VOLTAR" />
         }
         {user
-            ? <LoggedUserDropdown user={user} />
+            ? <div className="flex items-center gap-8">
+                <Link href={"/my-lists"}>
+                    <span className="text-action">
+                        MINHAS LISTAS
+                    </span>
+                </Link>
+                <LoggedUserDropdown user={user} />
+            </div>
             : <Link href={"/user/login"}>
-                <button className="cursor-pointer text-base font-medium tracking-widest">
+                <span className="text-action">
                     ENTRAR
-                </button>
+                </span>
             </Link>
         }
     </header>

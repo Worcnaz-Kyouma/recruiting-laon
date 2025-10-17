@@ -19,6 +19,6 @@ export default function ArrowButton({ orientation, onClick, label }: ArrowButton
         <div className="w-8 h-8 rounded-full border border-gray-500 flex items-center justify-center cursor-pointer hover:bg-gray-200 transition">
             <ArrowIcon size={16} weight="bold" className="text-white" />
         </div> 
-        {label && <span className="cursor-pointer text-base font-medium tracking-widest">{label}</span>}
+        {label && <span className="text-action">{label}</span>}
     </button>
 }

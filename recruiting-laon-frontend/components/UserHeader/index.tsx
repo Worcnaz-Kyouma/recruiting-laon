@@ -22,7 +22,7 @@ export default function UserHeader() {
         </div>
         <span>Catalog</span> {/* Change to logo */}
         <div className="min-w-[150px] text-right">
-            <span className="cursor-pointer text-base font-medium tracking-widest" onClick={handleRegisterOrLoginRedirect}>{isLogin
+            <span className="text-action" onClick={handleRegisterOrLoginRedirect}>{isLogin
                 ? "CADASTRAR"
                 : "ENTRAR"
             }</span>

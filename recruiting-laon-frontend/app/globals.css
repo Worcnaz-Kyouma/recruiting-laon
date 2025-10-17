@@ -38,6 +38,10 @@
     .btn-primary {
         @apply cursor-pointer w-full p-4 bg-white rounded-[4px] font-semibold text-black text-base leading-[24px] tracking-normal
     }
+
+    .text-action {
+        @apply cursor-pointer text-base font-medium tracking-widest
+    }
 }
 
 input:-webkit-autofill,
