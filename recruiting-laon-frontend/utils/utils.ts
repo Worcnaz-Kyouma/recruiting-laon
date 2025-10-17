@@ -3,25 +3,25 @@ import { User } from "@/types/User";
 import { toast } from "react-toastify"
 
 export const errorToastStyle = {
-  style: {
-    padding: '16px',
-    color: '#ffffff',
-  },
-  iconTheme: {
-    primary: '#E43E3E',
-    secondary: '#FFFAEE',
-  },
+    style: {
+        padding: '16px',
+        color: '#ffffff',
+    },
+    iconTheme: {
+        primary: '#E43E3E',
+        secondary: '#FFFAEE',
+    },
 }
 
 export const successToastStyle = {
-  style: {
-    padding: '16px',
-    color: '#3EE48A',
-  },
-  iconTheme: {
-    primary: '#3EE48A',
-    secondary: '#FFFAEE',
-  },
+    style: {
+        padding: '16px',
+        color: '#FFFFFF',
+    },
+    iconTheme: {
+        primary: '#3EE48A',
+        secondary: '#FFFAEE',
+    },
 }
 
 export function invokeToastsUsingError(error: Error) {

@@ -19,10 +19,7 @@ export default function MediasContainer({ title, medias, redirectUrl }: MediasCo
     const { setIsUnauthorizedNavBlockModalOpen } = useAppStore(state => state);   
     
     const handleOpenMediaSearcher = () => {
-        if(!user) {
-            setIsUnauthorizedNavBlockModalOpen(true);
-            return;
-        }
+        if(!user) return setIsUnauthorizedNavBlockModalOpen(true);
 
         router.push(redirectUrl);
     }
