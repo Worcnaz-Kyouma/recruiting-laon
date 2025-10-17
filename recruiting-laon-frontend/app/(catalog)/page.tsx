@@ -12,6 +12,7 @@ type MediaTopPopularDTO = {
     tvSeries: TVSerie[]
 }
 
+// TODO: Improve Reposivity
 export default function HomePage() {
     const [ medias, setMedias ] = useState<MediaTopPopularDTO | undefined>(undefined);
 

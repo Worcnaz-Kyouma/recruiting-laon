@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Entities\Media;
+use App\Entities\TMDBMedia;
 use App\Entities\Movie;
 use App\Entities\TMDBError;
 use App\Entities\TVSerie;
@@ -26,7 +26,7 @@ use Illuminate\Http\Client\Response;
 
 // TODO: Reduce this class?
 /**
- * @template T of Media
+ * @template T of TMDBMedia
  */
 class TMDBApiService {
     private string $baseUrl;
@@ -74,7 +74,7 @@ class TMDBApiService {
 
     /**
      * @param class-string<T> $mediaType
-     * @return PaginatedResultsDTO<Media>
+     * @return PaginatedResultsDTO<TMDBMedia>
      */
     public function getMediasByListingMethod(
         string $mediaType, 
@@ -101,7 +101,7 @@ class TMDBApiService {
 
     /**
      * @param class-string<T> $mediaType
-     * @return PaginatedResultsDTO<Media>
+     * @return PaginatedResultsDTO<TMDBMedia>
      */
     public function getMediasByTitle(string $mediaType, string $title, int $page): PaginatedResultsDTO {
         $apiEntitiesContext = self::$appEntitiesToAPIEntitiesContextMap[$mediaType];
@@ -122,19 +122,21 @@ class TMDBApiService {
         return PaginatedResultsDTO::fromTMDBApiPaginatedResults($data, $medias);
     }
 
-    public function getMediaDetails(int $mediaTMDBId, string $mediaType): Media | null {
+    public function getMediaDetails(int $mediaTMDBId, string $mediaType, bool $fetchExtraData = true): TMDBMedia | null {
         $apiEntitiesContext = self::$appEntitiesToAPIEntitiesContextMap[$mediaType];
 
         $data = $this->getAPIData(
             $apiEntitiesContext["apiEntity"], 
             $mediaTMDBId,
-            ["append_to_response" => "translations,credits"]
+            $fetchExtraData 
+                ? ["append_to_response" => "translations,credits"] 
+                : []
         );
         if($data === null) return null;
         
         $media = $apiEntitiesContext["transformer"]($data);
         
-        if($mediaType === TVSerie::class) {
+        if($fetchExtraData && $mediaType === TVSerie::class) {
             $seasons = collect($media->getSeasons())->map(function($season) use ($mediaTMDBId) {
                 $seasonNumber = $season->getSeasonNumber();
                 $seasonData = $this->getAPIData(
@@ -154,7 +156,7 @@ class TMDBApiService {
 
     /**
      * @param array{apiEntity: string, transformer: callable} $apiEntitiesContext
-     * @return Collection<Media>
+     * @return Collection<TMDBMedia>
      */
     private function parseAPIResultsInMedias(array $apiEntitiesContext, array $results): Collection {
         return collect($results)->map(fn($extMedia) => 

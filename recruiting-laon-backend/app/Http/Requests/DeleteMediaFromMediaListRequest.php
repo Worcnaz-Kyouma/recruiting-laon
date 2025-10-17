@@ -16,4 +16,11 @@ class DeleteMediaFromMediaListRequest extends CustomFormRequest {
             'media_id' => 'required|exists:media,id',
         ];
     }
+
+    protected function prepareForValidation() {
+        $this->merge([
+            'id' => $this->route('id'),
+            'media_id' => $this->route('media_id'),
+        ]);
+    }
 }

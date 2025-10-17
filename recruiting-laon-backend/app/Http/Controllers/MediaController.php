@@ -2,14 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Entities\TMDBMedia;
+use App\Entities\Movie;
+use App\Entities\TVSerie;
 use App\Enums\MediaListingMethod;
 use App\Enums\MediaType;
 use App\Enums\MovieListingMethod;
 use App\Enums\TVSerieListingMethod;
 use App\Exceptions\ExpectedErrors\ExpectedError;
 use App\Exceptions\UnexpectedErrors\AppFailedDatabaseCommunication;
-use App\Exceptions\UnexpectedErrors\UnexpectedError;
+use App\Http\Requests\AddMediaIntoMediaListRequest;
 use App\Http\Requests\CreateMediaListRequest;
+use App\Http\Requests\DeleteMediaFromMediaListRequest;
 use App\Http\Requests\DeleteMediaListRequest;
 use App\Http\Requests\GetMediaListsByUserRequest;
 use App\Http\Requests\ListingMethodsRequest;
@@ -18,11 +22,15 @@ use App\Models\MediaList;
 use App\Services\TMDBApiService;
 use Exception;
 use Illuminate\Database\QueryException;
-use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Collection;
 
 // TODO: Custom Errors
 class MediaController extends Controller {
     private TMDBApiService $tmdb;
+    private static array $mediaTypeToTMDBEntitiesMap = [
+        "tv-serie" => TVSerie::class,
+        "movie" => Movie::class
+    ];
 
     public function __construct(TMDBApiService $tmdb) {
         $this->tmdb = $tmdb;
@@ -48,24 +56,42 @@ class MediaController extends Controller {
         return response()->json($listingMethods);
     }
 
-    // TODO: Pagination.
-    // TODO: Fetch API to medias data, WITHOUT EXTRA DATA!!!.
     public function getMediaListsByUser(GetMediaListsByUserRequest $request) {
+        $mediaListsPerPage = 5; 
         $data = $request->validated();
         $userId = $data["user_id"];
         
         try {
-            $mediaLists = MediaList::where("user_id", $userId)->get();
+            $mediaLists = MediaList::where("user_id", $userId)->paginate($mediaListsPerPage);
         } catch (Exception $e) {
             throw new AppFailedDatabaseCommunication($e);
         }
+        if($mediaLists->isEmpty()) return response()->json($mediaLists);
+
+        $mediaLists->getCollection()->each(fn($mediaList) => 
+            $this->populateTMDBMediasIntoDBMedias($mediaList["medias"])
+        );
 
         return response()->json($mediaLists);
     }
+
+    /**
+     * @param Collection<Media> $medias
+     */
+    private function populateTMDBMediasIntoDBMedias(Collection $medias): void {
+        $medias->each(function($media) {
+            $tmdbId = $media["tmdb_id"];
+            $mediaType = $media["media_type"];
+            $tmdbEntity = self::$mediaTypeToTMDBEntitiesMap[$mediaType];
+            
+            $tmdbMedia = $this->tmdb->getMediaDetails($tmdbId, $tmdbEntity, false);
+            $media["tmdb_media"] = $tmdbMedia;
+        });
+    }
+
     public function createMediaList(CreateMediaListRequest $request) { 
         $data = $request->validated();
     
-        $mediaList = null;
         try {
             $mediaList = MediaList::create($data);
         } catch (QueryException $e) {
@@ -88,14 +114,14 @@ class MediaController extends Controller {
         $mediaList->load('medias');
         return response()->json($mediaList, 201);
     }
-    // TODO: Verify
-    public function addMediaIntoMediaList(Request $request) {
+
+    public function addMediaIntoMediaList(AddMediaIntoMediaListRequest $request) {
         $data = $request->validated();
 
         try {
             $mediaList = MediaList::findOrFail($data['id']);
 
-            $mediasIdToAttach = collect($data['media'])
+            $mediasIdToAttach = collect($data['medias'])
                 ->map(fn($media) => Media::firstOrCreate([
                     'tmdb_id' => $media['tmdb_id'],
                     'media_type' => $media['media_type'],
@@ -103,30 +129,28 @@ class MediaController extends Controller {
                 ->map(fn($media) => $media->id)
                 ->toArray();
 
-            $mediaList->medias()->syncWithoutDetaching($mediasIdToAttach); // avoids duplicates
-            $mediaList->load('medias');
+            $mediaList->medias()->syncWithoutDetaching($mediasIdToAttach);
 
+            $mediaList->load('medias');
         } catch (Exception $e) {
             throw new AppFailedDatabaseCommunication($e);
         }
 
-        return response()->json($mediaList);
+        return response()->json($mediaList, 201);
     }
     
-    // Verify
-    public function deleteMediaFromMediaList(Request $request) {
+    public function deleteMediaFromMediaList(DeleteMediaFromMediaListRequest $request) {
         $data = $request->validated();
 
         try {
             $mediaList = MediaList::findOrFail($data['id']);
-            $detached = $mediaList->medias()->detach($data['media_id']);
-
+            $numberOfRowsDeleted = $mediaList->medias()->detach($data['media_id']);
         } catch (Exception $e) {
             throw new AppFailedDatabaseCommunication($e);
         }
 
-        if ($detached === 0) {
-            throw new ExpectedError("", 404, "O media informado não está vinculado a esta lista.");
+        if ($numberOfRowsDeleted === 0) {
+            throw new ExpectedError("", 404, "A midia informada não está vinculado a esta lista.");
         }
 
         return response()->noContent();

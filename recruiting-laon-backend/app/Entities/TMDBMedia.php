@@ -2,7 +2,7 @@
 
 namespace App\Entities;
 
-class Media extends Entity {
+class TMDBMedia extends Entity {
     protected int $tmdbId;
     protected string $title;
     protected ?string $titlePortuguese = null;

@@ -2,7 +2,7 @@
 
 namespace App\Entities;
 
-class TVSerie extends Media {
+class TVSerie extends TMDBMedia {
     /**
      * @var array<TVSeason> | null
      */
@@ -12,7 +12,7 @@ class TVSerie extends Media {
     /**
      * @param array<TVSeason> | null $summarizedSeasons
      */
-    public function __construct(Media $media, array $summarizedSeasons = []) {
+    public function __construct(TMDBMedia $media, array $summarizedSeasons = []) {
         parent::__construct(
             $media->tmdbId,
             $media->title,

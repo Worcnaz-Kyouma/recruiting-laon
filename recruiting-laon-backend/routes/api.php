@@ -24,8 +24,11 @@ Route::prefix("media")->group(function () {
     Route::get("/listing-method/{media_type}", [MediaController::class, "getListingMethods"]); 
 
     Route::prefix("list")->middleware("auth:sanctum")->group(function () {
-        Route::get("/{user_id}", [MediaController::class, "getMediaListsByUser"]);
+        Route::get("/by-user/{user_id}", [MediaController::class, "getMediaListsByUser"]);
         Route::post("", [MediaController::class, "createMediaList"]);
+        Route::patch("/{id}/add-media", [MediaController::class, "addMediaIntoMediaList"]);
+        Route::delete("/{id}/{media_id}", [MediaController::class, "deleteMediaFromMediaList"]);
+        Route::delete("/{id}", [MediaController::class, "deleteMediaList"]);
     });
 });
 

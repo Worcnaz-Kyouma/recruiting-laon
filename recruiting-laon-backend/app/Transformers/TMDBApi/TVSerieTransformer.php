@@ -4,7 +4,7 @@ namespace App\Transformers\TMDBApi;
 
 use App\Entities\TVSerie;
 
-class TVSerieTransformer extends MediaTransformer {
+class TVSerieTransformer extends TMDBMediaTransformer {
     protected static function fromExternal(array $ext): TVSerie {
         $media = parent::fromExternal($ext);
 

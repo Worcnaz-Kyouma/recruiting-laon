@@ -6,7 +6,7 @@ use App\Entities\Movie;
 use Carbon\CarbonInterface;
 use Carbon\CarbonInterval;
 
-class MovieTransformer extends MediaTransformer {
+class MovieTransformer extends TMDBMediaTransformer {
     protected static function fromExternal(array $ext): Movie {
         $media = parent::fromExternal($ext);
 

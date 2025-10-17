@@ -10,7 +10,8 @@ class GetMediaListsByUserRequest extends CustomFormRequest {
      */
     public function rules(): array {
         return [
-            'user_id'  => 'required|exists:users,id'
+            'user_id'  => 'required|exists:users,id',
+            'page' => "required|integer|min:1"
         ];
     }
 

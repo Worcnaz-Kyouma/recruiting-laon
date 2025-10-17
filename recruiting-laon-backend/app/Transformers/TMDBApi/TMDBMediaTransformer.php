@@ -5,12 +5,12 @@ namespace App\Transformers\TMDBApi;
 use App\Entities\Actor;
 use App\Entities\Director;
 use App\Entities\Genre;
-use App\Entities\Media;
+use App\Entities\TMDBMedia;
 
 // OBS to Code Reviewer: Genre, Actor and Director could receive its own Transformer, but i choose to keep it simple
 // TODO: get portuguese overview from translations, and wrap all brazilian fields into an whole object
-class MediaTransformer extends TMDBTransformer {
-    protected static function fromExternal(array $ext): Media {
+class TMDBMediaTransformer extends TMDBTransformer {
+    protected static function fromExternal(array $ext): TMDBMedia {
         $tmdbId = $ext['id'];
         $title = static::titleFromExternal($ext);
         $titlePortuguese = static::titlePortugueseFromExternalTranslations($ext);
@@ -25,7 +25,7 @@ class MediaTransformer extends TMDBTransformer {
             ? "$tmdbImageBaseUrl{$ext['poster_path']}"
             : null;
 
-        $movie = new Media(
+        $movie = new TMDBMedia(
             $tmdbId, $title, $titlePortuguese,
             $genres, $overview, $actors,
             $directors, $review, $reviewCount, $posterImgUrl
