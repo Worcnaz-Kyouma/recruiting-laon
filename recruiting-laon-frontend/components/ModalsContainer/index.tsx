@@ -28,7 +28,7 @@ export default function ModalsContainer() {
 
     if(!isAnyModalOpen) return <></>
 
-    return <div className="w-full h-full absolute top-0 left-0 z-100 flex items-center justify-center bg-gray-100/40">
+    return <div className="w-full h-full fixed top-0 left-0 z-100 flex items-center justify-center bg-gray-100/40">
         {isUnauthorizedNavBlockModalOpen && <UnauthorizedNavBlockModal />}
         {isCreateMediaListModalOpen && <CreateMediaListModal />}
         {isRemoveMediasFromMediaListModalOpen && <RemoveMediasFromMediaListModal />}
