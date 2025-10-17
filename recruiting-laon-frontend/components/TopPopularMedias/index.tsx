@@ -7,6 +7,7 @@ import { MediaType } from "@/enums/MediaType";
 import ArrowButton from "../ArrowButton";
 import useUser from "@/hooks/useUser";
 import { useAppStore } from "@/providers/user-store-provider";
+import MediaCardsGrid from "../MediaCardsGrid";
 
 export default function TopPopularMedias({ medias }: Readonly<{ medias: Media[] | undefined }>) {
     const router = useRouter();
@@ -36,8 +37,6 @@ export default function TopPopularMedias({ medias }: Readonly<{ medias: Media[] 
             <h2 className="text-sm font-semibold text-gray-500">{mediaTypeStringfied}</h2>
             <ArrowButton orientation="right" onClick={handleOpenMediaSearcher} />
         </div>
-        <div className="flex gap-6">{(medias ?? new Array(numberOfLoadingMediasToShow).fill(undefined)).map((media, idx) => 
-            <MediaCard key={media?.tmdbId || idx} media={media} />
-        )}</div>
+        <MediaCardsGrid medias={medias ?? new Array(numberOfLoadingMediasToShow).fill(undefined)}/>
     </div>;
 }

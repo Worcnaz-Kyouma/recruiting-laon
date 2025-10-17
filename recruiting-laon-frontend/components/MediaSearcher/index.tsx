@@ -10,6 +10,7 @@ import AppAPIClient from "@/utils/AppAPIClient";
 import { invokeToastsUsingError } from "@/utils/utils";
 import CustomLoader from "../CustomLoader";
 import CustomPagination from "../CustomPagination";
+import MediaCardsGrid from "../MediaCardsGrid";
 
 export default function MediaSearcher({ mediaType }: Readonly<{ mediaType: MediaType }>) {
     const [ isLoading, setIsLoading ] = useState<boolean>(false);
@@ -96,9 +97,9 @@ export default function MediaSearcher({ mediaType }: Readonly<{ mediaType: Media
                 </button>
             </div>
             <div className="relative">
-                <div className="grid p-2 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6 bg-">{medias.map(media => 
-                    <MediaCard key={media.tmdbId} media={media} />
-                )}</div>
+                <div className="p-2">
+                    <MediaCardsGrid medias={medias} />
+                </div>
                 {numberOfPages &&
                     <div className="p-2">
                         <CustomPagination page={page} setPage={setPage} numberOfPages={numberOfPages} afterChange={onPageChange} isLoading={isLoading} />
