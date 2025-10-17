@@ -7,8 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class MediaList extends Model {
     protected $fillable = ['name', 'user_id'];
 
-    protected $with = ['medias'];
-
     public function user() {
         return $this->belongsTo(User::class);
     }

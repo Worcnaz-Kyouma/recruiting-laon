@@ -7,7 +7,6 @@ import useUser from "@/hooks/useUser";
 import ArrowButton from "../ArrowButton";
 import { useRouterHistory } from "@/hooks/useRouterHistory";
 
-// TODO: Return should go back to movies, tv-series or home-page. Store previus page.
 export default function CatalogHeader() {
     const router = useRouter();
     const user = useUser();
@@ -17,7 +16,7 @@ export default function CatalogHeader() {
     const isHome = pathname === "/";
 
     const handleHomePageRedirect = () => {
-        if(!["/movie", "/tv-serie"].includes(pathname))
+        if(!["/movie", "/tv-serie", "/my-lists"].includes(pathname))
             router.push(routerHistory.length > 2 
                 ? routerHistory[routerHistory.length - 2] 
                 : "/"

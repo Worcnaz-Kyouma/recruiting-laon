@@ -15,6 +15,7 @@ use App\Http\Requests\AddMediaIntoMediaListRequest;
 use App\Http\Requests\CreateMediaListRequest;
 use App\Http\Requests\DeleteMediaFromMediaListRequest;
 use App\Http\Requests\DeleteMediaListRequest;
+use App\Http\Requests\GetMediaListDetailsRequest;
 use App\Http\Requests\GetMediaListsByUserRequest;
 use App\Http\Requests\ListingMethodsRequest;
 use App\Models\Media;
@@ -57,7 +58,8 @@ class MediaController extends Controller {
     }
 
     public function getMediaListsByUser(GetMediaListsByUserRequest $request) {
-        $mediaListsPerPage = 5; 
+        $mediaListsPerPage = 5;
+        $mediasPerList = 6;
         $data = $request->validated();
         $userId = $data["user_id"];
         
@@ -68,11 +70,36 @@ class MediaController extends Controller {
         }
         if($mediaLists->isEmpty()) return response()->json($mediaLists);
 
-        $mediaLists->getCollection()->each(fn($mediaList) => 
-            $this->populateTMDBMediasIntoDBMedias($mediaList["medias"])
-        );
+        $mediaLists->getCollection()->each(function($mediaList) use ($mediasPerList) { 
+            $mediaList->load(['medias' => fn($query) =>
+                $query->take($mediasPerList)
+            ]);
+            $this->populateTMDBMediasIntoDBMedias($mediaList["medias"]);
+        });
 
         return response()->json($mediaLists);
+    }
+
+    public function getMediaListDetails(GetMediaListDetailsRequest $request) {
+        $mediasPerPage = 20;
+        $data = $request->validated();
+        $id = $data["id"];
+        
+        try {
+            $mediaList = MediaList::find($id);
+        } catch (Exception $e) {
+            throw new AppFailedDatabaseCommunication($e);
+        }
+        if(!$mediaList) return response()->json($mediaList);
+
+        $paginatedMedias = $mediaList->medias()->paginate($mediasPerPage);
+
+        $this->populateTMDBMediasIntoDBMedias($paginatedMedias->getCollection());
+
+        return response()->json([
+            'mediaList' => $mediaList->only(['id', 'name', 'user_id']),
+            'medias' => $paginatedMedias,
+        ]);
     }
 
     /**

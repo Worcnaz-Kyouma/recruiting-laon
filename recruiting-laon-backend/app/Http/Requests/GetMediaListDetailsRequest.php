@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class DeleteMediaListRequest extends CustomFormRequest {
+class GetMediaListDetailsRequest extends CustomFormRequest {
     /**
      * Get the validation rules that apply to the request.
      *
@@ -12,7 +12,8 @@ class DeleteMediaListRequest extends CustomFormRequest {
      */
     public function rules(): array {
         return [
-            'id' => 'required|exists:media_lists,id'
+            'id' => 'required|exists:media_lists,id',
+            'page' => "required|integer|min:1"
         ];
     }
 

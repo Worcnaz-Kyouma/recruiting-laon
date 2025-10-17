@@ -25,6 +25,7 @@ Route::prefix("media")->group(function () {
 
     Route::prefix("list")->middleware("auth:sanctum")->group(function () {
         Route::get("/by-user/{user_id}", [MediaController::class, "getMediaListsByUser"]);
+        Route::get("/{id}", [MediaController::class, "getMediaListDetails"]);
         Route::post("", [MediaController::class, "createMediaList"]);
         Route::patch("/{id}/add-media", [MediaController::class, "addMediaIntoMediaList"]);
         Route::delete("/{id}/{media_id}", [MediaController::class, "deleteMediaFromMediaList"]);
