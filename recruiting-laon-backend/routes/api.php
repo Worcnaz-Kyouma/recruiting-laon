@@ -7,8 +7,6 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 // TODO: IMPORTANT validate all the "use" imports and removed unused ones 
-// TODO: Make cache!
-// TODO: Improve errors message
 // TODO: Media List name must be at least one character 
 Route::get('/', function () {
     return response()->json(['message' => 'Bem vindo a Laon-Catalog! Você deve estar logado com um usuário para usar a maioria dos recursos. Procure as rotas createUser/login.']);

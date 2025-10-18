@@ -13,7 +13,6 @@ use App\Models\User;
 use Auth;
 use Hash;
 
-// TODO: Make big try catch wrappers, then identify error in catch
 class UserController extends Controller {
     private const string TOKEN_IDENTIFIER = "AppUser";
 

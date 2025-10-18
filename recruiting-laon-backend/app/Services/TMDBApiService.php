@@ -25,7 +25,6 @@ use Http;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Cache;
 
-// TODO: Reduce this class?
 /**
  * @template T of TMDBMedia
  */
@@ -55,7 +54,6 @@ class TMDBApiService {
         $this->apiKey = $apiKey;
     }
 
-    // TODO: IMPORTANT Wrap it on a DTO
     /**
      * @return TopPopularMediaDTO
      */

@@ -23,7 +23,6 @@ export default function TVSerieDetailsPage({ params }: Readonly<TVSerieDetailsPr
             const apiResponse = await AppAPIClient.fetchAPI("tv-serie", tmdbId, "GET");
             setTVSerie(apiResponse);
         } catch(err) {
-            // TODO: Improve invokeToastsUsingError to receive generic Error
             invokeToastsUsingError(err);
         }
     }

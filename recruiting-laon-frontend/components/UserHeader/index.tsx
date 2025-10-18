@@ -4,8 +4,6 @@ import React from "react";
 import ArrowButton from "../ArrowButton";
 import Image from "next/image";
 
-// TODO: Wrap arrow buttons and spaced strings into components somehow
-// TODO: Logout
 export default function UserHeader() {
     const router = useRouter();
 

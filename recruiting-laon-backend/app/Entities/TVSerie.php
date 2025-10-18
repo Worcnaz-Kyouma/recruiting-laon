@@ -8,7 +8,6 @@ class TVSerie extends TMDBMedia {
      */
     private ?array $seasons = null;
 
-    // TODO: There's a way to improve that construct call?
     /**
      * @param array<TVSeason> | null $summarizedSeasons
      */

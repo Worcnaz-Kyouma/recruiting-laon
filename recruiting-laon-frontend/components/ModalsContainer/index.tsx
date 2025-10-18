@@ -2,22 +2,10 @@
 import React from "react";
 import { useAppStore } from "@/providers/user-store-provider";
 
-// TODO: IMPORTANT modal to add into media list
 export default function ModalsContainer() {
     const { 
         currentModal
     } = useAppStore(store => store);
-
-    // TODO: Enable it?
-    // useEffect(() => {
-    //     if (typeof currentModal !== 'undefined') {
-    //         document.body.classList.add("overflow-hidden");
-    //     } else {
-    //         document.body.classList.remove("overflow-hidden");
-    //     }
-
-    //     return () => document.body.classList.remove("overflow-hidden");
-    // }, [ currentModal ]);
 
     if(typeof currentModal === 'undefined') return <></>
 

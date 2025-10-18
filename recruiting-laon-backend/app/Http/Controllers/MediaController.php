@@ -25,7 +25,6 @@ use Exception;
 use Illuminate\Database\QueryException;
 use Illuminate\Database\Eloquent\Collection;
 
-// TODO: Custom Errors
 class MediaController extends Controller {
     private TMDBApiService $tmdb;
     private static array $mediaTypeToTMDBEntitiesMap = [

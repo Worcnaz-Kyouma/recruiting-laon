@@ -26,7 +26,6 @@ const SecondaryDetail = ({ description, value }: Readonly<Detail>) =>
         }</p>
     </div>
 
-// TODO: Adjust degrade styling box in the background to the Primary details header
 export default function MediaDetails({ media }: Readonly<{ media: Media | undefined }>) {
     const { setCurrentModal } = useAppStore(state => state);
     const isTvSerieMedia = media && "seasons" in media;

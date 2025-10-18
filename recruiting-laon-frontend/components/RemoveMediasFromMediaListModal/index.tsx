@@ -7,7 +7,6 @@ import { invokeToastsUsingError, successToastStyle } from "@/utils/utils";
 import { toast } from "react-toastify";
 import AppAPIClient from "@/utils/AppAPIClient";
 
-// TODO: IMPORTANT make an endpoint to remove a buck of medias, not only one per one
 export default function RemoveMediasFromMediaListModal() {
     const { closeCurrentModal, selectedMedias, clearSelectedMedias } = useAppStore(store => store);
     const pathname = usePathname();

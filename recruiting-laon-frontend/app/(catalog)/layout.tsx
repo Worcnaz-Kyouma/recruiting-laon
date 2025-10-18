@@ -8,7 +8,6 @@ import { useAppStore } from "@/providers/user-store-provider";
 import { usePathname } from "next/navigation";
 import { Minus } from "phosphor-react";
 
-// TODO: IMPORTANT Improve the absolute box of degrade, its getting strange in details
 export default function CatalogLayout({
     children
 }: Readonly<{

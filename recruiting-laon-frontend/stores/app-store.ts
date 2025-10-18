@@ -3,7 +3,6 @@ import Media from "@/types/Media";
 import { JSX } from "react";
 import { createStore } from "zustand";
 
-// TODO: Improve Modals data structure
 export type AppState = {
     currentModal: JSX.Element | undefined
     lastMediaTitleSearched: string;

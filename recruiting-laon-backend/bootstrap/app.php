@@ -19,13 +19,12 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->statefulApi();
 
-        // TODO: Validate it, kinda trick, but works
         $middleware->api(append: [
             StartSession::class,
             EnsureFrontendRequestsAreStateful::class
         ]);
 
-        $middleware->redirectGuestsTo('/unauthorized-user'); // TODO: Try to remove it
+        $middleware->redirectGuestsTo('/unauthorized-user');
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->render(function (Exception $e, Request $request) {
