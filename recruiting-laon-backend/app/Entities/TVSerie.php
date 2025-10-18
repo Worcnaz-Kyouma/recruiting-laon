@@ -16,7 +16,6 @@ class TVSerie extends TMDBMedia {
         parent::__construct(
             $media->tmdbId,
             $media->title,
-            $media->titlePortuguese,
             $media->releaseDate,
             $media->genres,
             $media->overview,
@@ -25,7 +24,8 @@ class TVSerie extends TMDBMedia {
             $media->review,
             $media->reviewCount,
             $media->posterImgUrl,
-            $media->youtubeTrailerVideoUrl
+            $media->youtubeTrailerVideoUrl,
+            $media->portugueseInfos
         );
 
         $this->seasons = $summarizedSeasons;

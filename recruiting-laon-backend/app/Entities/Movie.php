@@ -8,7 +8,6 @@ class Movie extends TMDBMedia {
         parent::__construct(
             $media->tmdbId,
             $media->title,
-            $media->titlePortuguese,
             $media->releaseDate,
             $media->genres,
             $media->overview,
@@ -17,7 +16,8 @@ class Movie extends TMDBMedia {
             $media->review,
             $media->reviewCount,
             $media->posterImgUrl,
-            $media->youtubeTrailerVideoUrl
+            $media->youtubeTrailerVideoUrl,
+            $media->portugueseInfos
         );
 
         $this->durationStringfied = $durationStringfied;

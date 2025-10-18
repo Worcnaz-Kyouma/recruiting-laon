@@ -7,7 +7,6 @@ use DateTime;
 class TMDBMedia extends Entity {
     protected int $tmdbId;
     protected string $title;
-    protected ?string $titlePortuguese = null;
     protected ?DateTime $releaseDate = null;
     /**
      * @var array<Genre> | null
@@ -27,16 +26,16 @@ class TMDBMedia extends Entity {
     protected ?int $reviewCount;
     protected ?string $posterImgUrl;
     protected ?string $youtubeTrailerVideoUrl;
+    protected ?PortugueseInfos $portugueseInfos;
 
     public function __construct(
-        int $tmdbId, string $title, ?string $titlePortuguese, ?DateTime $releaseDate,
+        int $tmdbId, string $title, ?DateTime $releaseDate,
         ?array $genres, ?string $overview, ?array $actors,
         ?array $directors, ?float $review, ?int $reviewCount, ?string $posterImgUrl,
-        ?string $youtubeTrailerVideoUrl
+        ?string $youtubeTrailerVideoUrl, ?PortugueseInfos $portugueseInfos
     ) {
         $this->tmdbId = $tmdbId;
         $this->title = $title;
-        $this->titlePortuguese = $titlePortuguese;
         $this->releaseDate = $releaseDate;
         $this->genres = $genres;
         $this->overview = $overview;
@@ -46,13 +45,13 @@ class TMDBMedia extends Entity {
         $this->reviewCount = $reviewCount;
         $this->posterImgUrl = $posterImgUrl;
         $this->youtubeTrailerVideoUrl = $youtubeTrailerVideoUrl;
+        $this->portugueseInfos = $portugueseInfos;
     }
 
     public function jsonSerialize(): mixed {
         return [
             "tmdbId" => $this->tmdbId,
             "title" => $this->title,
-            "titlePortuguese" => $this->titlePortuguese,
             "releaseDate" => $this->releaseDate?->format('Y-m-d'),
             "genres" => $this->genres
                 ? array_map(fn($genre) => $genre->jsonSerialize(), $this->genres)
@@ -68,7 +67,8 @@ class TMDBMedia extends Entity {
             "review" => $this->review,
             "reviewCount" => $this->reviewCount,
             "posterImgUrl" => $this->posterImgUrl,
-            "youtubeTrailerVideoUrl" => $this->youtubeTrailerVideoUrl
+            "youtubeTrailerVideoUrl" => $this->youtubeTrailerVideoUrl,
+            "portugueseInfos" => $this->portugueseInfos
         ];
     }
 }

@@ -1,12 +1,12 @@
 import Actor from "./Actor";
 import Director from "./Director";
 import Genre from "./Genre";
+import PortugueseInfos from "./PortugueseInfos";
 
 export default interface Media {
     id?: number;
     tmdbId: number;
     title: string;
-    titlePortuguese: string | null;
     releaseDate: string | null;
     genres: Genre[] | null;
     durationStringfied: string | null;
@@ -17,4 +17,5 @@ export default interface Media {
     reviewCount: number | null;
     posterImgUrl: string | null;
     youtubeTrailerVideoUrl: string | null;
+    portugueseInfos: PortugueseInfos | null;
 }

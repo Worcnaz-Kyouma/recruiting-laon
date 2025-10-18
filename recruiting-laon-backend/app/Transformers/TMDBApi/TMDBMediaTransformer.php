@@ -9,12 +9,10 @@ use App\Entities\TMDBMedia;
 use DateTime;
 
 // OBS to Code Reviewer: Genre, Actor and Director could receive its own Transformer, but i choose to keep it simple
-// TODO: get portuguese overview from translations, and wrap all brazilian fields into an whole object
 class TMDBMediaTransformer extends TMDBTransformer {
     protected static function fromExternal(array $ext): TMDBMedia {
         $tmdbId = $ext['id'];
         $title = static::titleFromExternal($ext);
-        $titlePortuguese = static::titlePortugueseFromExternalTranslations($ext);
         $releaseDate = array_key_exists("release_date", $ext) && $ext["release_date"]
             ? new DateTime($ext["release_date"])
             : null;
@@ -36,11 +34,13 @@ class TMDBMediaTransformer extends TMDBTransformer {
 
         $youtubeTrailerVideoUrl = static::mostRecentYoutubeTrailerFromExternal($ext);
 
+        $portugueseInfos = PortugueseInfosTransformer::tryFromExternal($ext);
+
         $movie = new TMDBMedia(
-            $tmdbId, $title, $titlePortuguese, $releaseDate,
+            $tmdbId, $title, $releaseDate,
             $genres, $overview, $actors,
             $directors, $review, $reviewCount, $posterImgUrl,
-            $youtubeTrailerVideoUrl
+            $youtubeTrailerVideoUrl, $portugueseInfos
         );
 
         return $movie;
@@ -48,15 +48,6 @@ class TMDBMediaTransformer extends TMDBTransformer {
 
     protected static function titleFromExternal(array $ext): string {
         return $ext['original_title'];
-    }
-
-    protected static function titlePortugueseFromExternalTranslations(array $ext): ?string {
-        if(!isset($ext['translations'])) return null;
-
-        return data_get(
-            collect($ext['translations']["translations"])->firstWhere("iso_3166_1", "BR"),
-            'data.title'
-        );
     }
     
     protected static function genresFromExternal(array $ext): ?array {

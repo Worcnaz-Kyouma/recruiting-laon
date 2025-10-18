@@ -55,8 +55,8 @@ export default function MediaDetails({ media }: Readonly<{ media: Media | undefi
         </div>
         <div className="flex flex-col gap-15">
             <div className="flex flex-col gap-1">
-                <h1 className="font-semibold text-4xl leading-[100%] tracking-normal">{media.titlePortuguese || media.title}</h1>
-                {media.titlePortuguese && 
+                <h1 className="font-semibold text-4xl leading-[100%] tracking-normal">{media?.portugueseInfos?.title || media.title}</h1>
+                {media?.portugueseInfos?.title && 
                     <PrimaryDetail description="Título original" value={media.title} />
                 }
                 <PrimaryDetail description="Ano" value={media.releaseDate
@@ -67,7 +67,7 @@ export default function MediaDetails({ media }: Readonly<{ media: Media | undefi
                 <div className="flex gap-2">{media.genres?.map(genre => <GenreDetail key={genre.tmdbId} genre={genre} />)}</div>
             </div>
             <div className="flex flex-col gap-3">
-                <SecondaryDetail description="Sinopse" value={media.overview || "Sinopse não encontrada."} />
+                <SecondaryDetail description="Sinopse" value={media?.portugueseInfos?.overview || media.overview || "Sinopse não encontrada."} />
                 <div className="flex gap-2">
                     {media.actors && <SecondaryDetail description="Elenco" value={media.actors.map(actor => actor.name)} />}
                     {media.directors && <SecondaryDetail description="Diretores" value={media.directors.map(director => director.name)} />}
