@@ -20,7 +20,7 @@ return [
     'allowed_methods' => ['*'],
 
     'allowed_origins' => [
-        '/^https:\/\/recruiting-laon-[a-z0-9]+-nicolasprados-projects\.vercel\.app$/',
+        '*.vercel.app',
         'http://localhost:3000'
     ],
 
