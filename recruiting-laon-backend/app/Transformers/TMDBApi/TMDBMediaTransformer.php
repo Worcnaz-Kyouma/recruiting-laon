@@ -22,8 +22,12 @@ class TMDBMediaTransformer extends TMDBTransformer {
         $overview = $ext['overview'] ?: null;
         $actors = static::actorsFromExternalCredits($ext);
         $directors = static::directorsFromExternalCredits($ext);
-        $review = $ext['vote_average'];
-        $reviewCount = $ext['vote_count'];
+        $review = array_key_exists("vote_average", $ext) 
+            ? $ext['vote_average']
+            : null;
+        $reviewCount = array_key_exists("vote_count", $ext) 
+            ? $ext["vote_count"]
+            : null;
         
         $tmdbImageBaseUrl = config('tmdb.image_base_url');
         $posterImgUrl = array_key_exists("poster_path", $ext) && $ext['poster_path']

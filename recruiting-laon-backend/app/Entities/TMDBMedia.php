@@ -23,15 +23,15 @@ class TMDBMedia extends Entity {
      * @var array<Director> | null
      */
     protected ?array $directors = null;
-    protected float $review;
-    protected int $reviewCount;
+    protected ?float $review;
+    protected ?int $reviewCount;
     protected ?string $posterImgUrl;
     protected ?string $youtubeTrailerVideoUrl;
 
     public function __construct(
         int $tmdbId, string $title, ?string $titlePortuguese, ?DateTime $releaseDate,
         ?array $genres, ?string $overview, ?array $actors,
-        ?array $directors, float $review, int $reviewCount, ?string $posterImgUrl,
+        ?array $directors, ?float $review, ?int $reviewCount, ?string $posterImgUrl,
         ?string $youtubeTrailerVideoUrl
     ) {
         $this->tmdbId = $tmdbId;

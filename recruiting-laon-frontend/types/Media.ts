@@ -13,8 +13,8 @@ export default interface Media {
     overview: string | null;
     actors: Actor[] | null;
     directors: Director[] | null;
-    review: number;
-    reviewCount: number;
+    review: number | null;
+    reviewCount: number | null;
     posterImgUrl: string | null;
     youtubeTrailerVideoUrl: string | null;
 }

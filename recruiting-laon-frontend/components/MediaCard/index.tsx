@@ -18,8 +18,8 @@ export default function MediaCard({ media }: Readonly<{ media: Media | undefined
     const router = useRouter();
     const user = useUser();
     const { selectedMedias, setCurrentModal, addMediaIntoSelectedMedias, removeMediaFromSelectedMedias } = useAppStore(state => state);
+    const [ isSelected, setIsSelected ] = useState<boolean>(false);
     
-    const [ isSelected , setIsSelected] = useState<boolean>(false);
     const [ isHover, setIsHover ] = useState<boolean>(false);
 
     const isTVSerieMedia = media && "seasons" in media;
@@ -29,10 +29,7 @@ export default function MediaCard({ media }: Readonly<{ media: Media | undefined
         : MediaType.Movie;
 
     const handleMediaSelection = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const isSelectingMedia = e.target.checked;
-        setIsSelected(isSelectingMedia);
-        
-        if(isSelectingMedia) addMediaIntoSelectedMedias(media!);
+        if(!isSelected) addMediaIntoSelectedMedias(media!);
         else removeMediaFromSelectedMedias(media!);
     }
 
@@ -41,16 +38,16 @@ export default function MediaCard({ media }: Readonly<{ media: Media | undefined
             
         router.push(`/${mediaType}/${media!.tmdbId}`) 
     }
-
-    useEffect(() => {
-        if(selectedMedias.length < 1)
-            setIsSelected(false)
-    }, [ selectedMedias ])
     
     const handleMediaClick = (e: React.MouseEvent<HTMLDivElement>) => {
         e.preventDefault();
         openMediaDetails();
     }
+
+    useEffect(
+        () => media && setIsSelected(selectedMedias.some(m => m.tmdbId === media.tmdbId)), 
+        [selectedMedias, media]
+    )
 
     // Loading
     if(!media) 

@@ -42,7 +42,7 @@ export const createAppStore = (
             selectedMedias: [...state.selectedMedias, media]
         })),
         removeMediaFromSelectedMedias: (media: Media) => set((state) => ({
-            selectedMedias: state.selectedMedias.filter(sm => sm !== media)
+            selectedMedias: state.selectedMedias.filter(sm => sm.tmdbId !== media.tmdbId)
         })),
         clearSelectedMedias: () => set(() => ({
             selectedMedias: []

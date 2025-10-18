@@ -72,9 +72,9 @@ export default function MediaDetails({ media }: Readonly<{ media: Media | undefi
                     {media.actors && <SecondaryDetail description="Elenco" value={media.actors.map(actor => actor.name)} />}
                     {media.directors && <SecondaryDetail description="Diretores" value={media.directors.map(director => director.name)} />}
                 </div>
-                <div className="flex gap-2">
+                <div className="flex gap-2">{media.review !== null && 
                     <SecondaryDetail description="Avaliações" value={`TMDB: ${(Math.ceil(media.review * 10) / 10).toFixed(1).replace('.', ',')}`} />
-                </div>
+                }</div>
             </div>
         </div>
     </div>;
