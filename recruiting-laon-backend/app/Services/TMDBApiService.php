@@ -23,6 +23,7 @@ use App\Transformers\TMDBApi\TVSerieTransformer;
 use Exception;
 use Http;
 use Illuminate\Http\Client\Response;
+use Illuminate\Support\Facades\Cache;
 
 // TODO: Reduce this class?
 /**
@@ -170,34 +171,43 @@ class TMDBApiService {
      * @param array<string, string> $query
      */
     private function getAPIData(string $apiEntity, string $endPoint, array $query = []): mixed {
-        $defaultHeaders = [
-            'Authorization' => "Bearer $this->apiKey",
-            'Accept'        => 'application/json'
-        ];
-        $defaultQuery = [
-            'language' => 'en-US'
-        ];
+        $cacheKey = "TMDB_getAPIData_{$apiEntity}_{$endPoint}_" . md5(json_encode($query));
+        $cacheDurationInMinutes = 60;
+        return Cache::remember($cacheKey, now()->addMinutes($cacheDurationInMinutes), function() use($apiEntity, $endPoint, $query) {
+            $defaultHeaders = [
+                'Authorization' => "Bearer $this->apiKey",
+                'Accept'        => 'application/json'
+            ];
+            $defaultQuery = [
+                'language' => 'en-US'
+            ];
+    
+            try {
+                $response = Http::withOptions(['verify' => false])
+                    ->withHeaders($defaultHeaders)
+                    ->get(
+                        "$this->baseUrl/$this->apiVersion/$apiEntity/$endPoint", 
+                        array_merge($defaultQuery, $query)
+                    );
+                if (!$response->successful()) {
+                    $error = $this->buildAppErrorFromAPIFailure($response);
+                    if($error instanceof TMDBDataNotFoundError) return null;
+    
+                    throw $error;
+                }
+                $body = $response->json();
 
-        try {
-            $response = Http::withOptions(['verify' => false])
-                ->withHeaders($defaultHeaders)
-                ->get(
-                    "$this->baseUrl/$this->apiVersion/$apiEntity/$endPoint", 
-                    array_merge($defaultQuery, $query)
-                );
-            if (!$response->successful()) {
-                $error = $this->buildAppErrorFromAPIFailure($response);
-                if($error instanceof TMDBDataNotFoundError) return null;
+                if(array_key_exists("total_pages", $body)) {
+                    $body["total_pages"] = min($body["total_pages"], 500);
+                }
 
-                throw $error;
+                return $body;
+            } catch(Exception $e) {
+                if($e instanceof AppError) throw $e;
+    
+                throw new AppFailedTMDBApiRequest($e->getMessage());
             }
-            
-            return $response->json();
-        } catch(Exception $e) {
-            if($e instanceof AppError) throw $e;
-
-            throw new AppFailedTMDBApiRequest($e->getMessage());
-        }
+        });
     }
 
     private function buildAppErrorFromAPIFailure(Response $response): AppError {

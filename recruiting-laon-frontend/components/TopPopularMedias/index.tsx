@@ -6,11 +6,11 @@ import MediasContainer from "../MediasContainer";
 export default function TopPopularMedias({ medias }: Readonly<{ medias: Media[] | undefined }>) {
     const numberOfLoadingMediasToShow = 6;
 
-    const mediaType = medias && "seasons" in medias[0]
+    const mediaType = (medias && "seasons" in medias[0])
         ? MediaType.TVSerie
         : MediaType.Movie;
 
-    const mediaTypeStringfied = mediaType
+    const mediaTypeStringfied = mediaType === MediaType.TVSerie
         ? "SÉRIES"
         : "FILMES";
 
