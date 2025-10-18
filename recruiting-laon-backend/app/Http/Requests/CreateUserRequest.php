@@ -26,7 +26,7 @@ class CreateUserRequest extends CustomFormRequest {
             'password.min' => 'A senha deve ter pelo menos 8 caracteres.',
             
             'password_confirmation.required' => 'A confirmação da senha é obrigatória.',
-            'password_confirmation.same' => 'A confirmação da senha deve ser igual à senha.',
+            'password_confirmation.same' => 'As senhas digitadas não coincidem.',
         ];
     }
 }

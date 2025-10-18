@@ -14,7 +14,7 @@ class CreateMediaListRequest extends CustomFormRequest {
     public function rules(): array {
         return [
             'user_id'  => 'required|exists:users,id',
-            'name'     => 'required|string|max:50',
+            'name'     => 'required|string|min:1|max:50',
 
             'medias' => 'required|array',
                 'medias.*.tmdb_id' => 'required|integer',
@@ -29,6 +29,7 @@ class CreateMediaListRequest extends CustomFormRequest {
 
             'name.required' => 'O nome é obrigatório.',
             'name.string'   => 'O nome deve ser uma string.',
+            'name.min'      => 'O nome deve ter ao menos um caracter.',
             'name.max'      => 'O nome não pode ter mais de 50 caracteres.',
 
             'medias.required'        => 'O campo medias é obrigatório.',

@@ -17,6 +17,7 @@ export default function MediaCard({ media }: Readonly<{ media: Media | undefined
     const user = useUser();
     const { selectedMedias, setCurrentModal, addMediaIntoSelectedMedias, removeMediaFromSelectedMedias } = useAppStore(state => state);
     const [ isSelected, setIsSelected ] = useState<boolean>(false);
+    const [ isImageLoaded, setIsImageLoaded ] = useState<boolean>(false);
     
     const [ isHover, setIsHover ] = useState<boolean>(false);
 
@@ -65,7 +66,10 @@ export default function MediaCard({ media }: Readonly<{ media: Media | undefined
             alt={media.title}
             onClick={handleMediaClick}
             fill
-            className={`rounded`}
+            placeholder="blur"
+            blurDataURL="/image-load.svg"
+            onLoad={() => setIsImageLoaded(true)}
+            className={`rounded ${!isImageLoaded ? "animate-pulse" : ""}`}
         />
     </div>
 }

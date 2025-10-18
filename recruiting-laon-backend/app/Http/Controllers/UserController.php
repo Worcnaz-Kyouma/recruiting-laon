@@ -16,7 +16,6 @@ use Hash;
 class UserController extends Controller {
     private const string TOKEN_IDENTIFIER = "AppUser";
 
-    // TODO: Fix duplicated email
     public function createUser(CreateUserRequest $request) {
         $data = $request->validated();
 

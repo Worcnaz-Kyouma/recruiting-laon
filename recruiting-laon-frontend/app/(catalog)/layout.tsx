@@ -25,7 +25,7 @@ export default function CatalogLayout({
         </main>
         <CatalogFooter />
 
-        {selectedMedias.length > 0 && <div className="fixed bottom-8 right-12 flex gap-4">
+        {selectedMedias.length > 0 && <div className="fixed bottom-8 right-12 flex gap-4 z-100">
             <FixedCustomButton icon={<Minus weight="bold" size={20}/>} text="LIMPAR SELEÇÃO" onClick={clearSelectedMedias}/>
             <AddMediaToExistingListButton />
             <ManageMediaListButton />
