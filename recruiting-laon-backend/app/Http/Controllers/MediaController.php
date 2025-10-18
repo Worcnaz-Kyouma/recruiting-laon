@@ -186,6 +186,14 @@ class MediaController extends Controller {
             throw new ExpectedError("", 404, "A midia informada não está vinculado a esta lista.");
         }
 
+        // If list dont have any more medias, delete it.
+        try {
+            if ($mediaList->medias()->count() === 0) 
+                $mediaList->delete();
+        } catch (Exception $e) {
+            throw new AppFailedDatabaseCommunication($e);
+        }
+
         return response()->noContent();
     }
     public function deleteMediaList(DeleteMediaListRequest $request) {
