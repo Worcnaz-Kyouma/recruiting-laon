@@ -7,7 +7,7 @@ export default function ExternalRedirectsNav() {
         { name: "TMDB", img: "/icons/tmdb.svg", url: "https://www.themoviedb.org/"},
     ];
 
-    return <nav className="flex space-x-4">
+    return <nav className="flex justify-end space-x-4 min-w-[241px]">
         {externalLinks.map(link => (
             <a key={link.name} href={link.url} target="_blank" rel="noopener noreferrer" 
                 className="w-12 h-12 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-300 transition"

@@ -84,7 +84,7 @@ export default function ListDetailsPage({ params }: Readonly<ListDetailsPageProp
     return <div className="flex-grow overflow-y-auto">
         <div className="flex flex-col gap-[40px] p-8 px-[90px] pb-16">
             <div className="flex items-end justify-between">
-                <h1 className="text-2xl font-semibold text-white">{mediaList!.name}</h1>
+                <h1 className="main-title">{mediaList!.name}</h1>
                 <button className="text-action text-feedback-negative" onClick={openDeleteMediaListModal}>EXCLUIR</button>
             </div>
             <div className="relative flex flex-col gap-[40px]">

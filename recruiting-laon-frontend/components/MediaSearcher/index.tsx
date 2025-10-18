@@ -83,7 +83,7 @@ export default function MediaSearcher({ mediaType }: Readonly<{ mediaType: Media
     }
     
     return <div className="flex-grow p-8 px-[90px] pb-16 flex flex-col gap-[40px]">
-        <h1 className="text-2xl font-semibold text-white">{mediaTypeMainTitle}</h1>
+        <h1 className="main-title">{mediaTypeMainTitle}</h1>
         <div className="flex flex-col gap-10">
             <div className="flex items-stretch justify-between gap-4">
                 <MediaListingMethodSelector mediaType={mediaType} listingMethod={listingMethod} setListingMethod={setListingMethod} />

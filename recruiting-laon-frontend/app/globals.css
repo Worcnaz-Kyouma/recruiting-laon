@@ -39,6 +39,10 @@
         @apply cursor-pointer w-full p-4 bg-white rounded-[4px] font-semibold text-black text-base leading-[24px] tracking-normal
     }
 
+    .main-title {
+        @apply text-3xl font-semibold text-white
+    }
+
     .text-action {
         @apply cursor-pointer text-base font-medium tracking-widest
     }

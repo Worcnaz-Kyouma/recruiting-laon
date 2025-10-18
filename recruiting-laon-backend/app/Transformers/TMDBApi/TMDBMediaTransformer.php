@@ -15,7 +15,7 @@ class TMDBMediaTransformer extends TMDBTransformer {
         $tmdbId = $ext['id'];
         $title = static::titleFromExternal($ext);
         $titlePortuguese = static::titlePortugueseFromExternalTranslations($ext);
-        $releaseDate = $ext["release_date"]
+        $releaseDate = array_key_exists("release_date", $ext) && $ext["release_date"]
             ? new DateTime($ext["release_date"])
             : null;
         $genres = static::genresFromExternal($ext);
@@ -25,7 +25,7 @@ class TMDBMediaTransformer extends TMDBTransformer {
         $review = $ext['vote_average'];
         $reviewCount = $ext['vote_count'];
         $tmdbImageBaseUrl = config('tmdb.image_base_url');
-        $posterImgUrl = $ext['poster_path']
+        $posterImgUrl = array_key_exists("poster_path", $ext) && $ext['poster_path']
             ? "$tmdbImageBaseUrl{$ext['poster_path']}"
             : null;
 

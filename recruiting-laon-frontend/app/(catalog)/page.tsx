@@ -31,7 +31,7 @@ export default function HomePage() {
     
     return <div className="flex-grow overflow-y-auto">
         <div className="flex flex-col gap-[40px] p-8 px-[90px] pb-16">
-            <h1 className="text-2xl font-semibold text-white">Populares</h1>
+            <h1 className="main-title">Populares</h1>
             <TopPopularMedias medias={medias?.movies} />
             <TopPopularMedias medias={medias?.tvSeries} />
         </div>

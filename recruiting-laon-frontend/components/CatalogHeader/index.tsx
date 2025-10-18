@@ -6,6 +6,7 @@ import { usePathname, useRouter } from "next/navigation";
 import useUser from "@/hooks/useUser";
 import ArrowButton from "../ArrowButton";
 import { useRouterHistory } from "@/hooks/useRouterHistory";
+import Image from "next/image";
 
 export default function CatalogHeader() {
     const router = useRouter();
@@ -26,7 +27,13 @@ export default function CatalogHeader() {
 
     return <header className="flex items-center justify-between p-6 px-[90px] bg-gray-200 border-b border-gray-300">
         {isHome 
-            ? <span>Catalog</span>
+            ? <Image
+                src="/laon-logo.svg"
+                alt="Laon Streaming"
+                className=""
+                width={160}
+                height={80}
+            />
             : <ArrowButton orientation="left" onClick={handleHomePageRedirect} label="VOLTAR" />
         }
         {user

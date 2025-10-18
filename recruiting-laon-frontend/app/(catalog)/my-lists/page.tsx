@@ -61,7 +61,7 @@ export default function MyListsPage() {
 
     return <div className="flex-grow overflow-y-auto">
         <div className="flex flex-col gap-[40px] p-8 px-[90px] pb-16">
-            <h1 className="text-2xl font-semibold text-white">Minhas Listas</h1>
+            <h1 className="main-title">Minhas Listas</h1>
             {mediaLists.length < 1 
                 ? <div className="w-full flex items-center justify-center mt-12"><p className="text-center text-md text-gray-500">
                     Eita! Você ainda não possui listas!<br/>Para criar uma, va a qualquer listagem no nosso catalogo e selecione uma midia!
