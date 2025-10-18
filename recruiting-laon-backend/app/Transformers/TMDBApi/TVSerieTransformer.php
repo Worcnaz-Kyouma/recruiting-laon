@@ -10,6 +10,8 @@ class TVSerieTransformer extends TMDBMediaTransformer {
         $media = parent::fromExternal($ext);
 
         $summarizedSeasons = collect($ext["seasons"] ?? [])
+            ->sortBy('air_date')
+            ->values()
             ->map(fn($ext) => TVSeasonTransformer::tryFromExternal($ext))
             ->toArray();
 

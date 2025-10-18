@@ -29,6 +29,7 @@ const SecondaryDetail = ({ description, value }: Readonly<Detail>) =>
 // TODO: Adjust degrade styling box in the background to the Primary details header
 export default function MediaDetails({ media }: Readonly<{ media: Media | undefined }>) {
     const { setCurrentModal } = useAppStore(state => state);
+    const isTvSerieMedia = media && "seasons" in media;
 
     if(!media)
         return <div className="flex-grow flex items-center justify-center">
@@ -38,7 +39,7 @@ export default function MediaDetails({ media }: Readonly<{ media: Media | undefi
     const openMediaTrailerVideoModal = () => 
         setCurrentModal(<MediaTrailerVideoModal videoUrl={media.youtubeTrailerVideoUrl!}/>)
 
-    return <div className="relative w-full pb-16">
+    return <div className={`relative w-full ${!isTvSerieMedia ? "pb-16" : ""}`}>
         <div className="absolute pl-[90px] pt-12 flex flex-col gap-2 items-center">
             <div className="relative w-full min-w-[320px] max-w-[400px] aspect-[306/448]">
                 <Image
