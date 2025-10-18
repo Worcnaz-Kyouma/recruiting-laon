@@ -38,8 +38,8 @@ export default function MediaDetails({ media }: Readonly<{ media: Media | undefi
     const openMediaTrailerVideoModal = () => 
         setCurrentModal(<MediaTrailerVideoModal videoUrl={media.youtubeTrailerVideoUrl!}/>)
 
-    return <div className="flex-grow flex gap-12 px-[90px] py-12">
-        <div className="flex flex-col gap-2 items-center">
+    return <div className="relative">
+        <div className="absolute pl-[90px] pt-12 flex flex-col gap-2 items-center">
             <div className="relative w-full min-w-[320px] max-w-[400px] aspect-[306/448]">
                 <Image
                     src={media.posterImgUrl || ""}
@@ -53,8 +53,8 @@ export default function MediaDetails({ media }: Readonly<{ media: Media | undefi
                 : "Trailer indisponível"
             }</button>
         </div>
-        <div className="flex flex-col gap-15">
-            <div className="flex flex-col gap-1">
+        <div className="flex flex-col gap-8">
+            <div className="pl-115 px-[90px] pt-12 pb-10 flex flex-col gap-1 bg-gray-200">
                 <h1 className="font-semibold text-4xl leading-[100%] tracking-normal">{media?.portugueseInfos?.title || media.title}</h1>
                 {media?.portugueseInfos?.title && 
                     <PrimaryDetail description="Título original" value={media.title} />
@@ -66,7 +66,7 @@ export default function MediaDetails({ media }: Readonly<{ media: Media | undefi
                 <PrimaryDetail description="Duração" value={media.durationStringfied || "Não encontrada."} />
                 <div className="flex gap-2">{media.genres?.map(genre => <GenreDetail key={genre.tmdbId} genre={genre} />)}</div>
             </div>
-            <div className="flex flex-col gap-3">
+            <div className="pl-115 flex px-[90px] pb-16 flex-col gap-3">
                 <SecondaryDetail description="Sinopse" value={media?.portugueseInfos?.overview || media.overview || "Sinopse não encontrada."} />
                 <div className="flex gap-2">
                     {media.actors && <SecondaryDetail description="Elenco" value={media.actors.map(actor => actor.name)} />}

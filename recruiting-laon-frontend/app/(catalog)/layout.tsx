@@ -5,6 +5,7 @@ import CatalogHeader from "@/components/CatalogHeader";
 import FixedCustomButton from "@/components/FixedCustomButton";
 import ManageMediaListButton from "@/components/ManageMediaListButton";
 import { useAppStore } from "@/providers/user-store-provider";
+import { usePathname } from "next/navigation";
 import { Minus } from "phosphor-react";
 
 // TODO: IMPORTANT Improve the absolute box of degrade, its getting strange in details
@@ -14,13 +15,13 @@ export default function CatalogLayout({
     children: React.ReactNode;
 }>) {
     const { selectedMedias, clearSelectedMedias } = useAppStore(state => state);
-
-
+    const pathname = usePathname();
+    const isOnMediaDetails = pathname.includes("/tv-serie/") || pathname.includes("/movie/"); 
 
     return (<div className="min-h-screen flex flex-col text-white">
         <CatalogHeader />
         <main className="relative w-full flex-grow flex flex-col">
-            <div className="absolute top-0 left-0 w-full h-65 bg-gray-200 -z-10"></div>
+            {!isOnMediaDetails && <div className="absolute top-0 left-0 w-full h-65 bg-gray-200 -z-10"></div>}
             <div className="flex-grow flex">{children}</div>
         </main>
         <CatalogFooter />
