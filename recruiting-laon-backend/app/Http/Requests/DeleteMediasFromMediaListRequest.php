@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class DeleteMediaFromMediaListRequest extends CustomFormRequest {
+class DeleteMediasFromMediaListRequest extends CustomFormRequest {
     /**
      * Get the validation rules that apply to the request.
      *
@@ -13,14 +13,14 @@ class DeleteMediaFromMediaListRequest extends CustomFormRequest {
     public function rules(): array {
         return [
             'id' => 'required|exists:media_lists,id',
-            'media_id' => 'required|exists:media,id',
+            'medias' => 'required|array',
+                'medias.*.id' => 'required|integer',
         ];
     }
 
     protected function prepareForValidation() {
         $this->merge([
             'id' => $this->route('id'),
-            'media_id' => $this->route('media_id'),
         ]);
     }
 }

@@ -22,7 +22,7 @@ export default class AppAPIClient {
                 baseURL: this.apiBaseUrl,
                 url: endpoint,
                 method,
-                data: ["POST", "PATCH", "PUT"].includes(method) && data,
+                data: ["POST", "PATCH", "PUT", "DELETE"].includes(method) && data,
                 params: method === "GET" && data,
                 withCredentials: true,
                 withXSRFToken: true,

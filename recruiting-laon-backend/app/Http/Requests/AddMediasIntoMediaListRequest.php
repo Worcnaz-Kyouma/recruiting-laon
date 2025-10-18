@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-class AddMediaIntoMediaListRequest extends CustomFormRequest {
+class AddMediasIntoMediaListRequest extends CustomFormRequest {
     /**
      * Get the validation rules that apply to the request.
      *

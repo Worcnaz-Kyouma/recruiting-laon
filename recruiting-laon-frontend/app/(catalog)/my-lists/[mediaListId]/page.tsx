@@ -48,14 +48,14 @@ export default function ListDetailsPage({ params }: Readonly<ListDetailsPageProp
             const apiResponse = await AppAPIClient.fetchAPI("media", `list/${mediaListId}`, "GET", {
                 page: page
             });
-
+            if(Object.keys(apiResponse).length === 0) return router.push("/my-lists");
+            
             setMediaList(apiResponse.mediaList);
 
             const fetchedMedias = apiResponse.medias.data.map((media: APIMedia) => ({
                 id: media.id,
                 ...media.tmdb_media
             } as Media));
-            if(fetchedMedias.length < 1) return router.push("/my-lists");
             
             setMedias(fetchedMedias);
             setNumberOfPages(apiResponse.medias.last_page);

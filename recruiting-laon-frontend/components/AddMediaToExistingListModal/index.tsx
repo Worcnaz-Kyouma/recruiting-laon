@@ -33,7 +33,7 @@ export default function AddMediaToExistingListModal() {
                 }))
             }
             
-            await AppAPIClient.fetchAPI("media", `list/${mediaListId}/add-media`, "PATCH", body);
+            await AppAPIClient.fetchAPI("media", `list/${mediaListId}/add-medias`, "PATCH", body);
         } catch(err) {
             return invokeToastsUsingError(err);
         }

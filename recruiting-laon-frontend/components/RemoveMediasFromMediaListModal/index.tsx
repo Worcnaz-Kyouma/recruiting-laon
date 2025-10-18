@@ -16,10 +16,13 @@ export default function RemoveMediasFromMediaListModal() {
 
     const removeSelectedMediasFromList = async () => {
         try {
-            const removingMedias = selectedMedias.map(media => 
-                AppAPIClient.fetchAPI("media", `list/${mediaListId}/${media.id}`, "DELETE")
-            );
-            await Promise.all(removingMedias);
+            const body = {
+                medias: selectedMedias.map(media => ({
+                    id: media.id
+                }))
+            }
+            
+            await AppAPIClient.fetchAPI("media", `list/${mediaListId}/remove-medias`, "DELETE", body);
         } catch(err) {
             return invokeToastsUsingError(err);
         }

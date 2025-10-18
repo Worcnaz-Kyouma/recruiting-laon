@@ -11,10 +11,10 @@ use App\Enums\MovieListingMethod;
 use App\Enums\TVSerieListingMethod;
 use App\Exceptions\ExpectedErrors\ExpectedError;
 use App\Exceptions\UnexpectedErrors\AppFailedDatabaseCommunication;
-use App\Http\Requests\AddMediaIntoMediaListRequest;
+use App\Http\Requests\AddMediasIntoMediaListRequest;
 use App\Http\Requests\CreateMediaListRequest;
-use App\Http\Requests\DeleteMediaFromMediaListRequest;
 use App\Http\Requests\DeleteMediaListRequest;
+use App\Http\Requests\DeleteMediasFromMediaListRequest;
 use App\Http\Requests\GetMediaListDetailsRequest;
 use App\Http\Requests\GetMediaListsByUserRequest;
 use App\Http\Requests\ListingMethodsRequest;
@@ -148,7 +148,7 @@ class MediaController extends Controller {
         return response()->json($mediaList, 201);
     }
 
-    public function addMediaIntoMediaList(AddMediaIntoMediaListRequest $request) {
+    public function addMediasIntoMediaList(AddMediasIntoMediaListRequest $request) {
         $data = $request->validated();
 
         try {
@@ -172,12 +172,13 @@ class MediaController extends Controller {
         return response()->json($mediaList, 201);
     }
     
-    public function deleteMediaFromMediaList(DeleteMediaFromMediaListRequest $request) {
+    public function deleteMediasFromMediaList(DeleteMediasFromMediaListRequest $request) {
         $data = $request->validated();
 
         try {
             $mediaList = MediaList::findOrFail($data['id']);
-            $numberOfRowsDeleted = $mediaList->medias()->detach($data['media_id']);
+            $mediasId = collect($data['medias'])->pluck('id')->toArray();
+            $numberOfRowsDeleted = $mediaList->medias()->detach($mediasId);
         } catch (Exception $e) {
             throw new AppFailedDatabaseCommunication($e);
         }

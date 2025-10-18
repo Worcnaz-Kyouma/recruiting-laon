@@ -12,7 +12,7 @@ class GetMediaListDetailsRequest extends CustomFormRequest {
      */
     public function rules(): array {
         return [
-            'id' => 'required|exists:media_lists,id',
+            'id' => 'required|min:1',
             'page' => "required|integer|min:1"
         ];
     }
