@@ -8,7 +8,7 @@ import ModalsContainer from "@/components/ModalsContainer";
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-    title: "Laon Catalog",
+    title: "Laon Streaming",
     description: "Movies and TV series catalog app",
 };
 
