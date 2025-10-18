@@ -29,7 +29,6 @@ export default function CatalogLayout({
             <FixedCustomButton icon={<Minus weight="bold" size={20}/>} text="LIMPAR SELEÇÃO" onClick={clearSelectedMedias}/>
             <AddMediaToExistingListButton />
             <ManageMediaListButton />
-        </div> 
-        }
+        </div>}
     </div>);
 }
