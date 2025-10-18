@@ -6,6 +6,7 @@ import { PlusCircle } from "phosphor-react";
 import useUser from "@/hooks/useUser";
 import { usePathname } from "next/navigation";
 import AddMediaToExistingListModal from "../AddMediaToExistingListModal";
+import FixedCustomButton from "../FixedCustomButton";
 
 export default function AddMediaToExistingListButton() {
     const user = useUser();
@@ -21,8 +22,5 @@ export default function AddMediaToExistingListButton() {
 
     if(isOnSomeMediaListDetails) return <></>;
 
-    return <button className="cursor-pointer flex items-center gap-4 bg-gray-100 border border-gray-300 hover:bg-gray-200 transition text-white p-4 rounded shadow-lg" onClick={handleAddMediaToExistingList}>
-        <PlusCircle weight="bold" size={20}/>
-        <span className="text-action">ADICIONAR A LISTA</span>
-    </button>;
+    return <FixedCustomButton icon={<PlusCircle weight="bold" size={20}/>} text="ADICIONAR A LISTA" onClick={handleAddMediaToExistingList} />
 }

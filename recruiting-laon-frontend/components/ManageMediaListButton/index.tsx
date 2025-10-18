@@ -7,6 +7,7 @@ import React from "react";
 import UnauthorizedNavBlockModal from "../UnauthorizedNavBlockModal";
 import RemoveMediasFromMediaListModal from "../RemoveMediasFromMediaListModal";
 import CreateMediaListModal from "../CreateMediaListModal";
+import FixedCustomButton from "../FixedCustomButton";
 
 export default function ManageMediaListButton() {
     const user = useUser();
@@ -23,16 +24,12 @@ export default function ManageMediaListButton() {
         );
     }
 
-    return <button className="cursor-pointer flex items-center gap-4 bg-gray-100 border border-gray-300 hover:bg-gray-200 transition text-white p-4 rounded shadow-lg" onClick={handleMediaListManage}>
-        {isOnSomeMediaListDetails
-            ? <>
-                <MinusCircle weight="bold" size={20}/>
-                <span className="text-action">REMOVER DA LISTA</span>
-            </>
-            : <>
-                <Plus weight="bold" size={20}/>
-                <span className="text-action">CRIAR LISTA</span>
-            </>
-        }
-    </button>;
+    if(isOnSomeMediaListDetails) return <FixedCustomButton 
+        icon={<MinusCircle weight="bold" size={20}/>} 
+        text="REMOVER DA LISTA" onClick={handleMediaListManage} 
+    />
+    else return <FixedCustomButton 
+        icon={<Plus weight="bold" size={20}/>} 
+        text="CRIAR LISTA" onClick={handleMediaListManage}
+    />
 }

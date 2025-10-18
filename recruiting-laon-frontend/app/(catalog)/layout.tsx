@@ -2,8 +2,10 @@
 import AddMediaToExistingListButton from "@/components/AddMediaToExistingListButton";
 import CatalogFooter from "@/components/CatalogFooter";
 import CatalogHeader from "@/components/CatalogHeader";
+import FixedCustomButton from "@/components/FixedCustomButton";
 import ManageMediaListButton from "@/components/ManageMediaListButton";
 import { useAppStore } from "@/providers/user-store-provider";
+import { Minus } from "phosphor-react";
 
 // TODO: IMPORTANT Improve the absolute box of degrade, its getting strange in details
 export default function CatalogLayout({
@@ -11,7 +13,9 @@ export default function CatalogLayout({
 }: Readonly<{
     children: React.ReactNode;
 }>) {
-    const { selectedMedias } = useAppStore(state => state);
+    const { selectedMedias, clearSelectedMedias } = useAppStore(state => state);
+
+
 
     return (<div className="min-h-screen flex flex-col text-white">
         <CatalogHeader />
@@ -20,9 +24,11 @@ export default function CatalogLayout({
             <div className="flex-grow flex">{children}</div>
         </main>
         <CatalogFooter />
+
         {selectedMedias.length > 0 && <div className="fixed bottom-8 right-12 flex gap-4">
+            <FixedCustomButton icon={<Minus weight="bold" size={20}/>} text="LIMPAR SELEÇÃO" onClick={clearSelectedMedias}/>
+            <AddMediaToExistingListButton />
             <ManageMediaListButton />
-            <AddMediaToExistingListButton /> {/*Validate in login and register if user have a list*/}
         </div> 
         }
     </div>);
