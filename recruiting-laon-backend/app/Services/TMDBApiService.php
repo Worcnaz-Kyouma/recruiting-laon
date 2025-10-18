@@ -94,7 +94,7 @@ class TMDBApiService {
             : $this->getAPIData($apiEntitiesContext["apiEntity"], $listingMethod->value, $query);
         if($data === null) return PaginatedResultsDTO::getEmptyPaginatedResults();
 
-        $medias = $this->parseAPIResultsInMedias($apiEntitiesContext, $data["results"]);
+        $medias = $this->parseAPIResultsToTMDBMedias($apiEntitiesContext, $data["results"]);
 
         return PaginatedResultsDTO::fromTMDBApiPaginatedResults($data, $medias);
     }
@@ -117,7 +117,7 @@ class TMDBApiService {
         );
         if($data === null) return PaginatedResultsDTO::getEmptyPaginatedResults();
 
-        $medias = $this->parseAPIResultsInMedias($apiEntitiesContext, $data["results"]);
+        $medias = $this->parseAPIResultsToTMDBMedias($apiEntitiesContext, $data["results"]);
 
         return PaginatedResultsDTO::fromTMDBApiPaginatedResults($data, $medias);
     }
@@ -158,10 +158,12 @@ class TMDBApiService {
      * @param array{apiEntity: string, transformer: callable} $apiEntitiesContext
      * @return Collection<TMDBMedia>
      */
-    private function parseAPIResultsInMedias(array $apiEntitiesContext, array $results): Collection {
-        return collect($results)->map(fn($extMedia) => 
-            $apiEntitiesContext["transformer"]($extMedia)
-        );
+    private function parseAPIResultsToTMDBMedias(array $apiEntitiesContext, array $results): Collection {
+        return collect($results)
+            
+            ->map(fn($extMedia) => 
+                $apiEntitiesContext["transformer"]($extMedia)
+            );
     }
 
     /**

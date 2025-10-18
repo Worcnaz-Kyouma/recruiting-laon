@@ -50,11 +50,11 @@ export default function MediaDetails({ media }: Readonly<{ media: Media | undefi
                     <PrimaryDetail description="Título original" value={media.title} />
                 }
                 <PrimaryDetail description="Ano" value={"2000"/*media.release_date*/} />
-                <PrimaryDetail description="Duração" value={media.durationStringfied!} />
+                <PrimaryDetail description="Duração" value={media.durationStringfied || "Não encontrada."} />
                 <div className="flex gap-2">{media.genres?.map(genre => <GenreDetail key={genre.tmdbId} genre={genre} />)}</div>
             </div>
             <div className="flex flex-col gap-3">
-                <SecondaryDetail description="Sinopse" value={media.overview!} />
+                <SecondaryDetail description="Sinopse" value={media.overview || "Sinopse não encontrada."} />
                 <div className="flex gap-2">
                     {media.actors && <SecondaryDetail description="Elenco" value={media.actors.map(actor => actor.name)} />}
                     {media.directors && <SecondaryDetail description="Diretores" value={media.directors.map(director => director.name)} />}

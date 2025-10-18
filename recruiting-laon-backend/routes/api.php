@@ -20,7 +20,6 @@ Route::prefix("user")->group(function () {
     Route::post("/logout/{id}", [UserController::class, "logout"])->middleware("auth:sanctum");
 });
 
-// TODO: Filter movies without poster and overview
 Route::prefix("media")->group(function () {
     Route::get("/top-popular", [MediaController::class, "getTopPopularMedias"]); 
     Route::get("/listing-method/{media_type}", [MediaController::class, "getListingMethods"]); 

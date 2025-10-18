@@ -66,7 +66,7 @@ export default function MediaCard({ media }: Readonly<{ media: Media | undefined
             }} />
         </div>}
         <Image
-            src={media.posterImgUrl || ""}
+            src={media.posterImgUrl || "/media-image-not-found.svg"}
             alt={media.title}
             onClick={handleMediaClick}
             fill
