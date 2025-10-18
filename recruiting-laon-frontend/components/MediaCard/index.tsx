@@ -7,6 +7,7 @@ import Checkbox from "@mui/material/Checkbox";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import UnauthorizedNavBlockModal from "../UnauthorizedNavBlockModal";
 
 const MediaCardSkeletonLoader = () => <div className="w-full max-w-md aspect-[780/1170] rounded cursor-pointer hover:opacity-80 transition bg-gray-300 animate-pulse" />;
 
@@ -15,7 +16,7 @@ const MediaCardSkeletonLoader = () => <div className="w-full max-w-md aspect-[78
 export default function MediaCard({ media }: Readonly<{ media: Media | undefined }>) {
     const router = useRouter();
     const user = useUser();
-    const { selectedMedias, setIsUnauthorizedNavBlockModalOpen, addMediaIntoSelectedMedias, removeMediaFromSelectedMedias } = useAppStore(state => state);
+    const { selectedMedias, setCurrentModal, addMediaIntoSelectedMedias, removeMediaFromSelectedMedias } = useAppStore(state => state);
     
     const [ isSelected , setIsSelected] = useState<boolean>(false);
     const [ isHover, setIsHover ] = useState<boolean>(false);
@@ -35,7 +36,7 @@ export default function MediaCard({ media }: Readonly<{ media: Media | undefined
     }
 
     const openMediaDetails = () => {
-        if(!user) return setIsUnauthorizedNavBlockModalOpen(true);
+        if(!user) return setCurrentModal(<UnauthorizedNavBlockModal />);
             
         router.push(`/${mediaType}/${media!.tmdbId}`) 
     }

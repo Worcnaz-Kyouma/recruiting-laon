@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import ArrowButton from "../ArrowButton";
 import MediaCardsGrid from "../MediaCardsGrid";
+import UnauthorizedNavBlockModal from "../UnauthorizedNavBlockModal";
 
 interface MediasContainerProps {
     title: string;
@@ -16,10 +17,10 @@ interface MediasContainerProps {
 export default function MediasContainer({ title, medias, redirectUrl }: MediasContainerProps) {  
     const router = useRouter();
     const user = useUser();
-    const { setIsUnauthorizedNavBlockModalOpen } = useAppStore(state => state);   
+    const { setCurrentModal } = useAppStore(state => state);   
     
     const handleOpenMediaSearcher = () => {
-        if(!user) return setIsUnauthorizedNavBlockModalOpen(true);
+        if(!user) return setCurrentModal(<UnauthorizedNavBlockModal />)
 
         router.push(redirectUrl);
     }

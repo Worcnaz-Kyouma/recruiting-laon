@@ -4,19 +4,22 @@ import { User } from "@/types/User";
 import AppAPIClient from "@/utils/AppAPIClient";
 import { invokeToastsUsingError } from "@/utils/utils";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { SignOut } from "phosphor-react";
 import React from "react";
 
 export default function LoggedUserDropdown({ user }: Readonly<{ user: User }>) {
     const router = useRouter();
+    const pathname = usePathname();
 
     const handleLogout = async () => {
         try {
             localStorage.removeItem("user");
-            window.location.reload();
             
-            await AppAPIClient.fetchAPI("user", `logout/${user.id}`, "POST");
+            AppAPIClient.fetchAPI("user", `logout/${user.id}`, "POST");
+            
+            if(pathname === "/") window.location.reload();
+            else router.push("/");
         } catch (err) {
             if(err instanceof AppError && err.status === 401)
                 return;

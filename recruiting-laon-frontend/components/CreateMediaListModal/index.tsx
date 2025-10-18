@@ -10,7 +10,7 @@ import { invokeToastsUsingError, successToastStyle } from "@/utils/utils";
 import { toast } from "react-toastify";
 
 export default function CreateMediaListModal() {
-    const { setIsCreateMediaListModalOpen, selectedMedias, clearSelectedMedias } = useAppStore(store => store);
+    const { closeCurrentModal, selectedMedias, clearSelectedMedias } = useAppStore(store => store);
     const user = useUser();
     const [ name, setName ] = useState<string>("");
 
@@ -33,12 +33,12 @@ export default function CreateMediaListModal() {
         }
 
         clearSelectedMedias();
-        setIsCreateMediaListModalOpen(false);
+        closeCurrentModal();
 
         toast.success("Lista criada com sucesso!", successToastStyle); 
     };
     
-    return <CustomModal className="flex flex-col gap-6 px-10" closeModal={() => setIsCreateMediaListModalOpen(false)}>
+    return <CustomModal className="flex flex-col gap-6 px-10" closeModal={closeCurrentModal}>
         <h1 className="text-center text-4xl font-semibold">Nova Lista</h1>
         <CustomInput placeholder="Nome" value={name} setValue={setName} />
         <button className="btn-primary" onClick={createMediaList}>Criar!</button>

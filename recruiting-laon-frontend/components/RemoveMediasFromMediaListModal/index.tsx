@@ -9,7 +9,7 @@ import AppAPIClient from "@/utils/AppAPIClient";
 
 // TODO: IMPORTANT make an endpoint to remove a buck of medias, not only one per one
 export default function RemoveMediasFromMediaListModal() {
-    const { setIsRemoveMediasFromMediaListModalOpen, selectedMedias, clearSelectedMedias } = useAppStore(store => store);
+    const { closeCurrentModal, selectedMedias, clearSelectedMedias } = useAppStore(store => store);
     const pathname = usePathname();
 
     const mediaListId = pathname.split("/").reverse()[0];
@@ -25,16 +25,16 @@ export default function RemoveMediasFromMediaListModal() {
         }
 
         clearSelectedMedias();
-        setIsRemoveMediasFromMediaListModalOpen(false);
+        closeCurrentModal();
 
         toast.success("Mídias removidas com sucesso!", successToastStyle);
         setTimeout(() => window.location.reload(), 1000);
     };
     
-    return <CustomModal className="flex flex-col gap-6 px-10" closeModal={() => setIsRemoveMediasFromMediaListModalOpen(false)}>
+    return <CustomModal className="flex flex-col gap-6 px-10" closeModal={closeCurrentModal}>
         <h1 className="text-center text-4xl font-semibold">Atenção!</h1>
         <p className="text-center mb-4 text-md">Tem certeza que deseja remover estas mídias de sua lista?</p>
         <button className="btn-primary" onClick={removeSelectedMediasFromList}>Sim!</button>
-        <button className="btn-primary" onClick={() => setIsRemoveMediasFromMediaListModalOpen(false)}>Não, deixa pra la.</button>
+        <button className="btn-primary" onClick={closeCurrentModal}>Não, deixa pra la.</button>
     </CustomModal>;
 }

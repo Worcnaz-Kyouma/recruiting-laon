@@ -8,30 +8,23 @@ import RemoveMediasFromMediaListModal from "../RemoveMediasFromMediaListModal";
 // TODO: IMPORTANT modal to add into media list
 export default function ModalsContainer() {
     const { 
-        isUnauthorizedNavBlockModalOpen ,
-        isCreateMediaListModalOpen,
-        isRemoveMediasFromMediaListModalOpen
+        currentModal
     } = useAppStore(store => store);
-    const isAnyModalOpen = 
-        isUnauthorizedNavBlockModalOpen || 
-        isCreateMediaListModalOpen || 
-        isRemoveMediasFromMediaListModalOpen;
 
-    useEffect(() => {
-        if (isAnyModalOpen) {
-            document.body.classList.add("overflow-hidden");
-        } else {
-            document.body.classList.remove("overflow-hidden");
-        }
+    // TODO: Enable it?
+    // useEffect(() => {
+    //     if (typeof currentModal !== 'undefined') {
+    //         document.body.classList.add("overflow-hidden");
+    //     } else {
+    //         document.body.classList.remove("overflow-hidden");
+    //     }
 
-        return () => document.body.classList.remove("overflow-hidden");
-    }, [ isAnyModalOpen ]);
+    //     return () => document.body.classList.remove("overflow-hidden");
+    // }, [ currentModal ]);
 
-    if(!isAnyModalOpen) return <></>
+    if(typeof currentModal === 'undefined') return <></>
 
     return <div className="w-full h-full fixed top-0 left-0 z-100 flex items-center justify-center bg-gray-100/40">
-        {isUnauthorizedNavBlockModalOpen && <UnauthorizedNavBlockModal />}
-        {isCreateMediaListModalOpen && <CreateMediaListModal />}
-        {isRemoveMediasFromMediaListModalOpen && <RemoveMediasFromMediaListModal />}
+        {currentModal}
     </div>;
 }

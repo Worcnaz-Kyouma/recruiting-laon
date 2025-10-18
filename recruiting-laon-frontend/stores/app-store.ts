@@ -1,18 +1,16 @@
 "use client"
 import Media from "@/types/Media";
+import { JSX } from "react";
 import { createStore } from "zustand";
 
 // TODO: Improve Modals data structure
 export type AppState = {
-    isUnauthorizedNavBlockModalOpen: boolean;
-    isCreateMediaListModalOpen: boolean;
-    isRemoveMediasFromMediaListModalOpen: boolean;
+    currentModal: JSX.Element | undefined
     selectedMedias: Media[];
 }
 export type AppAction = {
-    setIsUnauthorizedNavBlockModalOpen: (isUnauthorizedNavBlockModalOpen: boolean) => void;
-    setIsCreateMediaListModalOpen: (isCreateMediaListModalOpen: boolean) => void;
-    setIsRemoveMediasFromMediaListModalOpen: (isRemoveMediasFromMediaListModalOpen: boolean) => void;
+    setCurrentModal: (modal: JSX.Element) => void;
+    closeCurrentModal: () => void;
 
     addMediaIntoSelectedMedias: (media: Media) => void;
     removeMediaFromSelectedMedias: (media: Media) => void;
@@ -22,9 +20,7 @@ export type AppStore = AppState & AppAction;
 
 
 export const defaultInitState: AppState = {
-    isUnauthorizedNavBlockModalOpen: false,
-    isCreateMediaListModalOpen: false,
-    isRemoveMediasFromMediaListModalOpen: false,
+    currentModal: undefined,
     selectedMedias: []
 }
 
@@ -36,16 +32,12 @@ export const createAppStore = (
 ) => {
     return createStore<AppStore>()((set) => ({
         ...initState,
-        setIsUnauthorizedNavBlockModalOpen: (isUnauthorizedNavBlockModalOpen: boolean) => set(() => ({ 
-            isUnauthorizedNavBlockModalOpen 
+        setCurrentModal: (modal: JSX.Element) => set(() => ({ 
+            currentModal: modal
         })),
-        setIsCreateMediaListModalOpen: (isCreateMediaListModalOpen: boolean) => set(() => ({ 
-            isCreateMediaListModalOpen 
+        closeCurrentModal: () => set(() => ({
+            currentModal: undefined
         })),
-        setIsRemoveMediasFromMediaListModalOpen: (isRemoveMediasFromMediaListModalOpen: boolean) => set(() => ({ 
-            isRemoveMediasFromMediaListModalOpen 
-        })),
-
         addMediaIntoSelectedMedias: (media: Media) => set((state) => ({
             selectedMedias: [...state.selectedMedias, media]
         })),
