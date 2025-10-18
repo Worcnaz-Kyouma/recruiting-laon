@@ -2,6 +2,7 @@
 import { usePathname, useRouter } from "next/navigation";
 import React from "react";
 import ArrowButton from "../ArrowButton";
+import Image from "next/image";
 
 // TODO: Wrap arrow buttons and spaced strings into components somehow
 // TODO: Logout
@@ -20,7 +21,13 @@ export default function UserHeader() {
         <div className="min-w-[150px] text-left">
             <ArrowButton orientation="left" onClick={handleHomePageRedirect} label="VOLTAR" />
         </div>
-        <span>Catalog</span> {/* Change to logo */}
+        <Image
+            src="/laon-logo.svg"
+            alt="Laon Streaming"
+            className=""
+            width={160}
+            height={80}
+        />
         <div className="min-w-[150px] text-right">
             <span className="text-action" onClick={handleRegisterOrLoginRedirect}>{isLogin
                 ? "CADASTRAR"
