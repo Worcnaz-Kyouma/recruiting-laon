@@ -19,7 +19,10 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['*'],
+    'allowed_origins' => [
+        'https://recruiting-laon-56t9xua38-nicolasprados-projects.vercel.app',
+        'http://localhost:3000'
+    ],
 
     'allowed_origins_patterns' => [],
 

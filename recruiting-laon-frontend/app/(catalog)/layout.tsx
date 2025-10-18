@@ -4,18 +4,26 @@ import CatalogFooter from "@/components/CatalogFooter";
 import CatalogHeader from "@/components/CatalogHeader";
 import FixedCustomButton from "@/components/FixedCustomButton";
 import ManageMediaListButton from "@/components/ManageMediaListButton";
+import useUser from "@/hooks/useUser";
 import { useAppStore } from "@/providers/user-store-provider";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Minus } from "phosphor-react";
+import { useEffect } from "react";
 
 export default function CatalogLayout({
     children
 }: Readonly<{
     children: React.ReactNode;
 }>) {
+    const user = useUser(); 
+    const router = useRouter();
     const { selectedMedias, clearSelectedMedias } = useAppStore(state => state);
     const pathname = usePathname();
     const isOnMediaDetails = pathname.includes("/tv-serie/") || pathname.includes("/movie/"); 
+
+    useEffect(() => {
+        router.push("/");
+    }, [user]);
 
     return (<div className="min-h-screen flex flex-col text-white">
         <CatalogHeader />
