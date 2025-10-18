@@ -6,6 +6,7 @@ use App\Entities\Actor;
 use App\Entities\Director;
 use App\Entities\Genre;
 use App\Entities\TMDBMedia;
+use DateTime;
 
 // OBS to Code Reviewer: Genre, Actor and Director could receive its own Transformer, but i choose to keep it simple
 // TODO: get portuguese overview from translations, and wrap all brazilian fields into an whole object
@@ -14,6 +15,9 @@ class TMDBMediaTransformer extends TMDBTransformer {
         $tmdbId = $ext['id'];
         $title = static::titleFromExternal($ext);
         $titlePortuguese = static::titlePortugueseFromExternalTranslations($ext);
+        $releaseDate = $ext["release_date"]
+            ? new DateTime($ext["release_date"])
+            : null;
         $genres = static::genresFromExternal($ext);
         $overview = $ext['overview'] ?: null;
         $actors = static::actorsFromExternalCredits($ext);
@@ -26,7 +30,7 @@ class TMDBMediaTransformer extends TMDBTransformer {
             : null;
 
         $movie = new TMDBMedia(
-            $tmdbId, $title, $titlePortuguese,
+            $tmdbId, $title, $titlePortuguese, $releaseDate,
             $genres, $overview, $actors,
             $directors, $review, $reviewCount, $posterImgUrl
         );

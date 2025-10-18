@@ -7,6 +7,7 @@ export default interface Media {
     tmdbId: number;
     title: string;
     titlePortuguese: string | null;
+    releaseDate: string | null;
     genres: Genre[] | null;
     durationStringfied: string | null;
     overview: string | null;

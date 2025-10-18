@@ -2,10 +2,13 @@
 
 namespace App\Entities;
 
+use DateTime;
+
 class TMDBMedia extends Entity {
     protected int $tmdbId;
     protected string $title;
     protected ?string $titlePortuguese = null;
+    protected ?DateTime $releaseDate = null;
     /**
      * @var array<Genre> | null
      */
@@ -25,13 +28,14 @@ class TMDBMedia extends Entity {
     protected ?string $posterImgUrl;
 
     public function __construct(
-        int $tmdbId, string $title, ?string $titlePortuguese, 
+        int $tmdbId, string $title, ?string $titlePortuguese, ?DateTime $releaseDate,
         ?array $genres, ?string $overview, ?array $actors,
         ?array $directors, float $review, int $reviewCount, ?string $posterImgUrl
     ) {
         $this->tmdbId = $tmdbId;
         $this->title = $title;
         $this->titlePortuguese = $titlePortuguese;
+        $this->releaseDate = $releaseDate;
         $this->genres = $genres;
         $this->overview = $overview;
         $this->actors = $actors;
@@ -46,6 +50,7 @@ class TMDBMedia extends Entity {
             "tmdbId" => $this->tmdbId,
             "title" => $this->title,
             "titlePortuguese" => $this->titlePortuguese,
+            "releaseDate" => $this->releaseDate?->format('Y-m-d'),
             "genres" => $this->genres
                 ? array_map(fn($genre) => $genre->jsonSerialize(), $this->genres)
                 : null,

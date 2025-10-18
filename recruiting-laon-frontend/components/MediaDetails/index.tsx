@@ -49,7 +49,10 @@ export default function MediaDetails({ media }: Readonly<{ media: Media | undefi
                 {media.titlePortuguese && 
                     <PrimaryDetail description="Título original" value={media.title} />
                 }
-                <PrimaryDetail description="Ano" value={"2000"/*media.release_date*/} />
+                <PrimaryDetail description="Ano" value={media.releaseDate
+                    ? new Date(media.releaseDate).getFullYear().toString() 
+                    : "????"
+                } />
                 <PrimaryDetail description="Duração" value={media.durationStringfied || "Não encontrada."} />
                 <div className="flex gap-2">{media.genres?.map(genre => <GenreDetail key={genre.tmdbId} genre={genre} />)}</div>
             </div>

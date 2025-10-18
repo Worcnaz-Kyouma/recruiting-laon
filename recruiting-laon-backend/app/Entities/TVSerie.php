@@ -17,6 +17,7 @@ class TVSerie extends TMDBMedia {
             $media->tmdbId,
             $media->title,
             $media->titlePortuguese,
+            $media->releaseDate,
             $media->genres,
             $media->overview,
             $media->actors,
