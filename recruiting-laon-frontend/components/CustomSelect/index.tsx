@@ -6,13 +6,16 @@ import React from "react";
 interface CustomSelectProps {
     value: string | undefined;
     setValue: (value: string) => void;
+    onChange?: () => void;
     options: SelectOption[];
     className?: string;
 }
 
-export default function CustomSelect({ value, setValue, options, className }: CustomSelectProps) {
+export default function CustomSelect({ value, setValue, onChange, options, className }: CustomSelectProps) {
     const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setValue(e.target.value);
+        
+        if(onChange) onChange();
     };
 
     if(options.length < 1) return <div className={`w-40 min-h-[40px] border bg-gray-300 border-gray-400 rounded-md transition animate-pulse ${className}`}></div>

@@ -32,6 +32,7 @@ export default function CustomInput({ value, setValue, placeholder, type = "text
                     px-4 py-6 text-white placeholder-gray-500
                     focus:outline-none focus:border-blue-500
                 `}
+                onKeyDown={props.onKeyDown}
             />
             {type === "password" && (<button
                 type="button"

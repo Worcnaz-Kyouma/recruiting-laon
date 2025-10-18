@@ -38,7 +38,7 @@ export default function MediaDetails({ media }: Readonly<{ media: Media | undefi
     const openMediaTrailerVideoModal = () => 
         setCurrentModal(<MediaTrailerVideoModal videoUrl={media.youtubeTrailerVideoUrl!}/>)
 
-    return <div className="relative">
+    return <div className="relative w-full pb-16">
         <div className="absolute pl-[90px] pt-12 flex flex-col gap-2 items-center">
             <div className="relative w-full min-w-[320px] max-w-[400px] aspect-[306/448]">
                 <Image
@@ -66,7 +66,7 @@ export default function MediaDetails({ media }: Readonly<{ media: Media | undefi
                 <PrimaryDetail description="Duração" value={media.durationStringfied || "Não encontrada."} />
                 <div className="flex gap-2">{media.genres?.map(genre => <GenreDetail key={genre.tmdbId} genre={genre} />)}</div>
             </div>
-            <div className="pl-115 flex px-[90px] pb-16 flex-col gap-3">
+            <div className="pl-115 flex px-[90px] flex-col gap-3">
                 <SecondaryDetail description="Sinopse" value={media?.portugueseInfos?.overview || media.overview || "Sinopse não encontrada."} />
                 <div className="flex gap-2">
                     {media.actors && <SecondaryDetail description="Elenco" value={media.actors.map(actor => actor.name)} />}

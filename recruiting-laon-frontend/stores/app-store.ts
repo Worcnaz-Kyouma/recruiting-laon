@@ -6,11 +6,14 @@ import { createStore } from "zustand";
 // TODO: Improve Modals data structure
 export type AppState = {
     currentModal: JSX.Element | undefined
+    lastMediaTitleSearched: string;
     selectedMedias: Media[];
 }
 export type AppAction = {
     setCurrentModal: (modal: JSX.Element) => void;
     closeCurrentModal: () => void;
+
+    setLastMediaTitleSearched: (title: string) => void;
 
     addMediaIntoSelectedMedias: (media: Media) => void;
     removeMediaFromSelectedMedias: (media: Media) => void;
@@ -21,6 +24,7 @@ export type AppStore = AppState & AppAction;
 
 export const defaultInitState: AppState = {
     currentModal: undefined,
+    lastMediaTitleSearched: "",
     selectedMedias: []
 }
 
@@ -37,6 +41,9 @@ export const createAppStore = (
         })),
         closeCurrentModal: () => set(() => ({
             currentModal: undefined
+        })),
+        setLastMediaTitleSearched: (title: string) => set(() => ({
+            lastMediaTitleSearched: title
         })),
         addMediaIntoSelectedMedias: (media: Media) => set((state) => ({
             selectedMedias: [...state.selectedMedias, media]

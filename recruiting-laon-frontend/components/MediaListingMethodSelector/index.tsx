@@ -12,10 +12,11 @@ import CustomSelect from "../CustomSelect";
 interface MediaListingMethodSelectorProps {
     mediaType: MediaType;
     listingMethod: string | undefined;
+    unsetTitleSearch: () => void;
     setListingMethod: (value: string) => void;
 }
 
-export default function MediaListingMethodSelector({ mediaType, listingMethod, setListingMethod }: Readonly<MediaListingMethodSelectorProps>) {
+export default function MediaListingMethodSelector({ mediaType, listingMethod, setListingMethod, unsetTitleSearch }: Readonly<MediaListingMethodSelectorProps>) {
     const [ listingMethods, setListingMethods ] = useState<ListingMethod[]>([]);
 
     const populateListingMethods = async () => {
@@ -32,5 +33,5 @@ export default function MediaListingMethodSelector({ mediaType, listingMethod, s
         populateListingMethods();
     }, []);
 
-    return <CustomSelect options={listingMethods} value={listingMethod} setValue={setListingMethod} />
+    return <CustomSelect options={listingMethods} value={listingMethod} setValue={setListingMethod} onChange={unsetTitleSearch} />
 }
