@@ -3,8 +3,6 @@
 namespace App\Transformers\TMDBApi;
 
 use App\Entities\PortugueseInfos;
-use App\Entities\TVEpisode;
-
 class PortugueseInfosTransformer extends TMDBTransformer {
     protected static function fromExternal(array $ext): ?PortugueseInfos {
         if(!isset($ext['translations'])) return null;

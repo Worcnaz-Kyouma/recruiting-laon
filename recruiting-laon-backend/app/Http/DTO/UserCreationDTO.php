@@ -2,9 +2,6 @@
 
 namespace App\Http\DTO;
 
-use App\Entities\Entity;
-use Illuminate\Support\Collection;
-
 class UserCreationDTO {
     public readonly string $name;
     public readonly string $email;

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Entities\TMDBMedia;
 use App\Entities\Movie;
 use App\Entities\TVSerie;
 use App\Enums\MediaListingMethod;

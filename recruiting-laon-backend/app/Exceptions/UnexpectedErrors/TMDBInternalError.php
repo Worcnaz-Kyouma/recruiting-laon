@@ -2,8 +2,6 @@
 
 namespace App\Exceptions\UnexpectedErrors;
 
-use App\Transformers\TMDBApi\TMDBTransformer;
-
 class TMDBInternalError extends UnexpectedError { 
     public function __construct(string $errorOriginMessage) {
         parent::__construct($errorOriginMessage);

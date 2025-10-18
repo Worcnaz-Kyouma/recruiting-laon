@@ -2,8 +2,6 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
-
 class TVSeriesByListingMethodRequest extends CustomFormRequest {
     public function rules(): array {
         return [

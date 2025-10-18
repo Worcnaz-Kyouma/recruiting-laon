@@ -2,9 +2,7 @@
 
 namespace App\Http\DTO;
 
-use App\Entities\Entity;
 use App\Models\User;
-use Illuminate\Support\Collection;
 
 class AuthorizedUserDTO {
     public readonly User $user;

@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\ExpectedErrors\ExpectedError;
-use App\Exceptions\UnexpectedErrors\DatabaseError;
 use App\Http\DTO\AuthorizedUserDTO;
-use App\Http\DTO\UserCreationDTO;
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\LogoutRequest;
