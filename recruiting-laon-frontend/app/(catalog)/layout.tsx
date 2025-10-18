@@ -1,4 +1,5 @@
 "use client"
+import AddMediaToExistingListButton from "@/components/AddMediaToExistingListButton";
 import CatalogFooter from "@/components/CatalogFooter";
 import CatalogHeader from "@/components/CatalogHeader";
 import ManageMediaListButton from "@/components/ManageMediaListButton";
@@ -19,8 +20,10 @@ export default function CatalogLayout({
             <div className="flex-grow flex">{children}</div>
         </main>
         <CatalogFooter />
-        {selectedMedias.length > 0 && 
+        {selectedMedias.length > 0 && <div className="fixed bottom-8 right-12 flex gap-4">
             <ManageMediaListButton />
+            <AddMediaToExistingListButton /> {/*Validate in login and register if user have a list*/}
+        </div> 
         }
     </div>);
 }

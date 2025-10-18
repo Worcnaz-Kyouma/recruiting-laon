@@ -1,9 +1,6 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import UnauthorizedNavBlockModal from "../UnauthorizedNavBlockModal";
+import React from "react";
 import { useAppStore } from "@/providers/user-store-provider";
-import CreateMediaListModal from "../CreateMediaListModal";
-import RemoveMediasFromMediaListModal from "../RemoveMediasFromMediaListModal";
 
 // TODO: IMPORTANT modal to add into media list
 export default function ModalsContainer() {

@@ -13,7 +13,7 @@ export default function UnauthorizedNavBlockModal() {
         closeCurrentModal(); 
     };
     
-    return <CustomModal closeModal={closeCurrentModal}>
+    return <CustomModal>
         <h1 className="text-center text-4xl font-semibold mb-4">Atenção!</h1>
         <p className="text-center mb-4 text-md">Parece que você esqueceu de logar no sistema!<br/>Para acessar a todo o catalogo, você precisa ter um usuário!</p>
         <button className="btn-primary" onClick={redirectToLogin}>Cadastra/Entrar!</button>

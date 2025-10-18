@@ -21,7 +21,6 @@ export default function MovieDetailsPage({ params }: Readonly<MovieDetailsProps>
             const apiResponse = await AppAPIClient.fetchAPI("movie", tmdbId, "GET");
             setMovie(apiResponse);
         } catch(err) {
-            // TODO: Improve invokeToastsUsingError to receive generic Error
             invokeToastsUsingError(err);
         }
     }

@@ -13,6 +13,7 @@ const MediaCardSkeletonLoader = () => <div className="w-full max-w-md aspect-[78
 
 // TODO: IMPORTANT Handle no poster media
 // TODO: Wait until image is loaded
+// TODO: Make selected relative to app state only, cause navigation breaks flow
 export default function MediaCard({ media }: Readonly<{ media: Media | undefined }>) {
     const router = useRouter();
     const user = useUser();

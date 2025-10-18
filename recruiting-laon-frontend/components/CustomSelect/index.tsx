@@ -1,21 +1,23 @@
 "use client";
 import { CaretDown } from "phosphor-react";
+import SelectOption from "@/types/SelectOption"
 import React from "react";
 
 interface CustomSelectProps {
     value: string | undefined;
     setValue: (value: string) => void;
-    options: { value: string, description: string }[]
+    options: SelectOption[];
+    className?: string;
 }
 
-export default function CustomSelect({ value, setValue, options }: CustomSelectProps) {
+export default function CustomSelect({ value, setValue, options, className }: CustomSelectProps) {
     const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setValue(e.target.value);
     };
 
-    if(options.length < 1) return <div className="w-40 border bg-gray-300 border-gray-400 rounded-md transition animate-pulse"></div>
+    if(options.length < 1) return <div className={`w-40 min-h-[40px] border bg-gray-300 border-gray-400 rounded-md transition animate-pulse ${className}`}></div>
 
-    return <div className="relative inline-block min-w-40">
+    return <div className={`relative inline-block min-w-40 ${className}`}>
         <select
             value={value}
             onChange={handleChange}

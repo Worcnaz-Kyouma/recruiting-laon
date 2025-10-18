@@ -29,7 +29,7 @@ export default function CreateMediaListModal() {
             
             await AppAPIClient.fetchAPI("media", `list`, "POST", body);
         } catch(err) {
-            invokeToastsUsingError(err);
+            return invokeToastsUsingError(err);
         }
 
         clearSelectedMedias();
@@ -38,7 +38,7 @@ export default function CreateMediaListModal() {
         toast.success("Lista criada com sucesso!", successToastStyle); 
     };
     
-    return <CustomModal className="flex flex-col gap-6 px-10" closeModal={closeCurrentModal}>
+    return <CustomModal className="flex flex-col gap-6 px-10">
         <h1 className="text-center text-4xl font-semibold">Nova Lista</h1>
         <CustomInput placeholder="Nome" value={name} setValue={setName} />
         <button className="btn-primary" onClick={createMediaList}>Criar!</button>

@@ -21,7 +21,7 @@ export default function RemoveMediasFromMediaListModal() {
             );
             await Promise.all(removingMedias);
         } catch(err) {
-            invokeToastsUsingError(err);
+            return invokeToastsUsingError(err);
         }
 
         clearSelectedMedias();
@@ -31,7 +31,7 @@ export default function RemoveMediasFromMediaListModal() {
         setTimeout(() => window.location.reload(), 1000);
     };
     
-    return <CustomModal className="flex flex-col gap-6 px-10" closeModal={closeCurrentModal}>
+    return <CustomModal className="flex flex-col gap-6 px-10">
         <h1 className="text-center text-4xl font-semibold">Atenção!</h1>
         <p className="text-center mb-4 text-md">Tem certeza que deseja remover estas mídias de sua lista?</p>
         <button className="btn-primary" onClick={removeSelectedMediasFromList}>Sim!</button>

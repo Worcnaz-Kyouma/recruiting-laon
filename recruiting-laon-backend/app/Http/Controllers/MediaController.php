@@ -60,22 +60,28 @@ class MediaController extends Controller {
     public function getMediaListsByUser(GetMediaListsByUserRequest $request) {
         $mediaListsPerPage = 5;
         $mediasPerList = 6;
+
         $data = $request->validated();
         $userId = $data["user_id"];
+        $isPaginated = $request->has('page');
         
         try {
-            $mediaLists = MediaList::where("user_id", $userId)->paginate($mediaListsPerPage);
+            $mediaLists = $isPaginated
+                ? MediaList::where("user_id", $userId)->paginate($mediaListsPerPage)
+                : $mediaLists = MediaList::where("user_id", $userId)->get();
+                
         } catch (Exception $e) {
             throw new AppFailedDatabaseCommunication($e);
         }
         if($mediaLists->isEmpty()) return response()->json($mediaLists);
 
-        $mediaLists->getCollection()->each(function($mediaList) use ($mediasPerList) { 
-            $mediaList->load(['medias' => fn($query) =>
-                $query->take($mediasPerList)
-            ]);
-            $this->populateTMDBMediasIntoDBMedias($mediaList["medias"]);
-        });
+        if($isPaginated)
+            $mediaLists->getCollection()->each(function($mediaList) use ($mediasPerList) { 
+                $mediaList->load(['medias' => fn($query) =>
+                    $query->take($mediasPerList)
+                ]);
+                $this->populateTMDBMediasIntoDBMedias($mediaList["medias"]);
+            });
 
         return response()->json($mediaLists);
     }
