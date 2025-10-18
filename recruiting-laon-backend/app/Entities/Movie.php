@@ -16,7 +16,8 @@ class Movie extends TMDBMedia {
             $media->directors,
             $media->review,
             $media->reviewCount,
-            $media->posterImgUrl
+            $media->posterImgUrl,
+            $media->youtubeTrailerVideoUrl
         );
 
         $this->durationStringfied = $durationStringfied;

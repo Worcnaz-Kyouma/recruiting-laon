@@ -24,15 +24,19 @@ class TMDBMediaTransformer extends TMDBTransformer {
         $directors = static::directorsFromExternalCredits($ext);
         $review = $ext['vote_average'];
         $reviewCount = $ext['vote_count'];
+        
         $tmdbImageBaseUrl = config('tmdb.image_base_url');
         $posterImgUrl = array_key_exists("poster_path", $ext) && $ext['poster_path']
             ? "$tmdbImageBaseUrl{$ext['poster_path']}"
             : null;
 
+        $youtubeTrailerVideoUrl = static::mostRecentYoutubeTrailerFromExternal($ext);
+
         $movie = new TMDBMedia(
             $tmdbId, $title, $titlePortuguese, $releaseDate,
             $genres, $overview, $actors,
-            $directors, $review, $reviewCount, $posterImgUrl
+            $directors, $review, $reviewCount, $posterImgUrl,
+            $youtubeTrailerVideoUrl
         );
 
         return $movie;
@@ -79,5 +83,26 @@ class TMDBMediaTransformer extends TMDBTransformer {
                 new Director($actor["id"], $actor["name"])
             )->values()
             ->toArray();
+    }
+
+    protected static function mostRecentYoutubeTrailerFromExternal(array $ext): ?string {
+        if(!isset($ext['videos'])) return null;
+
+        $mostRecentYoutubeTrailer = collect($ext['videos']["results"])
+            ->filter(fn($video) => 
+                $video["site"] === "YouTube" && 
+                $video["type"] === "Trailer" &&
+                $video["official"]
+            )
+            ->sortByDesc('published_at')
+            ->first();
+        
+        $youtubeVideoCode = $mostRecentYoutubeTrailer['key'] ?? null;
+        if($youtubeVideoCode === null) return null;
+
+        $youtubeBaselink = "https://www.youtube.com";
+        $youtubeLink = "{$youtubeBaselink}/embed/{$youtubeVideoCode}";
+
+        return $youtubeLink;
     }
 }

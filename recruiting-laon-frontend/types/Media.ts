@@ -16,4 +16,5 @@ export default interface Media {
     review: number;
     reviewCount: number;
     posterImgUrl: string | null;
+    youtubeTrailerVideoUrl: string | null;
 }

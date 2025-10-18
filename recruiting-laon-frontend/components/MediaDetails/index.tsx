@@ -4,6 +4,8 @@ import Image from "next/image";
 import React from "react";
 import CustomLoader from "../CustomLoader";
 import Genre from "@/types/Genre";
+import MediaTrailerVideoModal from "../MediaTrailerVideoModal";
+import { useAppStore } from "@/providers/user-store-provider";
 
 interface Detail {
     description: string;
@@ -26,10 +28,15 @@ const SecondaryDetail = ({ description, value }: Readonly<Detail>) =>
 
 // TODO: Adjust degrade styling box in the background to the Primary details header
 export default function MediaDetails({ media }: Readonly<{ media: Media | undefined }>) {
+    const { setCurrentModal } = useAppStore(state => state);
+
     if(!media)
         return <div className="flex-grow flex items-center justify-center">
             <CustomLoader />
         </div>
+
+    const openMediaTrailerVideoModal = () => 
+        setCurrentModal(<MediaTrailerVideoModal videoUrl={media.youtubeTrailerVideoUrl!}/>)
 
     return <div className="flex-grow flex gap-12 px-[90px] py-12">
         <div className="flex flex-col gap-2 items-center">
@@ -41,7 +48,10 @@ export default function MediaDetails({ media }: Readonly<{ media: Media | undefi
                     className="rounded"
                 />
             </div>
-            <button className="btn-primary">Assistir trailer</button>
+            <button className="btn-primary disabled:opacity-70 disabled:cursor-not-allowed" onClick={openMediaTrailerVideoModal} disabled={media.youtubeTrailerVideoUrl === null}>{media.youtubeTrailerVideoUrl
+                ? "Assistir trailer"
+                : "Trailer indisponível"
+            }</button>
         </div>
         <div className="flex flex-col gap-15">
             <div className="flex flex-col gap-1">

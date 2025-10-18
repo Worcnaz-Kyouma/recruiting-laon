@@ -26,11 +26,13 @@ class TMDBMedia extends Entity {
     protected float $review;
     protected int $reviewCount;
     protected ?string $posterImgUrl;
+    protected ?string $youtubeTrailerVideoUrl;
 
     public function __construct(
         int $tmdbId, string $title, ?string $titlePortuguese, ?DateTime $releaseDate,
         ?array $genres, ?string $overview, ?array $actors,
-        ?array $directors, float $review, int $reviewCount, ?string $posterImgUrl
+        ?array $directors, float $review, int $reviewCount, ?string $posterImgUrl,
+        ?string $youtubeTrailerVideoUrl
     ) {
         $this->tmdbId = $tmdbId;
         $this->title = $title;
@@ -43,6 +45,7 @@ class TMDBMedia extends Entity {
         $this->review = $review;
         $this->reviewCount = $reviewCount;
         $this->posterImgUrl = $posterImgUrl;
+        $this->youtubeTrailerVideoUrl = $youtubeTrailerVideoUrl;
     }
 
     public function jsonSerialize(): mixed {
@@ -64,7 +67,8 @@ class TMDBMedia extends Entity {
                 : null,
             "review" => $this->review,
             "reviewCount" => $this->reviewCount,
-            "posterImgUrl" => $this->posterImgUrl
+            "posterImgUrl" => $this->posterImgUrl,
+            "youtubeTrailerVideoUrl" => $this->youtubeTrailerVideoUrl
         ];
     }
 }

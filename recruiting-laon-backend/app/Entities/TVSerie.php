@@ -24,7 +24,8 @@ class TVSerie extends TMDBMedia {
             $media->directors,
             $media->review,
             $media->reviewCount,
-            $media->posterImgUrl
+            $media->posterImgUrl,
+            $media->youtubeTrailerVideoUrl
         );
 
         $this->seasons = $summarizedSeasons;
@@ -49,11 +50,6 @@ class TVSerie extends TMDBMedia {
      * @param array<TVSeason> $seasons
      */
     private function buildDurationStringfied(array $seasons): void {
-        // Old duration calculation, i prefered to show number of seasons and episodes
-        // $sumOfMinutesFromAllSeasons = collect($seasons)->map(fn($s) => 
-        //     collect($s->getEpisodes())->sum(fn($e) => $e->getRuntime())
-        // )->sum();
-
         $numberOfSeasons = count($seasons);
         $numberOfEpisodes = collect($seasons)
             ->map(fn($s) => count($s->getEpisodes()))

@@ -130,7 +130,7 @@ class TMDBApiService {
             $apiEntitiesContext["apiEntity"], 
             $mediaTMDBId,
             $fetchExtraData 
-                ? ["append_to_response" => "translations,credits"] 
+                ? ["append_to_response" => "translations,credits,videos"] 
                 : []
         );
         if($data === null) return null;
