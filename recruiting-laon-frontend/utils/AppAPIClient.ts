@@ -4,8 +4,8 @@ import axios, { AxiosHeaders, Method } from "axios";
 type APIResource = "user" | "media" | "movie" | "tv-serie";
 
 export default class AppAPIClient {
-    private static readonly backendBaseUrl = "http://localhost:8000"
-    private static readonly apiBaseUrl = `${this.backendBaseUrl}/api`
+    private static readonly backendBaseUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8000";
+    private static readonly apiBaseUrl = `${this.backendBaseUrl}/api`;
 
     static async fetchAPI(resource: APIResource, endpoint: string, method: Method, data?: object): Promise<any> {
         endpoint = `${resource}/${endpoint}`;
