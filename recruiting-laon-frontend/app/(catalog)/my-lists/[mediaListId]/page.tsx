@@ -2,6 +2,7 @@
 
 import CustomLoader from "@/components/CustomLoader";
 import CustomPagination from "@/components/CustomPagination";
+import DeleteMediaListModal from "@/components/DeleteMediaListModal";
 import MediaCardsGrid from "@/components/MediaCardsGrid";
 import MediasContainer from "@/components/MediasContainer";
 import useUser from "@/hooks/useUser";
@@ -31,6 +32,7 @@ export default function ListDetailsPage({ params }: Readonly<ListDetailsPageProp
     const { mediaListId } = use(params);
     const user = useUser();
     const router = useRouter();
+    const { setCurrentModal } = useAppStore(state => state);
     const [ isLoading, setIsLoading ] = useState<boolean>(true);
 
     const [ mediaList, setMediaList ] = useState<MediaList | undefined>(undefined);
@@ -65,6 +67,8 @@ export default function ListDetailsPage({ params }: Readonly<ListDetailsPageProp
         setIsLoading(false);
     }
 
+    const openDeleteMediaListModal = () => setCurrentModal(<DeleteMediaListModal />);
+
     useEffect(() => {
         searchUserMediaListDetails();
     }, [user, page]);
@@ -79,7 +83,10 @@ export default function ListDetailsPage({ params }: Readonly<ListDetailsPageProp
 
     return <div className="flex-grow overflow-y-auto">
         <div className="flex flex-col gap-[40px] p-8 px-[90px] pb-16">
-            <h1 className="text-2xl font-semibold text-white">{mediaList!.name}</h1>
+            <div className="flex items-end justify-between">
+                <h1 className="text-2xl font-semibold text-white">{mediaList!.name}</h1>
+                <button className="text-action text-feedback-negative" onClick={openDeleteMediaListModal}>EXCLUIR</button>
+            </div>
             <div className="relative flex flex-col gap-[40px]">
                 <MediaCardsGrid medias={medias} />
                 {numberOfPages &&
