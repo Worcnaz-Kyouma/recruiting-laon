@@ -13,9 +13,7 @@ class TMDBMediaTransformer extends TMDBTransformer {
     protected static function fromExternal(array $ext): TMDBMedia {
         $tmdbId = $ext['id'];
         $title = static::titleFromExternal($ext);
-        $releaseDate = array_key_exists("release_date", $ext) && $ext["release_date"]
-            ? new DateTime($ext["release_date"])
-            : null;
+        $releaseDate = static::releaseDateFromExternal($ext);
         $genres = static::genresFromExternal($ext);
         $overview = $ext['overview'] ?: null;
         $actors = static::actorsFromExternalCredits($ext);
@@ -48,6 +46,12 @@ class TMDBMediaTransformer extends TMDBTransformer {
 
     protected static function titleFromExternal(array $ext): string {
         return $ext['original_title'];
+    }
+
+    protected static function releaseDateFromExternal(array $ext): ?DateTime {
+        return array_key_exists("release_date", $ext) && $ext["release_date"]
+            ? new DateTime($ext["release_date"])
+            : null;
     }
     
     protected static function genresFromExternal(array $ext): ?array {

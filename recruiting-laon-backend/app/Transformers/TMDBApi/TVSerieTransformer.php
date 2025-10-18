@@ -3,6 +3,7 @@
 namespace App\Transformers\TMDBApi;
 
 use App\Entities\TVSerie;
+use DateTime;
 
 class TVSerieTransformer extends TMDBMediaTransformer {
     protected static function fromExternal(array $ext): TVSerie {
@@ -19,6 +20,12 @@ class TVSerieTransformer extends TMDBMediaTransformer {
 
     protected static function titleFromExternal(array $ext): string {
         return $ext['original_name'];
+    }
+
+    protected static function releaseDateFromExternal(array $ext): ?DateTime {
+        return array_key_exists("first_air_date", $ext) && $ext["first_air_date"]
+            ? new DateTime($ext["first_air_date"])
+            : null;
     }
 
     protected static function titlePortugueseFromExternalTranslations(array $ext): ?string {
