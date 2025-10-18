@@ -9,7 +9,7 @@ import Image from "next/image";
 export default function CatalogFooter() {
     const user = useUser();
 
-    return <footer className="flex items-center justify-between p-4 px-[90px] border-t border-gray-300 bg-gray-200">
+    return <footer className="flex items-center justify-between p-4 px-[90px] border-t border-gray-300 bg-gray-100">
         <div className="flex gap-3 items-center min-w-[241px]">
             <span>Powered by</span>
             <Link href="https://developer.themoviedb.org/docs/getting-started">

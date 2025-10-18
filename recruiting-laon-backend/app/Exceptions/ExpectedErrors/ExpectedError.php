@@ -11,7 +11,7 @@ class ExpectedError extends AppError {
     /**
      * @param string|array<string> $errorOriginMessage
      */
-    public function __construct(string | array $errorOriginMessage, int $httpResponseStatusCode = 400, ?string $errorMessage = null) {
+    public function __construct(int $httpResponseStatusCode = 400, ?string $errorMessage = null, string | array $errorOriginMessage = "Erro tratado e esperado pela aplicação") {
         parent::__construct($errorOriginMessage, $httpResponseStatusCode);
         $this->errorMessage = $errorMessage;
     }

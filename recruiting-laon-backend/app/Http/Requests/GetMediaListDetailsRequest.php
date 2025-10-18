@@ -22,4 +22,15 @@ class GetMediaListDetailsRequest extends CustomFormRequest {
             'id' => $this->route('id'),
         ]);
     }
+
+    public function messages(): array {
+    return [
+        'id.required' => 'O id é obrigatório.',
+        'id.min'      => 'O id deve ser no mínimo 1.',
+
+        'page.required' => 'O número da página é obrigatório.',
+        'page.integer'  => 'O número da página deve ser um número inteiro.',
+        'page.min'      => 'O número da página deve ser no mínimo 1.',
+    ];
+}
 }

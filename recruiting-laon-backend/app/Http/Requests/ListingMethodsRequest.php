@@ -14,4 +14,11 @@ class ListingMethodsRequest extends CustomFormRequest {
             'media_type' => $this->route('media_type'),
         ]);
     }
+
+    public function messages(): array {
+        return [
+            'media_type.required' => 'O tipo de mídia é obrigatório.',
+            'media_type.in'       => 'O tipo de mídia deve ser "movie" ou "tv-serie".',
+        ];
+    }
 }

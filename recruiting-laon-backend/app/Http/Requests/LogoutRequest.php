@@ -16,4 +16,11 @@ class LogoutRequest extends CustomFormRequest {
             'id' => $this->route('id'),
         ]);
     }
+
+    public function messages(): array {
+        return [
+            'id.required' => 'O id do usuário é obrigatório.',
+            'id.exists'   => 'O usuário selecionado não existe.',
+        ];
+    }
 }

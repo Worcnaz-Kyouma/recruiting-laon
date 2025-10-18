@@ -6,7 +6,7 @@ use App\Exceptions\ExpectedErrors\ExpectedError;
 
 class TMDBDataNotFoundError extends ExpectedError { 
     public function __construct(string $errorOriginMessage) {
-        parent::__construct($errorOriginMessage, 404);
+        parent::__construct(404, null, $errorOriginMessage);
     }
 
     public function getHttpResponseErrorMessage(): string {

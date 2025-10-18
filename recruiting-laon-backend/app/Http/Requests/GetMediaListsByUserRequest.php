@@ -20,4 +20,14 @@ class GetMediaListsByUserRequest extends CustomFormRequest {
             'user_id' => $this->route('user_id'),
         ]);
     }
+
+    public function messages(): array {
+        return [
+            'user_id.required' => 'O id do usuário é obrigatório.',
+            'user_id.exists'   => 'O usuário selecionado não existe.',
+
+            'page.integer' => 'O número da página deve ser um número inteiro.',
+            'page.min'     => 'O número da página deve ser no mínimo 1.',
+        ];
+    }
 }

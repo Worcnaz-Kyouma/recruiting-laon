@@ -23,4 +23,16 @@ class DeleteMediasFromMediaListRequest extends CustomFormRequest {
             'id' => $this->route('id'),
         ]);
     }
+
+    public function messages(): array {
+        return [
+            'id.required' => 'O id da lista é obrigatório.',
+            'id.exists'   => 'A lista de mídia selecionada não existe.',
+
+            'medias.required'      => 'O campo medias é obrigatório.',
+            'medias.array'         => 'O campo medias deve ser um array.',
+            'medias.*.id.required' => 'O id de cada mídia é obrigatório.',
+            'medias.*.id.integer'  => 'O id de cada mídia deve ser um número inteiro.',
+        ];
+    }
 }

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\ExpectedErrors\ExpectedError;
-use App\Exceptions\UnexpectedErrors\AppFailedDatabaseCommunication;
+use App\Exceptions\UnexpectedErrors\DatabaseError;
 use App\Http\DTO\AuthorizedUserDTO;
 use App\Http\DTO\UserCreationDTO;
 use App\Http\Requests\CreateUserRequest;
@@ -38,14 +38,14 @@ class UserController extends Controller {
         $password = $data['password'];
 
         $user = User::where('email', $email)->first();
-        if(!$user) throw new ExpectedError("", 401, "Usuario nao encontrado");
+        if(!$user) throw new ExpectedError(401, "Usuario nao encontrado");
 
         $isLoginSuccessful = Auth::attempt([
             'email'=> $email,
             'password'=> $password
         ]);
         if(!$isLoginSuccessful)
-            throw new ExpectedError("", 401, "Senha invalida");
+            throw new ExpectedError(401, "Senha invalida");
 
         $request->session()->regenerate();
         

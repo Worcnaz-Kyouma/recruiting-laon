@@ -9,16 +9,16 @@ use Illuminate\Contracts\Validation\Validator;
 class ValidatorError extends ExpectedError { 
     private Validator $validator;
     public function __construct(Validator $validator) {
-        parent::__construct($validator->errors()->all(), 422);
+        parent::__construct(422, null, $validator->errors()->all());
 
         $this->validator = $validator;
     }
 
     // TODO: Improve that error using the failed validation rules
     public function getHttpResponseErrorMessage(): array {
-        $fieldsWithError = collect($this->validator->errors()->keys());
-        $failedValidationRules = collect($this->validator->failed());
+        $errorsMessages = $this->validator->errors()->messages();
+        $messages = array_merge(...array_values($errorsMessages));
 
-        return $fieldsWithError->map(fn($field) => "O campo '$field' esta mal formatado ou faltando")->jsonSerialize();
+        return $messages;
     }
 }

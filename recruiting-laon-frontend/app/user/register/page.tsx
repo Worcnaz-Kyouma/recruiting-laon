@@ -37,7 +37,7 @@ export default function RegisterPage() {
     return <form onSubmit={handleRegister} className="min-w-[560px] max-w-[600px] rounded-[8px] m-12 bg-gray-200 p-16 px-[90px]">
         <UserContentTitle title="Cadastre-se!" styleText="Acompanhe so as melhores com o Catalogo Laon!" />
         <div className="flex flex-col gap-6 mb-3 w-full">
-            <CustomInput name="username" placeholder="Nome Completo" />
+            <CustomInput name="username" placeholder="Nickname" />
             <CustomInput name="email" placeholder="Email"/>
             <div className="flex gap-2">
                 <CustomInput name="password" placeholder="Senha" type="password"/>

@@ -10,7 +10,7 @@ use App\Enums\MediaType;
 use App\Enums\MovieListingMethod;
 use App\Enums\TVSerieListingMethod;
 use App\Exceptions\ExpectedErrors\ExpectedError;
-use App\Exceptions\UnexpectedErrors\AppFailedDatabaseCommunication;
+use App\Exceptions\UnexpectedErrors\DatabaseError;
 use App\Http\Requests\AddMediasIntoMediaListRequest;
 use App\Http\Requests\CreateMediaListRequest;
 use App\Http\Requests\DeleteMediaListRequest;
@@ -71,7 +71,7 @@ class MediaController extends Controller {
                 : $mediaLists = MediaList::where("user_id", $userId)->get();
                 
         } catch (Exception $e) {
-            throw new AppFailedDatabaseCommunication($e);
+            throw new DatabaseError($e);
         }
         if($mediaLists->isEmpty()) return response()->json($mediaLists);
 
@@ -94,7 +94,7 @@ class MediaController extends Controller {
         try {
             $mediaList = MediaList::find($id);
         } catch (Exception $e) {
-            throw new AppFailedDatabaseCommunication($e);
+            throw new DatabaseError($e);
         }
         if(!$mediaList) return response()->json($mediaList);
 
@@ -129,8 +129,8 @@ class MediaController extends Controller {
             $mediaList = MediaList::create($data);
         } catch (QueryException $e) {
             if($e->errorInfo[1] === 1062) 
-                throw new ExpectedError("", 401, "Usuario ja possui uma lista de mesmo nome");
-            else throw new AppFailedDatabaseCommunication($e);
+                throw new ExpectedError(401, "Usuario ja possui uma lista de mesmo nome");
+            else throw new DatabaseError($e);
         }
 
         $medias = $data["medias"];
@@ -166,7 +166,7 @@ class MediaController extends Controller {
 
             $mediaList->load('medias');
         } catch (Exception $e) {
-            throw new AppFailedDatabaseCommunication($e);
+            throw new DatabaseError($e);
         }
 
         return response()->json($mediaList, 201);
@@ -180,11 +180,11 @@ class MediaController extends Controller {
             $mediasId = collect($data['medias'])->pluck('id')->toArray();
             $numberOfRowsDeleted = $mediaList->medias()->detach($mediasId);
         } catch (Exception $e) {
-            throw new AppFailedDatabaseCommunication($e);
+            throw new DatabaseError($e);
         }
 
         if ($numberOfRowsDeleted === 0) {
-            throw new ExpectedError("", 404, "A midia informada não está vinculado a esta lista.");
+            throw new ExpectedError(404, "A midia informada não está vinculado a esta lista.");
         }
 
         // If list dont have any more medias, delete it.
@@ -192,7 +192,7 @@ class MediaController extends Controller {
             if ($mediaList->medias()->count() === 0) 
                 $mediaList->delete();
         } catch (Exception $e) {
-            throw new AppFailedDatabaseCommunication($e);
+            throw new DatabaseError($e);
         }
 
         return response()->noContent();
@@ -205,10 +205,10 @@ class MediaController extends Controller {
         try {
             $numberOfRowsDeleted = MediaList::where("id", $mediaListId)->delete();
         } catch (Exception $e) {
-            throw new AppFailedDatabaseCommunication($e);
+            throw new DatabaseError($e);
         }
         if($numberOfRowsDeleted === 0) 
-            throw new ExpectedError("", 404, "Não existe lista vinculada a este codigo.");
+            throw new ExpectedError(404, "Não existe lista vinculada a este codigo.");
 
         return response()->noContent();
     }

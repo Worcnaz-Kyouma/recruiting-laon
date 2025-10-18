@@ -22,4 +22,18 @@ class AddMediasIntoMediaListRequest extends CustomFormRequest {
             'id' => $this->route('id'),
         ]);
     }
+
+    public function messages(): array {
+        return [
+            'id.required' => 'O id da lista é obrigatório.',
+
+            'medias.required' => 'O campo "medias" é obrigatório.',
+            'medias.array' => 'O campo "medias" deve ser um array.',
+
+            'medias.*.tmdb_id.required' => 'O TMDB ID de cada mídia é obrigatório.',
+            'medias.*.tmdb_id.integer' => 'O TMDB ID de cada mídia deve ser um número.',
+            'medias.*.media_type.required' => 'O tipo de mídia de cada item é obrigatório.',
+            'medias.*.media_type.in' => 'O tipo de mídia deve ser "movie" ou "tv-serie".'
+        ];
+    }
 }
