@@ -20,6 +20,7 @@ recruiting-laon-frontend
 - Estilização: 
     - Tailwind
     - Material UI
+    - Phospor Icons
 - Gerenciador de state: Zustand
 - Avisos Temporarios: Toast
 - Utilitarios:
