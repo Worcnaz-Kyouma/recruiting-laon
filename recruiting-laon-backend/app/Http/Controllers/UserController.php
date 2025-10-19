@@ -22,9 +22,13 @@ class UserController extends Controller {
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+
+        $request->session()->regenerate();
+
         $token = $user->createToken(self::TOKEN_IDENTIFIER)->plainTextToken;
 
         $authorizedUserDTO = new AuthorizedUserDTO($user, $token);
+        
         return response()->json($authorizedUserDTO, 201);
     }
 
