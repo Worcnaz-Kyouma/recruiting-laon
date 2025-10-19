@@ -34,7 +34,7 @@ recruiting-laon-backend
 - Cache: Database
 - Database: MySQL 8 com Migrations(Laravel)
 
-Alem disto, os dados de filmes e séries da aplicação vem da "The Movie DB API", para mais informações acesse: /<b><a>https://www.themoviedb.org</a></b>
+Alem disto, os dados de filmes e séries da aplicação vem da "The Movie DB API", para mais informações acesse: <b><a>https://www.themoviedb.org</a></b>
 
 ## Requisitos
 recruiting-laon-frontend:
@@ -48,7 +48,7 @@ recruiting-laon-backend:
 
 ## Como rodar
 
-Baixe o arquivo ZIP do projeto e descompacte-o onde preferir.
+Clone o projeto com o comando "git clone <web URL>" ou baixe o arquivo ZIP do projeto e descompacte-o onde preferir.
 
 Execute estes passos para as 2 partes da aplicação:
 
