@@ -127,7 +127,7 @@ class MediaController extends Controller {
             $mediaList = MediaList::create($data);
         } catch (QueryException $e) {
             if($e->errorInfo[1] === 1062) 
-                throw new ExpectedError(401, "Usuario ja possui uma lista de mesmo nome");
+                throw new ExpectedError(422, "Usuario ja possui uma lista de mesmo nome");
             else throw new DatabaseError($e);
         }
 

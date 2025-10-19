@@ -18,9 +18,6 @@ export default function LogoutUserButton({ user }: Readonly<{ user: User }>) {
 
             window.location.reload();
         } catch (err) {
-            if(err instanceof AppError && err.status === 401)
-                return;
-
             handleError(err);
         }
     }
