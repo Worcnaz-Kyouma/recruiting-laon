@@ -59,7 +59,8 @@ export default function AddMediaToExistingListModal() {
                 description: mediaList.name
             } as SelectOption));
             setMediaListsOptions(options);
-            setMediaListId(options[0].value)
+            if(options.length > 0)
+                setMediaListId(options[0].value);
         } catch(err) {
             invokeToastsUsingError(err);
         }
@@ -74,9 +75,9 @@ export default function AddMediaToExistingListModal() {
     }, [user]);
 
     if(isLoading) return <CustomLoader />;
-    
+
     return <CustomModal className="flex flex-col items-center gap-6 px-12">
-        {mediaListsOptions.length < 1
+        {mediaListsOptions.length > 0
             ? <>
                 <h1 className="text-center text-4xl font-semibold">Adicionar a lista</h1>
                 <CustomSelect options={mediaListsOptions} value={mediaListId} setValue={setMediaListId} className="w-full" />
