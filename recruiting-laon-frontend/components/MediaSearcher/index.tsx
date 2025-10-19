@@ -65,17 +65,20 @@ export default function MediaSearcher({ mediaType }: Readonly<{ mediaType: Media
         setIsLoading(false);
     }
 
-    const searchMediasByTitle = async () => {
+    const handleSearchMediaClick = () => searchMediasByTitle(1);
+
+    const searchMediasByTitle = async (searchPage?: number) => {
         if(searchTitle === "") return searchMediasByListingMethod(1);
 
         setIsSearchingByTitle(true);
         setIsLoading(true);
         setLastMediaTitleSearched(searchTitle);
+        setPage(searchPage || page);
         
         try {
             const apiResponse = await AppAPIClient.fetchAPI(mediaType, "by-title", "GET", {
                 title: searchTitle,
-                page: page
+                page: searchPage || page
             });
 
             setMedias(apiResponse.results);
@@ -93,10 +96,9 @@ export default function MediaSearcher({ mediaType }: Readonly<{ mediaType: Media
     }
 
     const handleEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        console.log("tews");
         if (e.key === "Enter") {
             e.preventDefault();
-            searchMediasByTitle();
+            handleSearchMediaClick();
         }
     }
     
@@ -109,7 +111,7 @@ export default function MediaSearcher({ mediaType }: Readonly<{ mediaType: Media
                     <span>ou</span>
                 </div>
                 <CustomInput placeholder={`Título`} value={searchTitle} setValue={setSearchTitle} className="flex-grow" onKeyDown={handleEnter} />
-                <button className="btn-primary w-fit h-full flex items-center gap-3 px-6 py-2" onClick={searchMediasByTitle}>
+                <button className="btn-primary w-fit h-full flex items-center gap-3 px-6 py-2" onClick={handleSearchMediaClick}>
                     <MagnifyingGlass size={32} className="mr-1"/>
                     Buscar
                 </button>
