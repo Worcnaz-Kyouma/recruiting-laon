@@ -8,7 +8,7 @@ import Media from "@/types/Media";
 import APIMedia from "@/types/APIMedia"
 import MediaList from "@/types/MediaList"
 import AppAPIClient from "@/utils/AppAPIClient";
-import { invokeToastsUsingError } from "@/utils/utils";
+import { handleError } from "@/utils/utils";
 import { useEffect, useState } from "react"
 
 interface APIMediaList {
@@ -44,7 +44,7 @@ export default function MyListsPage() {
             } as MediaList)));
             setNumberOfPages(apiResponse.last_page);
         } catch(err) {
-            invokeToastsUsingError(err);
+            handleError(err);
         }
 
         setIsLoading(false);

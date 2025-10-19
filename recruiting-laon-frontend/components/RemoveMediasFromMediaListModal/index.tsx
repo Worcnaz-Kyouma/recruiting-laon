@@ -3,7 +3,7 @@ import { useAppStore } from "@/providers/user-store-provider";
 import { usePathname } from "next/navigation";
 import React from "react";
 import CustomModal from "../CustomModal";
-import { invokeToastsUsingError, successToastStyle } from "@/utils/utils";
+import { handleError, successToastStyle } from "@/utils/utils";
 import { toast } from "react-toastify";
 import AppAPIClient from "@/utils/AppAPIClient";
 
@@ -23,7 +23,7 @@ export default function RemoveMediasFromMediaListModal() {
             
             await AppAPIClient.fetchAPI("media", `list/${mediaListId}/remove-medias`, "DELETE", body);
         } catch(err) {
-            return invokeToastsUsingError(err);
+            return handleError(err);
         }
 
         clearSelectedMedias();

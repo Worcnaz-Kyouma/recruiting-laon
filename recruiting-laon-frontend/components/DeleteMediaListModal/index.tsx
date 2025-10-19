@@ -5,7 +5,7 @@ import React from "react";
 import CustomModal from "../CustomModal";
 import { usePathname } from "next/navigation";
 import AppAPIClient from "@/utils/AppAPIClient";
-import { invokeToastsUsingError, successToastStyle } from "@/utils/utils";
+import { handleError, successToastStyle } from "@/utils/utils";
 import { toast } from "react-toastify";
 
 export default function DeleteMediaListModal() {
@@ -19,7 +19,7 @@ export default function DeleteMediaListModal() {
         try {
             await AppAPIClient.fetchAPI("media", `list/${mediaListId}`, "DELETE");
         } catch(err) {
-            return invokeToastsUsingError(err);
+            return handleError(err);
         }
 
         closeCurrentModal();

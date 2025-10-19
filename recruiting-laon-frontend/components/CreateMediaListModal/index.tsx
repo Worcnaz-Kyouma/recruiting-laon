@@ -6,7 +6,7 @@ import CustomModal from "../CustomModal";
 import CustomInput from "../CustomInput";
 import AppAPIClient from "@/utils/AppAPIClient";
 import useUser from "@/hooks/useUser";
-import { invokeToastsUsingError, successToastStyle } from "@/utils/utils";
+import { handleError, successToastStyle } from "@/utils/utils";
 import { toast } from "react-toastify";
 
 export default function CreateMediaListModal() {
@@ -29,7 +29,7 @@ export default function CreateMediaListModal() {
             
             await AppAPIClient.fetchAPI("media", `list`, "POST", body);
         } catch(err) {
-            return invokeToastsUsingError(err);
+            return handleError(err);
         }
 
         clearSelectedMedias();

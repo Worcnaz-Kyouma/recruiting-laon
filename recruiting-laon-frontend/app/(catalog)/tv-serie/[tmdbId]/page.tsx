@@ -4,7 +4,7 @@ import AppError from "@/errors/AppError";
 import Movie from "@/types/Movie";
 import TVSerie from "@/types/TVSerie";
 import AppAPIClient from "@/utils/AppAPIClient";
-import { invokeToastsUsingError } from "@/utils/utils";
+import { handleError } from "@/utils/utils";
 import Image from "next/image";
 import { use, useEffect, useState } from "react";
 
@@ -23,7 +23,7 @@ export default function TVSerieDetailsPage({ params }: Readonly<TVSerieDetailsPr
             const apiResponse = await AppAPIClient.fetchAPI("tv-serie", tmdbId, "GET");
             setTVSerie(apiResponse);
         } catch(err) {
-            invokeToastsUsingError(err);
+            handleError(err);
         }
     }
 

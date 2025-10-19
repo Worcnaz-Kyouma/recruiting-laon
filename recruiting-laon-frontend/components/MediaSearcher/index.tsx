@@ -7,7 +7,7 @@ import { MagnifyingGlass } from "phosphor-react";
 import MediaCard from "../MediaCard";
 import CustomInput from "../CustomInput";
 import AppAPIClient from "@/utils/AppAPIClient";
-import { invokeToastsUsingError } from "@/utils/utils";
+import { handleError } from "@/utils/utils";
 import CustomLoader from "../CustomLoader";
 import CustomPagination from "../CustomPagination";
 import MediaCardsGrid from "../MediaCardsGrid";
@@ -60,7 +60,7 @@ export default function MediaSearcher({ mediaType }: Readonly<{ mediaType: Media
             setMedias(apiResponse.results);
             setNumberOfPages(apiResponse.numberOfPages);
         } catch(err) {
-            invokeToastsUsingError(err);
+            handleError(err);
         }
 
         setIsLoading(false);
@@ -86,7 +86,7 @@ export default function MediaSearcher({ mediaType }: Readonly<{ mediaType: Media
             setMedias(apiResponse.results);
             setNumberOfPages(apiResponse.numberOfPages);
         } catch(err) {
-            invokeToastsUsingError(err);
+            handleError(err);
         }
 
         setIsLoading(false);

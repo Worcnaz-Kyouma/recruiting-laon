@@ -3,7 +3,7 @@ import CustomInput from "@/components/CustomInput";
 import UserContentTitle from "@/components/UserContentTitle";
 import { User } from "@/types/User";
 import AppAPIClient from "@/utils/AppAPIClient";
-import { invokeToastsUsingError } from "@/utils/utils";
+import { handleError } from "@/utils/utils";
 import { useRouter } from "next/navigation";
 
 export default function RegisterPage() {
@@ -30,7 +30,7 @@ export default function RegisterPage() {
 
             router.push("/");
         } catch(err) {
-            invokeToastsUsingError(err);
+            handleError(err);
         }
     }
 

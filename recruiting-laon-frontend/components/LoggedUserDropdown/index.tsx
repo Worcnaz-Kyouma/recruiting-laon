@@ -2,9 +2,8 @@
 import AppError from "@/errors/AppError";
 import { User } from "@/types/User";
 import AppAPIClient from "@/utils/AppAPIClient";
-import { invokeToastsUsingError } from "@/utils/utils";
+import { handleError } from "@/utils/utils";
 import Image from "next/image";
-import { usePathname, useRouter } from "next/navigation";
 import { SignOut } from "phosphor-react";
 import React from "react";
 
@@ -13,14 +12,14 @@ export default function LoggedUserDropdown({ user }: Readonly<{ user: User }>) {
         try {
             localStorage.removeItem("user");
             
-            AppAPIClient.fetchAPI("user", `logout/${user.id}`, "POST");
+            await AppAPIClient.fetchAPI("user", `logout`, "POST");
 
             window.location.reload();
         } catch (err) {
             if(err instanceof AppError && err.status === 401)
                 return;
 
-            invokeToastsUsingError(err);
+            handleError(err);
         }
     }
 
