@@ -42,14 +42,14 @@ class UserController extends Controller {
         $password = $data['password'];
 
         $user = User::where('email', $email)->first();
-        if(!$user) throw new ExpectedError(401, "Usuario nao encontrado");
+        if(!$user) throw new ExpectedError(422, "Usuario nao encontrado");
 
         $isLoginSuccessful = Auth::attempt([
             'email'=> $email,
             'password'=> $password
         ]);
         if(!$isLoginSuccessful)
-            throw new ExpectedError(401, "Senha invalida");
+            throw new ExpectedError(422, "Senha invalida");
 
         $request->session()->regenerate();
         
