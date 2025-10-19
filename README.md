@@ -182,3 +182,5 @@ Para consultar suas listas, na parte superior do sistema, ao lado do demonstrati
 
 Entre outros...
 Para mais informações, importe a Collection da API para o Postman/Insomnia, inspirado na arquitetura REST, procurei deixar as rotas bem semanticas, então seu nome basicamente descreve sua função
+
+## TMDB API eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4OTU2YTc2ZDkwYzFjMjAzYmI2ZmMzZmQwZGMzNjM5ZSIsIm5iZiI6MTc2MDEyMTIxOS42MDgsInN1YiI6IjY4ZTk1MTgzY2M2NDlmYWE1NTQxZTY5YyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.0cZdeVvwvzTgXN6RDZqeN7s5FwFBrONa4DzmsrNXCT4
