@@ -2,6 +2,7 @@
 
 use App\Exceptions\AppError;
 use App\Exceptions\UnexpectedErrors\UnexpectedError;
+use App\Http\Middleware\SetSameSiteCookie;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -22,6 +23,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->api(append: [
             StartSession::class,
             // EnsureFrontendRequestsAreStateful::class
+            SetSameSiteCookie::class
         ]);
 
         $middleware->redirectGuestsTo('/unauthorized-user');
