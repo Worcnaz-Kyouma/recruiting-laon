@@ -1,0 +1,486 @@
+{
+	"info": {
+		"_postman_id": "56535aca-c7c0-47a4-8773-42f10b986fb2",
+		"name": "Laon-Catalog",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25152078"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "user-create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"PradoLaon\",\r\n    \"email\": \"pradolaon@gmail.com\",\r\n    \"password\": \"testeteste\",\r\n    \"password_confirmation\": \"testeteste\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/user",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user-login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"nicolasprado0028@gmail.com\",\r\n    \"password\": \"testeteste\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/user/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"user",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user-logout",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/user/logout/2",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"user",
+								"logout",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Media",
+			"item": [
+				{
+					"name": "List",
+					"item": [
+						{
+							"name": "media-list-details",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/media/list/19?page=1",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"media",
+										"list",
+										"19"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "media-list-by-user",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/media/list/by-user/4",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"media",
+										"list",
+										"by-user",
+										"4"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "media-list-create",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"user_id\": 4,\r\n    \"name\": \"Muito Foda\",\r\n    \"medias\": [\r\n        { \"tmdb_id\": 278, \"media_type\": \"movie\" },\r\n        { \"tmdb_id\": 176241, \"media_type\": \"tv-serie\" },\r\n        { \"tmdb_id\": 2288, \"media_type\": \"tv-serie\" }\r\n    ] \r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/media/list",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"media",
+										"list"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "media-list-add-medias",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"medias\": [\r\n        { \"tmdb_id\": 2288, \"media_type\": \"tv-serie\" }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/media/list/3/add-medias",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"media",
+										"list",
+										"3",
+										"add-medias"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "media-list-remove-medias",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/media/list/17/remove-medias",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"media",
+										"list",
+										"17",
+										"remove-medias"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "media-list-delete",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/media/list/21",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"media",
+										"list",
+										"21"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "top-popular",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/media/top-popular",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"media",
+								"top-popular"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listing-methods",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/media/listing-method/tv-serie",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"media",
+								"listing-method",
+								"tv-serie"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Movie",
+			"item": [
+				{
+					"name": "movie-by-listing-method",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/movie/by-listing-method?listing_method=top_rated&page=1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"movie",
+								"by-listing-method"
+							],
+							"query": [
+								{
+									"key": "listing_method",
+									"value": "top_rated"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "movie-by-id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/movie/338969",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"movie",
+								"338969"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "movie-by-title",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/movie/by-title?title=Prison Break&page=1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"movie",
+								"by-title"
+							],
+							"query": [
+								{
+									"key": "title",
+									"value": "Prison Break"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "TvSerie",
+			"item": [
+				{
+					"name": "tv-serie-by-listing-method",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/tv-serie/by-listing-method?listing_method=popular&page=1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"tv-serie",
+								"by-listing-method"
+							],
+							"query": [
+								{
+									"key": "listing_method",
+									"value": "popular"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "tv-serie-by-id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/tv-serie/1405",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"tv-serie",
+								"1405"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "tv-serie-by-title",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/tv-serie/by-title?title=Todo Poderoso&page=1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"tv-serie",
+								"by-title"
+							],
+							"query": [
+								{
+									"key": "title",
+									"value": "Todo Poderoso"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "welcome",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}",
+					"host": [
+						"{{baseUrl}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8000/api"
+		}
+	]
+}
