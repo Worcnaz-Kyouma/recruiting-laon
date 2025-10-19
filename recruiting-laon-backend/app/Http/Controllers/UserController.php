@@ -45,7 +45,6 @@ class UserController extends Controller {
 
         $request->session()->regenerate();
         
-        // $user->tokens()->delete();
         $token = $user->createToken(self::TOKEN_IDENTIFIER)->plainTextToken;
 
         $authorizedUserDTO = new AuthorizedUserDTO($user, $token);

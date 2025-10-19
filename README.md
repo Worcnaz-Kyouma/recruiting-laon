@@ -34,7 +34,7 @@ recruiting-laon-backend
 - Cache: Database
 - Database: MySQL 8 com Migrations(Laravel)
 
-Alem disto, os dados de filmes e séries da aplicação vem da "The Movie DB API", para mais informações acesse: https://www.themoviedb.org/
+Alem disto, os dados de filmes e séries da aplicação vem da "The Movie DB API", para mais informações acesse: /<b><a>https://www.themoviedb.org</a></b>
 
 ## Requisitos
 recruiting-laon-frontend:
@@ -70,179 +70,114 @@ Back-end:
 - Por fim, inicie a API, execute o comando "php artisan serve".
 - A API estará rodando na URL: <b><a>http://localhost:8000/api</a></b>
 
+## Deploy
+Esta aplicação esta hospedada na internet! Você pode acessa-la agora mesmo no link <b><a>https://recruiting-laon-lccm70lp5-nicolasprados-projects.vercel.app</a></b>
+A via de de informação, a url do backend é: <b><a>https://recruiting-laon-production.up.railway.app/api</a></b>
+
+A hospedagem esta divida entre dois provedores:
+- Vercel: NextJS frontend
+- Railway: 
+    - Laravel 12 backend
+    - MySQL 8 database
+
 ## Descrição da solução
 
 Com base nos requisitos, decidi que seria interessante lidar com informações reais, consultando algumas fontes descobri o The Movie Database.
 Ele é bem simples, e fornece uma API para filmes e séries.
 
-Construi minha aplicação em cima destes dados, contando com:
-- Os filmes/séries mais populares do més
-- Busca de mídias por popularidade, trending
+Construi minha aplicação em cima destes dados, por fim, estes foram os resultados:
+- Home com os filmes/séries mais populares do més.
+- Busca de mídias por popularidade, trending e mais.
+- Busca de mídias por titulo.
+- Detalhes das mídias. Ao clicar em um card de mídia, será redirecionado aos seus detalhes, sendo que algumas(quando existentes na API) são em português.
+- Reprodução de trailers nos detalhes das mídias.
+- Cadastro de usuario e login.
+- Criação de listas de mídia(como playlists do spotify), e a gerencia delas.
 
+Alem disto, vale dizer que alguns requisitos não funcionais tambem foram implementados, como cache na consulta da API externa para agilizar a comunicação e aprimorar a performace do catalogo.
 
-Esperamos que nosso sistema possa auxiliá-los. Muito obrigado pela oportunidade!
+Para mais informações, entre na pasta docs deste repositorio, nela você encontrará:
+- Diagrama relacional do banco 
+- Collection dos endpoints da API em formato JSON para importar no Insomnia/Postman ou qualquer outro cliente http que suporte este formato da collection.
 
 ## Manual
 Abaixo, descrevo uma breve instrução sobre como usar a aplicação e suas funcionalidades:
 
-## Tela Inicial
-Login:
-- Acessar com um usuário já existente, inserindo seu nome de usuário e senha.
+### Home Page
+Aqui os filmes/séries mais populares são listados ao usuario.
+- Pode-se consultar mais mídias clicando na flecha a direta no tipo de mídia(Filmes ou Seríes) que desejar.
+- Na parte superior, clicando em "ENTRAR" você pode criar sua conta no sistema para ter acesso a todos os recursos dele.
 
-Sign Up:
-- Criar um novo usuário para efetuar o login no sistema.
+### Registro de Usuário
+O cadastro de usuario consiste em:
+- Nickname (não pode ter mais de 50 caracteres)
+- Email
+- Senha (deve ter no minimo 8 caracteres)
+- Senha repetida (para assegurar que a senha esta correta)
+O login tambem pode ser efetuado nesta tela, navegando pelo cabeçario da pagina(ENTRAR / CADASTRAR).
 
-## Tela Principal
+### Listagem de mídias
+Na home page, ao clicar na flechinha a direita no catalogo, você será levado para o listador de mídia(se clicou na flecha de baixo, nas séries, irá consultar somente seríes, o mesmo para a flecha de cima pros filmes)
+- Pode-se listar mídias de duas formas, titulos similares ou metodos de consulta.
+    - Os metodos de consulta são apresentados por meio de um campo de seleção a esquerda da tela
+    - O titulo pode ser inserido no campo de texto central, e então clique no botão buscar para trazer as mídias.
+    - OBS: A busca por titulo é aproximada, então colocando um nome parecido, ou ate mesmo em portugues, funcionará
+- A consulta é paginada e limitada a 500 paginas.
 
-Header:
-- No canto superior esquerdo, há um botão escrito "Sair" para efetuar o logout do usuário.
-- No canto superior direito, encontra-se um pequeno círculo com a imagem do usuário logado. Ao clicar neste círculo:
-  - Você será redirecionado para uma tela de perfil do usuário, onde é possível visualizar e editar seus dados.
+### Detalhes da mídia
+Ao clicar em uma mídia, você será redirecionado para seus detalhes. Aos quais contem:
+- Titulo.
+- Titulo em português.
+- Trailer.
+- Sinopse.
+- Atores.
+- e ate mesmo os posteres das temporadas(caso a mídia em questão seja uma seríe).
 
-## Corpo Central
-No centro, a aplicação informará caso o usuário logado não esteja em nenhum grupo. Além disso, nesta seção os times serão exibidos. Inicialmente, todos os times estarão minimizados.
+### Gerencia de listas
+O sistema conta com algo chamado "Listas de Mídias", como playlists do spotify!
+Você pode criar uma lista do que quiser, com quantas mídias desejar.
 
-Botão Inferior Esquerdo:
-- Este botão é o gerador de times. Ao clicar nele, você poderá criar quantos times desejar para o usuário logado.
+Ao passar o mouse por cima de um card de mídia um checkbox a direita aparece. Selecionando ele, tres botões serão apresentados na parte inferior da tela
+- Limpar Seleção
+- Adicionar a lista
+- Criar lista
 
-Times:
-- Na parte superior direita de cada grupo, haverão opções "Sair" do time ou "Excluir" o time (É importante observar que apenas os usuários com leveis mais altos no time podem excluí-lo).
-- Na parte superior esquerda de cada grupo, há o nome do time. Se o usuário logado for capaz, mediante a seu level no time, poderá clicar no nome do time e altera-lo livremente. (Vale notar que o nome de cada time deve ser unico)
-- Na seção de time minimizado, existe uma pequena seta que, ao ser clicada, expandirá o grupo.
-- Com o grupo expandido, todos os usuários pertencentes ao grupo serão exibidos, cada um no segmento correspondente ao seu level no time.
-- Ao clicar em um usuário, todas as suas informações serão mostradas. Se o level do seu usuário logado atender a certos requisitos (detalhados na seção de "Level" do manual, logo abaixo), você poderá remover o usuário do grupo ou aumentar o level dele.
-- Clicando em seu usuário no time, é possível aumentar o seu próprio nível, caso tenha capacidade para fazê-lo.
-- Na parte inferior da seção do time expandido, acima do ícone de expandir/contrair o grupo, existe um botão para adicionar novos membros ao grupo. Ao clicar nele, o "Buscador de Usuários" será aberto.
+Para consultar suas listas, na parte superior do sistema, ao lado do demonstrativo do seu usuario, um botão "MINHAS LISTAS"
+- É identica a tela da home, mas com suas listas!
+- A direita de cada lista, clicando na flecha você pode ver os detalhes da lista.
+- Vale dizer, se deseja remover alguma mídia da sua lista, va ate detalhes dela, selecione as que deseja remover e clique no botão "REMOVER DA LISTA" na parte inferior da tela.
 
-Level:
-- Cada usuário possui um level em cada grupo ao qual pertence. Com base nesse número, algumas permissões especiais serão concedidas.
-- Se o level do seu usuário logado for igual ao level mais alto do grupo, ele pode excluí-lo e aumentar/diminuir o level de outros usuários, podendo até mesmo removê-los.
-- Usuários com leveis mais baixos do que o usuário logado podem ser removidos, e também é possível aumentar ou diminuir o level deles. O limite é o próprio level do usuário no grupo (a menos que a observação anterior seja aplicável; nesse caso, você pode alterar o level do usuário indefinidamente, com o limite no level 1).
+## Endpoints
+- BaseUrl: https://domain/api
 
-Buscador de Usuários:
-- Nessa tela destinada a buscar novos usuários, você pode realizar a busca com base no "Nome, Email e Telefone". Ao clicar em "Buscar", os usuários correspondentes serão exibidos de forma paginada.
-- Ao clicar em um usuário encontrado, ele será adicionado ao grupo.
+### welcome
+- Rota: /
+- Descrição: Boas vindas amigavel a aplicação
 
-# Documentação Back-end
-- Vale dizer que todas as consultas são feitas na root(ou seja, protocol://localhost:port/{URI}) precedidas pela fragment da entity relativa ao recurso.
-## User Entity(/users)
-### GET:
-- Descrição: Consultar usuarios por nome 
-- URI: /username/:username
-- URL Params: :username
-- Query Params: N/A
-- Body Content: N/A
+### user-create
+- Rota: /user
+- Método: POST
+- Descrição: Cria um novo usuário com nome, e-mail e senha.
 
-### POST:
-- Descrição: Cadastrar usuario 
-- URI: /
-- URL Params: N/A
-- Query Params: N/A
-- Body Content:
-```
-{
-  username: 'JohnDoe',
-  password: '123',
-  name: 'John Doe',
-  email: 'JohnDoe@gmail.com',
-  phone: '(42) 99999-9999',
-  bornDate: '2004-12-28'
-}
-```
+### user-login
+- Rota: /user/login
+- Método: POST
+- Descrição: Realiza o login de um usuário existente e retorna o token de autenticação.
 
-### PUT:
-- Descrição: Atualizar usuario 
-- URI: /
-- URL Params: N/A
-- Query Params: N/A
-- Body Content:
-```
-{
-  username: 'JaneDoe',
-  name: 'Jane Doe',
-  email: 'janedoe@gmail.com',
-  phone: '(42) 99999-9999'
-}
-```
+### user-logout
+- Rota: /user/logout/{id}
+- Método: POST
+- Descrição: Encerra a sessão do usuário e invalida o token de autenticação.
 
-## Team Entity(/teams)
-### POST
-- Descrição: Cadastrar time 
-- URI: /
-- URL Params: N/A
-- Query Params: N/A
-- Body Content:
-```
-{
-  userId: 1,
-  teamName: "nome"
-}
-```
+### top-popular
+- Rota: /media/list/{id}?page={n}
+- Método: GET
+- Descrição: Retorna os detalhes de uma lista de mídias específica, incluindo suas mídias associadas.
 
-### PUT
-- Descrição: Atualizar time 
-- URI: /:teamId
-- URL Params: :teamId
-- Query Params: N/A
-- Body Content:
-```
-{
-  teamName: "Novo nome"
-}
-```
+### listing-methods
+- Rota: /media/listing-method/{tipo}
+- Método: GET
+- Descrição: Retorna os métodos de listagem disponíveis para um determinado tipo de mídia (por exemplo, filmes ou séries).
 
-### DELETE
-- Descrição: Deletar time 
-- URI: /:teamId
-- URL Params: :teamId
-- Query Params: N/A
-- Body Content: N/A
-
-## User Team Entity(/usersteams)
-### GET
-- Descrição: Consulta um time junto de seus usuarios, com seus respectivos niveis 
-- URI: /:teamId
-- URL Params: :teamId
-- Query Params: N/A
-- Body Content: N/A
-
-### POST
-- Descrição: Cadastrar usuario em um time, com seu devido level neste time 
-- URI: /
-- URL Params: N/A
-- Query Params: N/A
-- Body Content:
-```
-{
-  userId: 1,
-  teamId: 1,
-  level: 1
-}
-```
-
-### PATCH
-- Descrição: Atualizar level de um usuario em um time
-- URI: /
-- URL Params: N/A
-- Query Params: N/A
-- Body Content:
-```
-{
-  userId: 1,
-  teamId: 1,
-  level: 2
-}
-```
-
-### DELETE
-- Descrição: Remove um usuario de um time
-- URI: /
-- URL Params: N/A
-- Query Params: N/A
-- Body Content:
-```
-{
-  userId: 1,
-  teamId: 1
-}
-```
+Entre outras...
+Para mais informações, importe a Collection da API para o Postman/Insomnia, inspirado na arquitetura REST, procurei deixar as rotas bem semanticas, então seu nome basicamente descreve sua função

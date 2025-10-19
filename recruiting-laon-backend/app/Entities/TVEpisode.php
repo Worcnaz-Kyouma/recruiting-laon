@@ -6,7 +6,7 @@ class TVEpisode extends Entity {
     private int $tmdbId;
     private ?int $episodeNumber = null;
     private ?string $name = null;
-    private ?string $stillImageUrl = null; // Can be null?
+    private ?string $stillImageUrl = null;
     private int $runtime;
     public function __construct(int $tmdbId, ?int $episodeNumber, ?string $name, ?string $stillImageUrl, ?int $runtime) {
         $this->tmdbId = $tmdbId;

@@ -17,6 +17,9 @@ export default function MediaCard({ media }: Readonly<{ media: Media | undefined
     const { selectedMedias, setCurrentModal, addMediaIntoSelectedMedias, removeMediaFromSelectedMedias } = useAppStore(state => state);
     const [ isSelected, setIsSelected ] = useState<boolean>(false);
     const [ isImageLoaded, setIsImageLoaded ] = useState<boolean>(false);
+
+    // OBS To Code Reviewer: In the last versions of NextJS, for some reason, it dont accept public routes in the blurDataUrl. So you need to put it on a base64 to work
+    const blurImgBase64 = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNzgwIiBoZWlnaHQ9IjEyNDAiIHZpZXdCb3g9IjAgMCA3ODAgMTI0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4NCjxyZWN0IHdpZHRoPSI3ODAiIGhlaWdodD0iMTI0MCIgcng9IjgiIGZpbGw9IiM0ODQ2NUIiLz4NCjwvc3ZnPg0K";
     
     const [ isHover, setIsHover ] = useState<boolean>(false);
 
@@ -66,7 +69,7 @@ export default function MediaCard({ media }: Readonly<{ media: Media | undefined
             onClick={handleMediaClick}
             fill
             placeholder="blur"
-            blurDataURL="/image-load.svg"
+            blurDataURL={blurImgBase64}
             onLoad={() => setIsImageLoaded(true)}
             className={`rounded ${!isImageLoaded ? "animate-pulse" : ""}`}
         />

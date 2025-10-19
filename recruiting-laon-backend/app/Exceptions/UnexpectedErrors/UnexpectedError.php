@@ -4,7 +4,6 @@ namespace App\Exceptions\UnexpectedErrors;
 
 use App\Exceptions\AppError;
 
-// Unexpected errors are usually errors caused by the application itself, like database communication and api misscomminication
 class UnexpectedError extends AppError {
     /**
      * @param string|array<string> $errorOriginMessage

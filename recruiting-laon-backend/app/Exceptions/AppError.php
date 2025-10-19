@@ -5,7 +5,6 @@ namespace App\Exceptions;
 use Exception;
 use Illuminate\Http\JsonResponse;
 
-// App Errors involve both the expected errors(user errors most of the cases) and unexpected ones(like database missing or api timeout), all errors app knowns it possible to happen.
 abstract class AppError extends Exception {
     /**
      * @var string|array<string>
