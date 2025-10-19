@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import LoggedUserDropdown from "../LoggedUserDropdown";
+import LogoutUserButton from "../LogoutUserButton";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import useUser from "@/hooks/useUser";
@@ -43,7 +43,7 @@ export default function CatalogHeader() {
                         MINHAS LISTAS
                     </span>
                 </Link>
-                <LoggedUserDropdown user={user} />
+                <LogoutUserButton user={user} />
             </div>
             : <Link href={"/user/login"}>
                 <span className="text-action">
