@@ -1,3 +1,4 @@
+"use client"
 import { User } from "@/types/User";
 import { extractUserFromLocalStorage } from "@/utils/utils";
 import { useEffect, useState } from "react";

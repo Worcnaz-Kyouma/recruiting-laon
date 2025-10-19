@@ -2,7 +2,7 @@
 import { useAppStore } from "@/providers/user-store-provider";
 import React, { useEffect, useState } from "react";
 import CustomModal from "../CustomModal";
-import { invokeToastsUsingError, successToastStyle } from "@/utils/utils";
+import { handleError, successToastStyle } from "@/utils/utils";
 import { toast } from "react-toastify";
 import AppAPIClient from "@/utils/AppAPIClient";
 import CustomSelect from "../CustomSelect";
@@ -35,7 +35,7 @@ export default function AddMediaToExistingListModal() {
             
             await AppAPIClient.fetchAPI("media", `list/${mediaListId}/add-medias`, "PATCH", body);
         } catch(err) {
-            return invokeToastsUsingError(err);
+            return handleError(err);
         }
 
         clearSelectedMedias();
@@ -62,7 +62,7 @@ export default function AddMediaToExistingListModal() {
             if(options.length > 0)
                 setMediaListId(options[0].value);
         } catch(err) {
-            invokeToastsUsingError(err);
+            handleError(err);
         }
         
         setIsLoading(false);

@@ -6,7 +6,7 @@ use App\Exceptions\ExpectedErrors\ExpectedError;
 use App\Http\DTO\AuthorizedUserDTO;
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\LoginRequest;
-use App\Http\Requests\LogoutRequest;
+use Illuminate\Http\Request;
 use App\Models\User;
 use Auth;
 use Hash;
@@ -22,9 +22,17 @@ class UserController extends Controller {
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+        Auth::attempt([
+            'email'=> $data['email'],
+            'password'=> $data['password'],
+        ]);
+
+        $request->session()->regenerate();
+
         $token = $user->createToken(self::TOKEN_IDENTIFIER)->plainTextToken;
 
         $authorizedUserDTO = new AuthorizedUserDTO($user, $token);
+        
         return response()->json($authorizedUserDTO, 201);
     }
 
@@ -45,7 +53,6 @@ class UserController extends Controller {
 
         $request->session()->regenerate();
         
-        // $user->tokens()->delete();
         $token = $user->createToken(self::TOKEN_IDENTIFIER)->plainTextToken;
 
         $authorizedUserDTO = new AuthorizedUserDTO($user, $token);
@@ -53,9 +60,8 @@ class UserController extends Controller {
         return response()->json($authorizedUserDTO, 200);
     }
 
-    public function logout(LogoutRequest $request) {
-        $data = $request->validated();
-        $user = User::find($data['id']);
+    public function logout(Request $request) {
+        $user = Auth::user();
 
         $user->tokens()->delete();
 

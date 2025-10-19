@@ -24,12 +24,19 @@ export const successToastStyle = {
     },
 }
 
-export function invokeToastsUsingError(error: Error) {
+export function handleError(error: Error) {
     if(!(error instanceof AppError)) {
         console.error(error.message);
         return;
     }
 
+    if(error.status === 401)
+        window.location.href = '/';
+
+    invokeToastsUsingError(error as AppError);
+}
+
+export function invokeToastsUsingError(error: AppError) {
     if(typeof error.msg === "string") toast.error(error.msg, errorToastStyle);
     else error.msg.forEach(msg => toast.error(msg, errorToastStyle))
 }

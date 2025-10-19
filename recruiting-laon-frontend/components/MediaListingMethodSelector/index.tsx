@@ -4,7 +4,7 @@ import { MediaType } from "@/enums/MediaType";
 import AppError from "@/errors/AppError";
 import ListingMethod from "@/types/ListingMethod";
 import AppAPIClient from "@/utils/AppAPIClient";
-import { invokeToastsUsingError } from "@/utils/utils";
+import { handleError } from "@/utils/utils";
 import { useEffect, useState } from "react";
 import { CaretDown } from "phosphor-react";
 import CustomSelect from "../CustomSelect";
@@ -26,7 +26,7 @@ export default function MediaListingMethodSelector({ mediaType, listingMethod, s
             setListingMethods(apiResponse);
             setListingMethod(apiResponse[0].value);
         } catch(err) {
-            invokeToastsUsingError(err);
+            handleError(err);
         }
     }
     useEffect(() => {

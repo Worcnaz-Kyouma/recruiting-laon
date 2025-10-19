@@ -7,7 +7,7 @@ import { MagnifyingGlass } from "phosphor-react";
 import MediaCard from "../MediaCard";
 import CustomInput from "../CustomInput";
 import AppAPIClient from "@/utils/AppAPIClient";
-import { invokeToastsUsingError } from "@/utils/utils";
+import { handleError } from "@/utils/utils";
 import CustomLoader from "../CustomLoader";
 import CustomPagination from "../CustomPagination";
 import MediaCardsGrid from "../MediaCardsGrid";
@@ -48,7 +48,8 @@ export default function MediaSearcher({ mediaType }: Readonly<{ mediaType: Media
 
         setLastMediaTitleSearched("");
         setSearchTitle("");
-        setPage(searchPage || page);
+        if(searchPage)
+            setPage(searchPage);
         
         try {
             const apiResponse = await AppAPIClient.fetchAPI(mediaType, "by-listing-method", "GET", {
@@ -59,44 +60,47 @@ export default function MediaSearcher({ mediaType }: Readonly<{ mediaType: Media
             setMedias(apiResponse.results);
             setNumberOfPages(apiResponse.numberOfPages);
         } catch(err) {
-            invokeToastsUsingError(err);
+            handleError(err);
         }
 
         setIsLoading(false);
     }
 
-    const searchMediasByTitle = async () => {
+    const handleSearchMediaClick = () => searchMediasByTitle(1);
+
+    const searchMediasByTitle = async (searchPage?: number) => {
         if(searchTitle === "") return searchMediasByListingMethod(1);
 
         setIsSearchingByTitle(true);
         setIsLoading(true);
         setLastMediaTitleSearched(searchTitle);
+        if(searchPage)
+            setPage(searchPage);
         
         try {
             const apiResponse = await AppAPIClient.fetchAPI(mediaType, "by-title", "GET", {
                 title: searchTitle,
-                page: page
+                page: searchPage || page
             });
 
             setMedias(apiResponse.results);
             setNumberOfPages(apiResponse.numberOfPages);
         } catch(err) {
-            invokeToastsUsingError(err);
+            handleError(err);
         }
 
         setIsLoading(false);
     }
 
     const onPageChange = (newPage: number) => {
-        if(isSearchingByTitle) searchMediasByTitle()
+        if(isSearchingByTitle) searchMediasByTitle(newPage)
         else searchMediasByListingMethod(newPage);
     }
 
     const handleEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        console.log("tews");
         if (e.key === "Enter") {
             e.preventDefault();
-            searchMediasByTitle();
+            handleSearchMediaClick();
         }
     }
     
@@ -109,7 +113,7 @@ export default function MediaSearcher({ mediaType }: Readonly<{ mediaType: Media
                     <span>ou</span>
                 </div>
                 <CustomInput placeholder={`Título`} value={searchTitle} setValue={setSearchTitle} className="flex-grow" onKeyDown={handleEnter} />
-                <button className="btn-primary w-fit h-full flex items-center gap-3 px-6 py-2" onClick={searchMediasByTitle}>
+                <button className="btn-primary w-fit h-full flex items-center gap-3 px-6 py-2" onClick={handleSearchMediaClick}>
                     <MagnifyingGlass size={32} className="mr-1"/>
                     Buscar
                 </button>

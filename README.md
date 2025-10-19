@@ -1,4 +1,4 @@
-<p align="center"><img src="https://raw.githubusercontent.com/Nicolas-Prado/recruiting-laon/main/laon-streaming.png" width="30%" height="20%"></p>
+<p align="center"><img src="https://github.com/Worcnaz-Kyouma/recruiting-laon/blob/main/laon-streaming.png?raw=true" width="30%" height="20%"></p>
 
 ## Proposta do projeto
 O objetivo é criar um catálogo de filmes (e possivelmente séries). 
@@ -20,6 +20,7 @@ recruiting-laon-frontend
 - Estilização: 
     - Tailwind
     - Material UI
+    - Phospor Icons
 - Gerenciador de state: Zustand
 - Avisos Temporarios: Toast
 - Utilitarios:
@@ -34,7 +35,7 @@ recruiting-laon-backend
 - Cache: Database
 - Database: MySQL 8 com Migrations(Laravel)
 
-Alem disto, os dados de filmes e séries da aplicação vem da "The Movie DB API", para mais informações acesse: /<b><a>https://www.themoviedb.org</a></b>
+Alem disto, os dados de filmes e séries da aplicação vem da "The Movie DB API", para mais informações acesse: <b><a>https://www.themoviedb.org</a></b>
 
 ## Requisitos
 recruiting-laon-frontend:
@@ -48,7 +49,7 @@ recruiting-laon-backend:
 
 ## Como rodar
 
-Baixe o arquivo ZIP do projeto e descompacte-o onde preferir.
+Clone o projeto com o comando "git clone <web URL>" ou baixe o arquivo ZIP do projeto e descompacte-o onde preferir.
 
 Execute estes passos para as 2 partes da aplicação:
 
@@ -71,7 +72,7 @@ Back-end:
 - A API estará rodando na URL: <b><a>http://localhost:8000/api</a></b>
 
 ## Deploy
-Esta aplicação esta hospedada na internet! Você pode acessa-la agora mesmo no link <b><a>https://recruiting-laon-lccm70lp5-nicolasprados-projects.vercel.app</a></b>
+Esta aplicação esta hospedada na internet! Você pode acessa-la agora mesmo no link <b><a>https://recruiting-laon-34sfe9ux6-nicolasprados-projects.vercel.app</a></b>
 A via de de informação, a url do backend é: <b><a>https://recruiting-laon-production.up.railway.app/api</a></b>
 
 A hospedagem esta divida entre dois provedores:
@@ -179,5 +180,10 @@ Para consultar suas listas, na parte superior do sistema, ao lado do demonstrati
 - Método: GET
 - Descrição: Retorna os métodos de listagem disponíveis para um determinado tipo de mídia (por exemplo, filmes ou séries).
 
-Entre outras...
+Entre outros...
 Para mais informações, importe a Collection da API para o Postman/Insomnia, inspirado na arquitetura REST, procurei deixar as rotas bem semanticas, então seu nome basicamente descreve sua função
+
+## TMDB API 
+eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4OTU2YTc2ZDkwYzFjMjAzYmI2ZmMzZmQwZGMzNjM5ZSIsIm5iZiI6MTc2MDEyMTIxOS42MDgsInN1YiI6IjY4ZTk1MTgzY2M2NDlmYWE1NTQxZTY5YyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.0cZdeVvwvzTgXN6RDZqeN7s5FwFBrONa4DzmsrNXCT4
+
+(Vale dizer, disponibilizo a key aqui apenas para simplificar o teste da aplicação, para o processo de avaliação. Apos isto irei remove-la por segurança)

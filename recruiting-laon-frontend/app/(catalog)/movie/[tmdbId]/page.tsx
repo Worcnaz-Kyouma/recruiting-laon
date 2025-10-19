@@ -3,7 +3,7 @@ import MediaDetails from "@/components/MediaDetails";
 import AppError from "@/errors/AppError";
 import Movie from "@/types/Movie";
 import AppAPIClient from "@/utils/AppAPIClient";
-import { invokeToastsUsingError } from "@/utils/utils";
+import { handleError } from "@/utils/utils";
 import { use, useEffect, useState } from "react";
 
 interface MovieDetailsProps {
@@ -21,7 +21,7 @@ export default function MovieDetailsPage({ params }: Readonly<MovieDetailsProps>
             const apiResponse = await AppAPIClient.fetchAPI("movie", tmdbId, "GET");
             setMovie(apiResponse);
         } catch(err) {
-            invokeToastsUsingError(err);
+            handleError(err);
         }
     }
 

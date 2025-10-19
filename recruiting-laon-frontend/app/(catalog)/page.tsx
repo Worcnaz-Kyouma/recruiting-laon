@@ -4,7 +4,7 @@ import AppError from "@/errors/AppError";
 import Movie from "@/types/Movie";
 import TVSerie from "@/types/TVSerie";
 import AppAPIClient from "@/utils/AppAPIClient";
-import { invokeToastsUsingError } from "@/utils/utils";
+import { handleError } from "@/utils/utils";
 import { useEffect, useState } from "react";
 
 type MediaTopPopularDTO = {
@@ -20,7 +20,7 @@ export default function HomePage() {
             const apiResponse = await AppAPIClient.fetchAPI("media", "top-popular", "GET");
             setMedias(apiResponse);
         } catch(err) {
-            invokeToastsUsingError(err);
+            handleError(err);
         }
     }
 

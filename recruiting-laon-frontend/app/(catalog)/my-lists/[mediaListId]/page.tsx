@@ -10,7 +10,7 @@ import { useAppStore } from "@/providers/user-store-provider";
 import Media from "@/types/Media";
 import MediaList from "@/types/MediaList"
 import AppAPIClient from "@/utils/AppAPIClient";
-import { invokeToastsUsingError } from "@/utils/utils";
+import { handleError } from "@/utils/utils";
 import { useRouter } from "next/navigation";
 import { use, useEffect, useState } from "react"
 
@@ -61,7 +61,7 @@ export default function ListDetailsPage({ params }: Readonly<ListDetailsPageProp
             setNumberOfPages(apiResponse.medias.last_page);
 
         } catch(err) {
-            invokeToastsUsingError(err);
+            handleError(err);
         }
 
         setIsLoading(false);
