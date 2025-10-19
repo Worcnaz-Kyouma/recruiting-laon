@@ -71,7 +71,7 @@ Back-end:
 - A API estará rodando na URL: <b><a>http://localhost:8000/api</a></b>
 
 ## Deploy
-Esta aplicação esta hospedada na internet! Você pode acessa-la agora mesmo no link <b><a>https://recruiting-laon-lccm70lp5-nicolasprados-projects.vercel.app</a></b>
+Esta aplicação esta hospedada na internet! Você pode acessa-la agora mesmo no link <b><a>https://recruiting-laon-lkr0xew4z-nicolasprados-projects.vercel.app</a></b>
 A via de de informação, a url do backend é: <b><a>https://recruiting-laon-production.up.railway.app/api</a></b>
 
 A hospedagem esta divida entre dois provedores:
