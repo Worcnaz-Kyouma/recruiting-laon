@@ -6,7 +6,7 @@ use App\Exceptions\ExpectedErrors\ExpectedError;
 use App\Http\DTO\AuthorizedUserDTO;
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\LoginRequest;
-use Illuminate\Http\Request;
+use App\Http\Requests\LogoutRequest;
 use App\Models\User;
 use Auth;
 use Hash;
@@ -60,8 +60,9 @@ class UserController extends Controller {
         return response()->json($authorizedUserDTO, 200);
     }
 
-    public function logout(Request $request) {
-        $user = Auth::user();
+    public function logout(LogoutRequest $request) {
+        $data = $request->validated();
+        $user = User::find($data['id']);
 
         $user->tokens()->delete();
 
