@@ -23,7 +23,6 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->api(append: [
             StartSession::class,
             EnsureFrontendRequestsAreStateful::class
-            // SetSameSiteCookie::class
         ]);
 
         $middleware->redirectGuestsTo('/unauthorized-user');
