@@ -13,6 +13,8 @@ export default function LogoutUserButton({ user }: Readonly<{ user: User }>) {
             localStorage.removeItem("user");
             
             await AppAPIClient.fetchAPI("user", `logout/${user.id}`, "POST");
+            
+            localStorage.removeItem("api_token");
 
             window.location.reload();
         } catch (err) {
