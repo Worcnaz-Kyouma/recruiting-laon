@@ -22,6 +22,10 @@ class UserController extends Controller {
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+        Auth::attempt([
+            'email'=> $data['email'],
+            'password'=> $data['password'],
+        ]);
 
         $request->session()->regenerate();
 
