@@ -26,6 +26,7 @@ export default function LoginPage() {
             const user = registerResponse.user as User;
             
             localStorage.setItem("user", JSON.stringify(user));
+            localStorage.setItem("api_token", registerResponse.token);
 
             router.push("/");
         } catch(err) {

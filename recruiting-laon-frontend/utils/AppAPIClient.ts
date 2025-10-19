@@ -10,12 +10,12 @@ export default class AppAPIClient {
     static async fetchAPI(resource: APIResource, endpoint: string, method: Method, data?: object): Promise<any> {
         endpoint = `${resource}/${endpoint}`;
 
-        // const apiToken = localStorage.getItem('api_token');
+        const apiToken = localStorage.getItem('api_token');
         let headers: AxiosHeaders | undefined;
-        // if(apiToken) {
-        //     headers = new AxiosHeaders();
-        //     headers.set('Authorization', `Bearer ${apiToken}`)
-        // }
+        if(apiToken) {
+            headers = new AxiosHeaders();
+            headers.set('Authorization', `Bearer ${apiToken}`)
+        }
         
         try {
         const response = await axios({

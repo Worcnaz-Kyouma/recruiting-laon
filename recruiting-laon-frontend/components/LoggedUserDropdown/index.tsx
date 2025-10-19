@@ -12,6 +12,7 @@ export default function LoggedUserDropdown({ user }: Readonly<{ user: User }>) {
     const handleLogout = async () => {
         try {
             localStorage.removeItem("user");
+            localStorage.removeItem("api_token");
             
             AppAPIClient.fetchAPI("user", `logout/${user.id}`, "POST");
 
