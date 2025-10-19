@@ -179,5 +179,5 @@ Para consultar suas listas, na parte superior do sistema, ao lado do demonstrati
 - Método: GET
 - Descrição: Retorna os métodos de listagem disponíveis para um determinado tipo de mídia (por exemplo, filmes ou séries).
 
-Entre outras...
+Entre outros...
 Para mais informações, importe a Collection da API para o Postman/Insomnia, inspirado na arquitetura REST, procurei deixar as rotas bem semanticas, então seu nome basicamente descreve sua função
