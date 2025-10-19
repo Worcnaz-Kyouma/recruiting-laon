@@ -15,9 +15,12 @@ class PortugueseInfosTransformer extends TMDBTransformer {
             return null;
 
         $data = $extPortugueseInfos["data"];
-        $title = array_key_exists("title", $data)
-            ? $data["title"]
-            : null;
+        $title = array_key_exists('title', $data) 
+            ? $data['title'] 
+            : (array_key_exists('name', $data) 
+                ? $data['name'] 
+                : null
+            );
         $overview = array_key_exists("overview", $data)
             ? $data["overview"]
             : null;

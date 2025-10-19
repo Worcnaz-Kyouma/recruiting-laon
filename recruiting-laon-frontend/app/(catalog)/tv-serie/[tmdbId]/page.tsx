@@ -33,7 +33,7 @@ export default function TVSerieDetailsPage({ params }: Readonly<TVSerieDetailsPr
 
     return <div className="flex flex-col w-full">
         <MediaDetails media={tvSerie} />
-        {typeof tvSerie !== "undefined" && <div className="px-[90px] pt-8 pb-16">
+        {typeof tvSerie !== "undefined" && <div className="px-[90px] pt-12 pb-16">
             <h2 className="font-semibold text-xl leading-6 tracking-normal text-white border-b border-gray-300 py-2 mb-4">Temporadas</h2>
             <div className="flex gap-4 overflow-x-auto pb-2">{tvSerie?.seasons?.map(season => 
                 <div key={season.tmdbId} className="flex-none relative w-[200px] aspect-[780/1170]">
