@@ -1,4 +1,4 @@
-<p align="center"><img src="https://raw.githubusercontent.com/Nicolas-Prado/recruiting-laon/main/laon-streaming.png" width="30%" height="20%"></p>
+<p align="center"><img src="https://raw.githubusercontent.com/Worcnaz-Kyouma/recruiting-laon/main/laon-streaming.png" width="30%" height="20%"></p>
 
 ## Proposta do projeto
 O objetivo é criar um catálogo de filmes (e possivelmente séries). 
