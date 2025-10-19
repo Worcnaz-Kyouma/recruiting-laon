@@ -9,17 +9,13 @@ import { SignOut } from "phosphor-react";
 import React from "react";
 
 export default function LoggedUserDropdown({ user }: Readonly<{ user: User }>) {
-    const router = useRouter();
-    const pathname = usePathname();
-
     const handleLogout = async () => {
         try {
             localStorage.removeItem("user");
             
             AppAPIClient.fetchAPI("user", `logout/${user.id}`, "POST");
-            
-            if(pathname === "/") window.location.reload();
-            else router.push("/");
+
+            window.location.reload();
         } catch (err) {
             if(err instanceof AppError && err.status === 401)
                 return;
