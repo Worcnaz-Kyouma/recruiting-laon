@@ -11,9 +11,10 @@ export default function LogoutUserButton({ user }: Readonly<{ user: User }>) {
     const handleLogout = async () => {
         try {
             localStorage.removeItem("user");
-            localStorage.removeItem("api_token");
             
             await AppAPIClient.fetchAPI("user", `logout/${user.id}`, "POST");
+            
+            localStorage.removeItem("api_token");
 
             window.location.reload();
         } catch (err) {
