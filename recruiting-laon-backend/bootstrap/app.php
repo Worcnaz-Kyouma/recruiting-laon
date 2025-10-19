@@ -19,10 +19,10 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->statefulApi();
 
-        $middleware->api(append: [
-            StartSession::class,
-            EnsureFrontendRequestsAreStateful::class
-        ]);
+        // $middleware->api(append: [
+        //     StartSession::class,
+        //     EnsureFrontendRequestsAreStateful::class
+        // ]);
 
         $middleware->redirectGuestsTo('/unauthorized-user');
     })
