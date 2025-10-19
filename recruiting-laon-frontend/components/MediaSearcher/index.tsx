@@ -48,7 +48,8 @@ export default function MediaSearcher({ mediaType }: Readonly<{ mediaType: Media
 
         setLastMediaTitleSearched("");
         setSearchTitle("");
-        setPage(searchPage || page);
+        if(searchPage)
+            setPage(searchPage);
         
         try {
             const apiResponse = await AppAPIClient.fetchAPI(mediaType, "by-listing-method", "GET", {
@@ -73,7 +74,8 @@ export default function MediaSearcher({ mediaType }: Readonly<{ mediaType: Media
         setIsSearchingByTitle(true);
         setIsLoading(true);
         setLastMediaTitleSearched(searchTitle);
-        setPage(searchPage || page);
+        if(searchPage)
+            setPage(searchPage);
         
         try {
             const apiResponse = await AppAPIClient.fetchAPI(mediaType, "by-title", "GET", {
