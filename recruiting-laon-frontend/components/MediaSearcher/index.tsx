@@ -93,7 +93,7 @@ export default function MediaSearcher({ mediaType }: Readonly<{ mediaType: Media
     }
 
     const onPageChange = (newPage: number) => {
-        if(isSearchingByTitle) searchMediasByTitle()
+        if(isSearchingByTitle) searchMediasByTitle(newPage)
         else searchMediasByListingMethod(newPage);
     }
 
