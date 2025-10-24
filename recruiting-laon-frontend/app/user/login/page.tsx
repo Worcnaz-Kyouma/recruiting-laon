@@ -22,11 +22,11 @@ export default function LoginPage() {
         try {
             await AppAPIClient.initializeCSRFProtection();
 
-            const registerResponse = await AppAPIClient.fetchAPI("user", "login", "POST", data);
-            const user = registerResponse.user as User;
+            const loginResponse = await AppAPIClient.fetchAPI("user", "login", "POST", data);
+            const user = loginResponse.user as User;
             
             localStorage.setItem("user", JSON.stringify(user));
-            localStorage.setItem("api_token", registerResponse.token);
+            localStorage.setItem("api_token", loginResponse.token);
 
             router.push("/");
         } catch(err) {
